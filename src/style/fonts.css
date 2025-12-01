@@ -1,0 +1,7 @@
+@font-face {
+    font-family: "Tiktok Sans";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: optional;
+    src: url('/fonts/tiktok-font.ttf')  format('truetype');
+}

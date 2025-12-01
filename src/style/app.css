@@ -1,0 +1,49 @@
+@import 'tailwindcss';
+
+@theme {
+    @keyframes revolve {
+        0%   { left: 0 }
+        25%  { transform: scale(1.1) }
+        50%  { left: 0.75rem }
+        75%  { transform: scale(0.75) }
+        100% { left: 0 }
+    }
+    
+    --animate-revolve: revolve 0.8s ease-in-out infinite;
+    --font-tiktok: "Tiktok Sans", sans-serif;
+    --shadow-custom: 0 0.2rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+@layer utilities {
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+    .unselectable {
+        -moz-user-select: -moz-none;
+        -khtml-user-select: none;
+        -webkit-user-select: none;
+        -o-user-select: none;
+        user-select: none;
+    }
+}
+
+* {
+    font-family: "Tiktok Sans", sans-serif;
+}
+html, body {
+    width: 100%;
+    min-height: 100%;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    background-color: #F8F8F8;
+}
+html::-webkit-scrollbar, body::-webkit-scrollbar {
+    display: none;
+}
+ul {
+    margin-bottom: 0.05rem;
+}
