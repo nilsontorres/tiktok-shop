@@ -1,5 +1,13 @@
 @import 'tailwindcss';
 
+@font-face {
+    font-family: "Tiktok Sans";
+    src: url('/fonts/tiktok-font.ttf') format('truetype');
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: optional;
+}
+
 @theme {
     @keyframes revolve {
         0%   { left: 0 }
@@ -8,7 +16,8 @@
         75%  { transform: scale(0.75) }
         100% { left: 0 }
     }
-    
+
+    --font-tiktok: "Tiktok Sans", sans-serif;
     --animate-revolve: revolve 0.8s ease-in-out infinite;
     --font-tiktok: "Tiktok Sans", sans-serif;
     --shadow-custom: 0 0.2rem 1rem rgba(0, 0, 0, 0.15);
@@ -31,9 +40,6 @@
     }
 }
 
-* {
-    font-family: "Tiktok Sans", sans-serif;
-}
 html, body {
     width: 100%;
     min-height: 100%;
@@ -43,6 +49,9 @@ html, body {
 }
 html::-webkit-scrollbar, body::-webkit-scrollbar {
     display: none;
+}
+html {
+    font-family: var(--font-tiktok);
 }
 ul {
     margin-bottom: 0.05rem;
