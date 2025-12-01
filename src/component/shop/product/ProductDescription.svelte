@@ -31,15 +31,27 @@
 </div>
 
 <style>
-:global(.wrapper p) {
+:global(.wrapper .paragraph) {
     margin-top: 0.25rem;
 }
-:global(.wrapper h2) {
-    margin-top: 0.5rem;
-    font-size: 0.92rem;
-    font-weight: 600;
+:global(.wrapper .title) {
+    margin-top: 0.7rem;
+    font-weight: 500;
 }
-:global(.wrapper ul) {
-    margin-top: 0.25rem;
+:global(.wrapper .list) {
+    margin-top: 0.35rem;
+    margin-bottom: 0.85rem;
+}
+:global(.wrapper .item) {
+    display: flex;
+    margin-top: 0.2rem;
+}
+:global(.wrapper .key) {
+    min-width: 40%;
+    color: #666;
+    font-size: 0.8rem;
+}
+:global(.wrapper .value) {
+    font-size: 0.8rem;
 }
 </style>

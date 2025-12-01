@@ -30,7 +30,7 @@ export const getProductBySlug = async (slug) => {
 
     const { data, error } = await supabase
         .from("products")
-        .select("*, store:stores(id, title, reviews, sales), media:medias(id, type, source)")
+        .select("*, store:stores(id, title, reviews, sales), media:medias(id, type, source), attributes:attributes(id, name, value)")
         .match({
             slug: slug,
             is_active: true
@@ -48,6 +48,13 @@ export const getProductBySlug = async (slug) => {
         rating: data?.rating,
         reviews: data?.reviews,
         sales: data?.sales,
+        attributes: data?.attributes?.map(attribute => {
+            return {
+                id: attribute.id,
+                name: attribute.name,
+                value: attribute.value
+            }
+        }),
         store: {
             id: data?.store?.id,
             title: data?.store?.title,
