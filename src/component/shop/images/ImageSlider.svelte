@@ -15,7 +15,7 @@
     }
 </script>
 
-<div class="w-full overflow-hidden bg-[#F6F6F6] relative">
+<div class="w-full overflow-hidden bg-[#fff] relative">
     <div class="flex items-center justify-center absolute right-[1rem] bottom-[1rem] bg-[#0000007d] rounded-full w-[2.1rem]  h-[1.25rem] z-20">
         <span class="text-white text-[0.675rem] z-20 leading-none mt-[0.1rem]">{index+1}/{images?.length}</span>
     </div>
