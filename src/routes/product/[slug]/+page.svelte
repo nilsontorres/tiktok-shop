@@ -203,7 +203,7 @@
 <ImageModal images={data.images}/>
 <HeaderBar scroll={scroll_y}/>
 
-<main class="flex flex-col mt-12 mb-16 unselectable">
+<main class="flex flex-col bg-[#F8F8F8] mt-12 mb-16 unselectable">
     <div class="w-full">
         <ImageSlider images={data.images}/>
     </div>

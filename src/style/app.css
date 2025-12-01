@@ -45,7 +45,7 @@ html, body {
     min-height: 100%;
     -ms-overflow-style: none;
     scrollbar-width: none;
-    background-color: #F8F8F8;
+    background-color: #FFF;
 }
 html::-webkit-scrollbar, body::-webkit-scrollbar {
     display: none;
