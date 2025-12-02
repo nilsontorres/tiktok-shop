@@ -5,7 +5,7 @@
 </script>
 
 <div class="flex w-full items-center relative">
-    <div class="flex overflow-x-auto relative unselectable no-scrollbar">
+    <div class="flex overflow-x-auto relative no-selectable no-scrollbar">
         <ul class="flex items-center gap-[0.5rem]">
             <div class="flex w-[0.5rem]"></div>
             {#each videos as video, index}

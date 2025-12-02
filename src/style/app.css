@@ -21,6 +21,7 @@
     --animate-revolve: revolve 0.8s ease-in-out infinite;
     --font-tiktok: "Tiktok Sans", sans-serif;
     --shadow-custom: 0 0.2rem 1rem rgba(0, 0, 0, 0.15);
+    --shadow-recommendations: 0 0 0.5rem rgba(0, 0, 0, 0.03);
 }
 
 @layer utilities {
@@ -31,12 +32,22 @@
         -ms-overflow-style: none;
         scrollbar-width: none;
     }
-    .unselectable {
+    .no-selectable {
         -moz-user-select: -moz-none;
         -khtml-user-select: none;
         -webkit-user-select: none;
         -o-user-select: none;
         user-select: none;
+    }
+    .skeleton {
+        animation: skeleton-pulse 1.2s ease-in-out infinite;
+        background-color: #eeeeee;
+    }
+
+    @keyframes skeleton-pulse {
+        0% { opacity: 1; }
+        50% { opacity: 0.45; }
+        100% { opacity: 1; }
     }
 }
 

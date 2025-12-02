@@ -30,7 +30,7 @@ export const getProductBySlug = async (slug) => {
 
     const { data, error } = await supabase
         .from("products")
-        .select("*, store:stores(id, title, reviews, sales), media:medias(id, type, source), attributes:attributes(id, name, value)")
+        .select("*, store:stores(id, title, reviews, sales), media:medias(id, type, source), attributes:attributes(id, name, value), prices:prices(id, amount, discount, total), coupons:coupons(id, type, title, discount)")
         .match({
             slug: slug,
             is_active: true
@@ -48,6 +48,23 @@ export const getProductBySlug = async (slug) => {
         rating: data?.rating,
         reviews: data?.reviews,
         sales: data?.sales,
+        lightning: data?.lightning,
+        prices: data?.prices?.map(price => {
+            return {
+                id: price?.id,
+                amount: price?.amount,
+                discount: price?.discount,
+                total: price?.total
+            }
+        }),
+        coupons: data?.coupons.map(coupon => {
+            return {
+                id: coupon?.id,
+                type: coupon?.type,
+                title: coupon?.title,
+                discount: coupon?.discount
+            }
+        }),
         attributes: data?.attributes?.map(attribute => {
             return {
                 id: attribute.id,

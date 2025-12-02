@@ -17,21 +17,6 @@ export const load = async ({ params }) => {
     if(!product){
         throw error(404, "Page not found");
     }
-
-    // Pega os dados da loja.
-    const store = await getStoreByID(product?.store?.id);
-
-    // Pega a lista de paises.
-    const countries = await getCountries();
-
-    // Pega todos os dados do produto.
-    const coupons = await getCouponsByProductID(product?.id);
-    const tags = await getTagsByProductID(product?.id);
-    const promotions = await getPromotionsByProductID(product?.id);
-    const images = await getImagesByProductID(product?.id);
-    const videos = await getVideosByProductID(product?.id);
-    const variations = await getVariationsByProductID(product?.id);
-    const reviews = await getReviewsByProductID(product?.id);
-
-    return { countries, coupons, tags, promotions, product, images, videos, variations, reviews, store }
+    
+    return { slug: params?.slug }
 }

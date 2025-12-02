@@ -5,14 +5,14 @@ export const getStoreByID = async (id) => {
 
     const { data, error } = await supabase
         .from("stores")
-        .select("*, media:medias(id, source), products:products(id, title, medias:medias(id, index, source), prices:prices(id, price, discount))")
+        .select("*, media:medias(id, source), products:products(id, title, rating, sales, lightning, medias:medias(id, index, source), prices:prices(id, amount, discount, total), coupons:coupons(id, type, title, discount))")
         .match({
             id: id,
             is_active: true
         })
         .single();
 
-    if(error) throw console.log("Get store by ID error: ", error); 
+    if(error) throw console.log("Get store by ID error: ", error);
 
     return {
         id: data?.id,
@@ -27,6 +27,17 @@ export const getStoreByID = async (id) => {
             return {
                 id: product?.id,
                 title: product?.title,
+                rating: product?.rating,
+                sales: product?.sales,
+                lightning: product?.lightning,
+                coupons: product?.coupons.map(coupon => {
+                    return {
+                        id: coupon?.id,
+                        type: coupon?.type,
+                        title: coupon?.title,
+                        discount: coupon?.discount
+                    }
+                }),
                 medias: product?.medias.map(media => {
                     return {
                         id: media?.id,
@@ -37,8 +48,9 @@ export const getStoreByID = async (id) => {
                 prices: product?.prices?.map(price => {
                     return {
                         id: price?.id,
-                        price: price?.price,
-                        discount: price?.discount
+                        amount: price?.amount,
+                        discount: price?.discount,
+                        total: price?.total
                     }
                 })
             }

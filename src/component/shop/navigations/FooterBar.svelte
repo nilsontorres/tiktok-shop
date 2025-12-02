@@ -1,4 +1,4 @@
-<div class="flex fixed bottom-0 left-0 w-full h-16 py-[0.6rem] px-[0.6rem] gap-2 bg-white border-t-[0.063rem] border-[#E8E8E8] z-50">
+<div class="flex fixed bottom-0 left-0 w-full h-16 py-[0.6rem] px-[0.6rem] gap-2 bg-white border-t-[0.063rem] border-[#E8E8E8] z-40">
     <div class="flex justify-center items-center gap-3">
         <button type="button" title="Loja" class="flex flex-col items-center p-1">
             <div class="flex justify-center items-center w-[1.4rem] h-[1.4rem]">

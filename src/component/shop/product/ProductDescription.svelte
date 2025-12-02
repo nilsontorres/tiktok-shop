@@ -13,7 +13,7 @@
     <div class="text-[0.875rem] wrapper">{@html description}</div>
     <button type="button" class="absolute bottom-0 left-0 w-full z-20" onclick={minize}>
         {#if minimized}
-            <div class="w-full h-[3rem] bg-linear-to-b from-transparent to-white"></div>
+            <div class="w-full h-[5rem] bg-linear-to-b from-transparent to-white"></div>
         {/if}
         <div class="flex items-center justify-center gap-[0.35rem] pt-[1rem] bg-white">
             <span class="text-[#333] text-[0.875rem] font-semibold leading-none">Ver {minimized ? "mais" : "menos"}</span>

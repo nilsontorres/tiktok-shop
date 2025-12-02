@@ -39,7 +39,7 @@
             <div class="w-4 h-[1.3rem] bg-linear-to-l from-transparent to-white"></div>
         </div>
     {/if}
-    <div class="flex overflow-x-auto relative unselectable no-scrollbar h-8" bind:this={container} onscroll={onScroll}>
+    <div class="flex overflow-x-auto relative no-selectable no-scrollbar h-8" bind:this={container} onscroll={onScroll}>
         <button type="button" class="mt-0">
             <ul class="flex items-center gap-1" bind:this={carrosel}>
                 {#each coupons as coupon, index}

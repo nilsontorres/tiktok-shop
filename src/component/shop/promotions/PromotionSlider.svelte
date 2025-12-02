@@ -7,7 +7,7 @@
 </script>
 
 <div class="flex w-full items-center relative">
-    <div class="flex overflow-x-auto relative unselectable no-scrollbar">
+    <div class="flex overflow-x-auto relative no-selectable no-scrollbar">
         <button type="button" class="mt-0">
             <ul class="flex items-center gap-2">
                 <div class="flex w-[0.5rem]"></div>

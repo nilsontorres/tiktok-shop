@@ -2,7 +2,7 @@
     let { scroll } = $props();
 </script>
 
-<header class="flex flex-col fixed top-0 left-0 w-full z-50">
+<header class="flex flex-col fixed top-0 left-0 w-full z-40">
     <div class="flex justify-between items-center h-12 px-5 bg-white">
         <div class="flex items-center">
             <button type="button" title="Fechar">
@@ -30,8 +30,8 @@
         </div>
     </div>
     <div class="flex flex-col w-full bg-white" style={`opacity: ${scroll >= 75 ? "100" : (scroll / 75) * 100}%`}>
-        <div class="flex overflow-x-auto relative unselectable no-scrollbar -mb-[0.02rem] z-20">
-            <button type="button" class="mt-0">
+        <div class="flex overflow-x-auto relative no-selectable no-scrollbar -mb-[0.04rem] z-20">
+            <button type="button">
                 <ul class="flex items-center">
                     <div class="flex w-[0.9rem]"></div>
                     <li class={`flex justify-between items-center gap-[0.4rem] pb-[0.5rem] pt-[0.6rem] px-[0.6rem] border-b-[0.16rem] border-black relative`}>

@@ -113,7 +113,7 @@
                 {/each}
             </div>
         </div>
-        <div class={`flex flex-col w-full relative overflow-y-auto no-scrollbar unselectable`} onscroll={onScroll} bind:this={container}>
+        <div class={`flex flex-col w-full relative overflow-y-auto no-scrollbar no-selectable`} onscroll={onScroll} bind:this={container}>
             <div class="flex w-full relative">
                 <div class="flex flex-col w-full">
                     {#each Object.keys(regions) as key, index}
