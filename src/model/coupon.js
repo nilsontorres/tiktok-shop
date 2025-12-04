@@ -9,7 +9,8 @@ export const getCouponsByProductID = async (id) => {
         .match({
             product_id: id,
             is_active: true
-        });
+        })
+        .order("target", { ascending: false });
 
     if(error) throw console.log("Get coupons by product ID error: ", error); 
 
@@ -17,7 +18,10 @@ export const getCouponsByProductID = async (id) => {
         return {
             id: coupon?.id,
             type: coupon?.type,
-            title: coupon?.title,
+            target: coupon?.target,
+            minimum: coupon?.minimum,
+            limit: coupon?.limit,
+            origin: coupon?.origin,
             discount: coupon?.discount
         }
     });

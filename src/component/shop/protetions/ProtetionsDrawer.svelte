@@ -1,34 +1,35 @@
 <script>
-    let {
-        open=true,
-        onCloseDrawer=()=>{}
-    } = $props();
-    
+    let is_open = $state(false);
     let container = $state(null);
     let scroll_y = $state(0);
 
-    $effect(() => {
-        open = open;
-        container.scrollTo(0, 0);
-    });
-
-    const onScrollY = () => {
+    const updateScroll = () => {
         scroll_y = container.scrollTop;
+    }
+
+    let header_opacity = $derived(scroll_y >= 125 ? 100 : scroll_y >= 75 ? ((scroll_y - 75) / 50) * 100 : 0);
+
+    export const openDrawer = () => {
+        is_open = true;
+    }
+    export const closeDrawer = () => {
+        container.scrollTo({ top: 0, behavior: "instant" });
+        is_open = false;
     }
 </script>
 
-<div class={`w-full h-full fixed top-0 left-0 z-60 touch-none no-selectable ${!open && "pointer-events-none"}`}>
-    <button onclick={onCloseDrawer} type="button" aria-label="background" class={`absolute top-0 left-0 w-full h-full bg-black ${open ? "opacity-60" : "opacity-0"} z-10 transition-opacity duration-300`}></button>
-    <div class={`absolute bottom-0 left-0 flex flex-col w-full ${open ? "translate-y-0" : "translate-y-[100%]"} h-[70%] transition-transform duration-300 ease-in-out z-20 rounded-t-xl overflow-hidden bg-white no-selectable`}>
-        <button type="button" aria-label="Fechar" class="absolute top-3 right-3 p-2 z-50" onclick={onCloseDrawer}>
+<div class={`w-full h-full fixed top-0 left-0 z-60 touch-none no-selectable ${!is_open && "pointer-events-none"}`}>
+    <button onclick={closeDrawer} type="button" aria-label="background" class={`absolute top-0 left-0 w-full h-full bg-black ${is_open ? "opacity-60" : "opacity-0"} z-10 transition-opacity duration-300`}></button>
+    <div class={`absolute bottom-0 left-0 flex flex-col w-full ${is_open ? "translate-y-0" : "translate-y-[100%]"} h-[70%] transition-transform duration-300 ease-in-out z-20 rounded-t-xl overflow-hidden bg-white no-selectable`}>
+        <button type="button" aria-label="Fechar" class="absolute top-3 right-3 p-2 z-50" onclick={closeDrawer}>
             <svg class="min-w-[0.85rem] max-w-[0.85rem] h-[0.9rem]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 38 38">
                 <path fill="#000" d="m0 4 4-4 15 15L34 0l4 4-15 15 15 15-4 4-15-15L4 38 .5 34 15 19 0 4Z"/>
             </svg>
         </button>
-        <div class="flex justify-center items-center absolute top-0 left-0 w-full h-[3.3rem] bg-white z-40" style={`opacity: ${scroll_y >= 125 ? "100" : scroll_y >= 75 ? ((scroll_y - 75) / 50) * 100 : "0"}%`}>
+        <div class="flex justify-center items-center absolute top-0 left-0 w-full h-[3.3rem] bg-white z-40" style={`opacity: ${header_opacity}%`}>
             <span class="text-black text-[1rem] font-bold leading-none">Proteção do cliente</span>
         </div>
-        <div bind:this={container} onscroll={onScrollY} class="flex flex-col overflow-y-auto overflow-x-hidden no-scrollbar">
+        <div bind:this={container} onscroll={updateScroll} class="flex flex-col overflow-y-auto overscroll-y-contain overflow-x-hidden no-scrollbar">
             <div class="flex w-full pb-[41.5%] bg-contain bg-no-repeat bg-center relative z-20" style="background-image: url(/images/bg-protecao-1.jpg?v2);">
                 <div class="flex items-center w-full h-full absolute left-4 top-0">
                     <span class="text-[#895109] text-[1.5rem] font-bold">Proteção do cliente</span>

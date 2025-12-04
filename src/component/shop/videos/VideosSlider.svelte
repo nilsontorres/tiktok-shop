@@ -7,7 +7,7 @@
 <div class="flex w-full items-center relative">
     <div class="flex overflow-x-auto relative no-selectable no-scrollbar">
         <ul class="flex items-center gap-[0.5rem]">
-            <div class="flex w-[0.5rem]"></div>
+            <li class="flex w-[0.5rem]"></li>
             {#each videos as video, index}
                 <li class="flex w-[7.5rem] h-[10rem] bg-[#F6F6F6] rounded-lg relative overflow-hidden bg-cover bg-center" style={`background-image: url('${video.media?.source}');`}>
                     <div class="absolute top-[0.5rem] left-[0.5rem]">
@@ -22,7 +22,7 @@
                     </div>
                 </li>
             {/each}
-            <div class="flex w-[0.8rem]"></div>
+            <li class="flex w-[0.5rem]"></li>
         </ul>
     </div>
 </div>

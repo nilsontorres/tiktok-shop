@@ -73,7 +73,7 @@
             </button>
         {/if}
     </div>
-    <div class={`absolute top-[2.8rem] left-0 w-full max-h-[10rem] overflow-y-auto no-scrollbar rounded-[0.25rem] bg-white shadow-custom z-30 p-[0.4rem] ${results.length == 0 && "opacity-0 pointer-events-none"}`}>
+    <div class={`absolute top-[2.8rem] left-0 w-full max-h-[10rem] overflow-y-auto overscroll-y-contain no-scrollbar rounded-[0.25rem] bg-white shadow-custom z-30 p-[0.4rem] ${results.length == 0 && "opacity-0 pointer-events-none"}`}>
         {#each results as result, index}
             {#if index > 0}
                 <span class="flex w-full h-[0.063rem] bg-[#00000009]"></span>

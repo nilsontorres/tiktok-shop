@@ -34,8 +34,6 @@ export const POST = async ({ request }) => {
     const variations = await getVariationsByProductID(product?.id);
     const reviews = await getReviewsByProductID(product?.id);
 
-    console.log(product.prices);
-
     return json({
         countries,
         coupons,

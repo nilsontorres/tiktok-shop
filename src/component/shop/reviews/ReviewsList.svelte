@@ -1,6 +1,6 @@
 <script>
     import { maskWords } from "$lib/formating";
-    import RatingStars from "$component/shop/reviews/RatingStars.svelte";
+    import ReviewRating from "$component/shop/reviews/ReviewRating.svelte";
 
     let { reviews=[] } = $props();
 </script>
@@ -13,7 +13,7 @@
                 <span class="text-black text-[0.8rem] font-semibold">{maskWords(review.user?.fullname)}</span>
             </div>
             <div class="mt-[0.45rem]">
-                <RatingStars rating={review.rating}/>
+                <ReviewRating rating={review.rating}/>
             </div>
             <span class="text-[#666] text-[0.8rem] mt-[0.35rem]">Item: {review.item}</span>
             <p class="text-black text-[0.9rem] leading-[1.2rem] mt-[0.4rem]">{@html review.body}</p>

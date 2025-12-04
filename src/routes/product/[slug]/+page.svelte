@@ -1,7 +1,7 @@
 <script>
-    import ProductPage from '$component/pages/ProductPage.svelte';
+    import ShopPage from '$component/shop/ShopPage.svelte';
 
     let { data } = $props();
 </script>
 
-<ProductPage slug={data?.slug}/>
+<ShopPage slug={data?.slug}/>

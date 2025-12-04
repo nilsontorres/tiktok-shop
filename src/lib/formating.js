@@ -47,6 +47,16 @@ export const maskWords = (value) => {
     });
 };
 
+export const formatTimer = (value) => {
+    const hours = Math.floor(value / 3600);
+    const minutes = Math.floor((value % 3600) / 60);
+    const seconds = Math.floor(value % 60);
+
+    const pad = num => String(num).padStart(2, '0');
+
+    return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+}
+
 export const removeAccent = (value) =>  {
     if(!value) return;
 

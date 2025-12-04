@@ -13,7 +13,7 @@
         </svg>
     </button>
     <div class="flex justify-center items-center w-[2.5rem] h-[2rem] bg-[#F2F2F2]">
-        <span class="flex justify-center items-center w-full h-[0.9rem] border-x-[0.063rem] border-x-[#e0e0e0] text-black font-medium">{quantity}</span>
+        <span class="flex justify-center items-center w-full h-[0.9rem] text-[0.975rem] border-x-[0.063rem] border-x-[#e0e0e0] text-black font-medium">{quantity}</span>
     </div>
     <button class="flex w-[2rem] h-[2rem] justify-center items-center bg-[#F2F2F2] active:bg-[#e0e0e0] rounded-e-md" type="button" aria-label="Aumentar" onclick={onIncrementQuantity}>
         <svg class="min-w-[0.75rem] max-w-[0.75rem]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 36 36">
