@@ -44,6 +44,10 @@
         animation: skeleton-pulse 1.2s ease-in-out infinite;
         background-color: #eeeeee;
     }
+    .skeleton-v2 {
+        animation: skeleton-pulse 1.2s ease-in-out infinite;
+        background-color: #fcfcfc;
+    }
 
     @keyframes skeleton-pulse {
         0% { opacity: 1; }

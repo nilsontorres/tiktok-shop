@@ -1,8 +1,4 @@
-<script>
-    let { show=false } = $props();
-</script>
-
-<div class={`w-full h-full fixed top-0 left-0 bg-white z-50 ${show ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
+<div class="w-full h-full fixed top-0 left-0 bg-white z-50">
     <span class="flex w-full pb-[100vw] relative overflow-hidden skeleton"></span>
     <div class="flex flex-col p-4">
         <span class="w-[32%] h-[1.8rem] rounded-sm skeleton"></span>

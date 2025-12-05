@@ -1,20 +1,27 @@
 <script>
-    let { product } = $props();
+    let { product={}, onSectionPosition=()=>{} } = $props();
 
-    let height = $state(null);
+    let component = $state();
     let minimized = $state(true);
 
     const minize = () => {
         minimized = !minimized;
     }
+
+    $effect(() => {
+        if(component){
+            const { top } = component.getBoundingClientRect();
+            onSectionPosition("description", top);
+        }
+    });
 </script>
 
-<div class="flex flex-col py-[1.1rem] bg-white">
+<div class="flex flex-col py-[1.1rem] bg-white" bind:this={component}>
     <div class="flex justify-between items-center px-4">
         <span class="text-black text-[0.93rem] font-semibold leading-none">Sobre este produto</span>
     </div>
     <div class="mt-[0.5rem]">
-        <div bind:clientHeight={height} class={`px-4 relative ${minimized ? "max-h-[30rem] overflow-hidden" : "max-h-auto pb-[2rem]"}`}>
+        <div class={`px-4 relative ${minimized ? "max-h-[40rem] overflow-hidden" : "max-h-auto pb-[2rem]"}`}>
             <div class="text-[0.875rem] wrapper">{@html product?.description}</div>
             <button type="button" class="absolute bottom-0 left-0 w-full z-20" onclick={minize}>
                 {#if minimized}

@@ -1,7 +1,7 @@
 <script>
     import { formatNumber } from "$lib/formating";
 
-    import StoreProduct from "$component/shop/store/StoreProduct.svelte";
+    import ProductItem from "$component/shop/store/ProductItem.svelte";
 
     let { store={} } = $props();
 </script>
@@ -9,7 +9,7 @@
 <div class="flex flex-col py-[1rem] bg-white">
     <div class="flex justify-between items-center px-4">
         <div class="flex items-center gap-[0.75rem]">
-            <div class="w-[3.5rem] h-[3.5rem] bg-center bg-cover rounded-full" style={`background-image: url('${store?.media?.source}');`}></div>
+            <div class="w-[3.5rem] h-[3.5rem] bg-center bg-cover rounded-full" style={store.media?.source && `background-image: url('${store.media?.source}');`}></div>
             <div class="flex flex-col">
                 <span class="text-black text-[0.9rem] font-semibold">{store?.title}</span>
                 <span class="text-[#666] text-[0.775rem] leading-none mt-[0.15rem]">{formatNumber(store?.sales).en} vendido(s)</span>
@@ -34,7 +34,7 @@
                 <ul class="flex items-center gap-[0.5rem]">
                     <div class="flex w-[0.5rem]"></div>
                     {#each store?.products as product}
-                        <StoreProduct product={product}/>
+                        <ProductItem product={product}/>
                     {/each}
                     <div class="flex w-[0.8rem]"></div>
                 </ul>

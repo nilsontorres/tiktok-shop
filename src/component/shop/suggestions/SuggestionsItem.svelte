@@ -4,13 +4,13 @@
     import { formatNumber, formatPrice } from "$lib/formating";
     import { onMount } from "svelte";
     
-    let { product={} } = $props();
+    let { suggestion={} } = $props();
 
     let timer = $state(null);
     let interval;
 
     const updateTimer = () => {
-        timer = getSecondsBetweenDates(Date.now(), product.lightning);
+        timer = getSecondsBetweenDates(Date.now(), suggestion.lightning);
     }
     const formatTimer = (value) => {
         const hours = Math.floor(value / 3600);
@@ -35,12 +35,12 @@
         }
     }
 
-    let price = $derived(getLowestPrice(product.prices));
-    let image = $derived(product.medias?.find(image => image.index == 0));
+    let price = $derived(getLowestPrice(suggestion.prices));
+    let image = $derived(suggestion.medias?.find(image => image.index == 0));
 
     onMount(() => {
-        if(product.lightning){
-            const difference = getSecondsBetweenDates(Date.now(), product.lightning);
+        if(suggestion.lightning){
+            const difference = getSecondsBetweenDates(Date.now(), suggestion.lightning);
             if(difference >= 0 && difference < 86400){
                 timer = difference;
                 interval = setInterval(updateTimer, 1000);
@@ -55,15 +55,15 @@
 
 <div class="rounded-lg overflow-hidden bg-white shadow-recommendations relative"  style="width: calc(50vw - 1.28rem);">
     <div class="w-full pb-[100%] relative">
-        <div class="absolute top-0 left-0 w-full h-full bg-[#eaeaea] bg-cover bg-center" style={`background-image: url('${image?.source}')`}></div>
+        <div class="absolute top-0 left-0 w-full h-full bg-[#eaeaea] bg-cover bg-center" style={image?.source && `background-image: url('${image?.source}')`}></div>
     </div>
     <div class="flex flex-col w-full bg-white px-[0.5rem] pt-[0.75rem] pb-[0.7rem] overflow-hidden">
-        <span class="inline-block max-w-full text-ellipsis text-black text-[0.875rem] overflow-hidden whitespace-nowrap leading-none">{product.title}</span>
+        <span class="inline-block max-w-full text-ellipsis text-black text-[0.875rem] overflow-hidden whitespace-nowrap leading-none">{suggestion.title}</span>
         <div class="flex items-baseline gap-[0.25rem] mt-[0.5rem]">
-            <span class="text-[#FD2C55] text-[0.85rem] font-semibold leading-none">R$<b class="text-[1.1rem] font-semibold ps-[0.15rem]">{formatPrice(price?.promotional)}</b></span>
-            <span class="text-[#858585] text-[0.75rem] line-through">R$ {formatPrice(price?.regular)}</span>
+            <span class="text-[#FD2C55] text-[0.85rem] font-semibold leading-none">R$<b class="text-[1.1rem] font-semibold ps-[0.15rem]">{formatPrice(price.promotional)}</b></span>
+            <span class="text-[#858585] text-[0.75rem] line-through">R$ {formatPrice(price.regular)}</span>
         </div>
-        {#if product.lightning}
+        {#if suggestion.lightning}
             <div class="flex mt-[0.25rem]">
                 <div class="flex items-center">
                     <div class={`flex items-center ${timer ? "rounded-s-sm" : "rounded-sm"} ps-[0.2rem] pe-[0.2rem] h-[1rem] gap-[0.15rem] bg-[#FE5C21]`}>
@@ -79,13 +79,13 @@
                     {/if}
                 </div>
             </div>
-        {:else if product.coupons.length > 0}
+        {:else if suggestion.coupons?.length > 0}
             <div class="flex mt-[0.25rem]">
                 <div class="flex items-center ps-[0.15rem] pe-[0.3rem] h-[1rem] gap-[0.1rem] rounded-sm bg-[#FFE5EA]">
                     <svg class="w-[1rem] h-[0.57rem]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 37 28">
                         <path fill="#E10543" d="M21 5h4V0h7c2 0 5 2.5 5 4.5V11h-2a3 3 0 1 0 0 6h2v6.5c0 2-2.5 4.5-5 4.5h-7v-5h-4v5H5c-2.5 0-5-2.5-5-4.5V17h2a3 3 0 1 0 0-6H0V4.5C0 2.5 3 0 5 0h16v5Zm0 14h4v-3h-4v3Zm0-7h4V9h-4v3Z"/>
                     </svg>                          
-                    <span class="text-[#E10543] text-[0.7rem] font-semibold leading-none">{getCouponTitle(product.coupons[0])}</span>
+                    <span class="text-[#E10543] text-[0.7rem] font-semibold leading-none">{getCouponTitle(suggestion.coupons[0])}</span>
                 </div>
             </div>
         {/if}
@@ -94,12 +94,12 @@
                 <svg class="w-[0.7rem]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 44 44">
                     <path fill="#FFC628" d="M18.8 3c.75-2 2.075-3 3.2-3s2.05 1 2.8 3l4.5 10.5 10.659 1c4.5.5 4.34 3 1.84 5.5l-8 7 2.5 12c.66 3.5-1.34 5-4.5 3L22 35.5s-6.694 4.567-9.701 6.5c-3.34 2.148-6 1-5-3l2.5-12-8-7c-2.84-2.5-2.34-5 1.66-5.5l11.34-1L18.8 3Z"/>
                 </svg>
-                <span class="text-[#444] text-[0.75rem] leading-none">{product.rating}</span>
+                <span class="text-[#444] text-[0.75rem] leading-none">{suggestion.rating}</span>
             </div>
             <svg class="w-[0.14rem] h-[0.56rem]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 4 27">
                 <path fill="#D9D9D9" d="M0 2a2 2 0 0 1 4 0v23a2 2 0 1 1-4 0V2Z"/>
             </svg>
-            <span class="text-[#444] text-[0.75rem] leading-none">{formatNumber(product.sales).en} vendidos</span>                    
+            <span class="text-[#444] text-[0.75rem] leading-none">{formatNumber(suggestion.sales).en} vendidos</span>                    
         </div>
     </div>
 </div>

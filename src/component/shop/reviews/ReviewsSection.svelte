@@ -4,10 +4,19 @@
     import ReviewRating from "$component/shop/reviews/ReviewRating.svelte";
     import ReviewItem from "$component/shop/reviews/ReviewItem.svelte";
 
-    let { reviews, product, store } = $props();
+    let { reviews=[], product={}, store={}, onSectionPosition=()=>{} } = $props();
+
+    let component = $state();
+
+    $effect(() => {
+        if(component){
+            const { top } = component.getBoundingClientRect();
+            onSectionPosition("reviews", top);
+        }
+    });
 </script>
 
-<div class="flex flex-col py-[1.1rem] bg-white">
+<div class="flex flex-col py-[1.1rem] bg-white" bind:this={component}>
     <div class="flex justify-between items-center px-4">
         <span class="text-black text-[0.93rem] font-semibold leading-none">Avaliações dos clientes ({formatNumber(product?.reviews).pt})</span>
         <div class="flex items-center gap-[0.4rem]">

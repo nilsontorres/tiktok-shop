@@ -1,5 +1,5 @@
 <script>
-    let { product={} } = $props();
+    let { product={}, saved=false } = $props();
 </script>
 
 <div class="flex justify-between itens-start mt-[0.35rem]">

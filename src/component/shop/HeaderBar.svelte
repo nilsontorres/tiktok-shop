@@ -1,5 +1,7 @@
 <script>
-    let { scroll } = $props();
+    import { onMount } from "svelte";
+
+    let { scroll=0, tab="overview", updateTab=()=>{} } = $props();
 </script>
 
 <header class="flex flex-col fixed top-0 left-0 w-full z-40">
@@ -8,7 +10,7 @@
             <button type="button" title="Fechar">
                 <svg class="min-w-4 max-w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 47 46">
                     <path fill="#000" d="M46.077 4.053 27.091 22.89l18.986 18.84-4.022 4.052-19.017-18.87-19.017 18.87L0 41.73l18.984-18.84L0 4.054 4.021 0l19.017 18.87L42.055 0l4.022 4.053Z"/>
-                </svg>              
+                </svg>
             </button>
         </div>
         <div class="flex items-center gap-[1.3rem]">
@@ -31,24 +33,24 @@
     </div>
     <div class="flex flex-col w-full bg-white" style={`opacity: ${scroll >= 75 ? "100" : (scroll / 75) * 100}%`}>
         <div class="flex overflow-x-auto relative no-selectable no-scrollbar -mb-[0.04rem] z-20">
-            <button type="button">
-                <ul class="flex items-center">
+            <div>
+                <div class="flex items-center">
                     <div class="flex w-[0.9rem]"></div>
-                    <li class={`flex justify-between items-center gap-[0.4rem] pb-[0.5rem] pt-[0.6rem] px-[0.6rem] border-b-[0.16rem] border-black relative`}>
-                        <span class={`text-black text-[0.95rem] font-semibold whitespace-nowrap`}>Visão geral</span>
-                    </li>
-                    <li class={`flex justify-between items-center gap-[0.4rem] pb-[0.5rem] pt-[0.6rem] px-[0.6rem] border-b-[0.16rem] border-transparent relative`}>
-                        <span class={`text-[#707070] text-[0.95rem] font-semibold whitespace-nowrap`}>Avaliações</span>
-                    </li>
-                    <li class={`flex justify-between items-center gap-[0.4rem] pb-[0.5rem] pt-[0.6rem] px-[0.6rem] border-b-[0.16rem] border-transparent relative`}>
-                        <span class={`text-[#707070] text-[0.95rem] font-semibold whitespace-nowrap`}>Descrição</span>
-                    </li>
-                    <li class={`flex justify-between items-center gap-[0.4rem] pb-[0.5rem] pt-[0.6rem] px-[0.6rem] border-b-[0.16rem] border-transparent relative`}>
-                        <span class={`text-[#707070] text-[0.95rem] font-semibold whitespace-nowrap`}>Recomendações</span>
-                    </li>
+                    <button type="button" class={`flex justify-between items-center gap-[0.4rem] pb-[0.5rem] pt-[0.6rem] px-[0.6rem] border-b-[0.16rem] ${tab == "overview" ? "border-black" : "border-transparent"} relative`} onclick={() => updateTab("overview")}>
+                        <span class={`text-[0.95rem] ${tab == "overview" ? "text-black" : "text-[#707070]"} font-semibold whitespace-nowrap`}>Visão geral</span>
+                    </button>
+                    <button type="button" class={`flex justify-between items-center gap-[0.4rem] pb-[0.5rem] pt-[0.6rem] px-[0.6rem] border-b-[0.16rem] ${tab == "reviews" ? "border-black" : "border-transparent"} relative`} onclick={() => updateTab("reviews")}>
+                        <span class={`text-[0.95rem] ${tab == "reviews" ? "text-black" : "text-[#707070]"} font-semibold whitespace-nowrap`}>Avaliações</span>
+                    </button>
+                    <button type="button" class={`flex justify-between items-center gap-[0.4rem] pb-[0.5rem] pt-[0.6rem] px-[0.6rem] border-b-[0.16rem] ${tab == "description" ? "border-black" : "border-transparent"} relative`} onclick={() => updateTab("description")}>
+                        <span class={`text-[0.95rem] ${tab == "description" ? "text-black" : "text-[#707070]"} font-semibold whitespace-nowrap`}>Descrição</span>
+                    </button>
+                    <button type="button" class={`flex justify-between items-center gap-[0.4rem] pb-[0.5rem] pt-[0.6rem] px-[0.6rem] border-b-[0.16rem] ${tab == "suggestions" ? "border-black" : "border-transparent"} relative`} onclick={() => updateTab("suggestions")}>
+                        <span class={`text-[0.95rem] ${tab == "suggestions" ? "text-black" : "text-[#707070]"} font-semibold whitespace-nowrap`}>Recomendações</span>
+                    </button>
                     <div class="flex w-[0.9rem]"></div>
-                </ul>
-            </button>
+                </div>
+            </div>
         </div>
         <span class="absolute left-0 bottom-0 w-full h-[0.045rem] bg-[#D0D1D3] z-10"></span>
     </div>

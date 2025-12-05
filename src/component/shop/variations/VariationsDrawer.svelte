@@ -33,7 +33,7 @@
             </svg>
         </button>
         <div class="flex w-full gap-[0.75rem] p-4">
-            <div class="flex min-w-[6rem] max-w-[6rem] min-h-[6rem] max-h-[6rem] rounded-lg bg-[#F6F6F6] bg-contain bg-center" style={`background-image: url('${default_media?.source}')`}></div>
+            <div class="flex min-w-[6rem] max-w-[6rem] min-h-[6rem] max-h-[6rem] rounded-lg bg-[#F6F6F6] bg-contain bg-center" style={default_media?.source && `background-image: url('${default_media?.source}')`}></div>
             <div class="flex flex-col w-full justify-between relative overflow-hidden">
                 <div class="flex flex-col">
                     <div class="flex items-center gap-2">

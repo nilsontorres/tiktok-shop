@@ -1,6 +1,6 @@
 <script>
     import VariationDrawer from "$component/shop/variations/VariationsDrawer.svelte";
-    
+
     let { variations=[], quantity, onIncrementQuantity, onDecrementQuantity, onChangeVariant } = $props();
 
     let drawer = $state();
@@ -16,10 +16,10 @@
         <div class="flex items-center gap-[0.6rem]">
             <ul class="flex items-center gap-[0.3rem]">
                 {#each variations?.find(v => v.type == "image")?.variants as variant}
-                    <li class="w-8 h-8 rounded-sm overflow-hidden bg-cover bg-center" style={`background-image: url('${variant.media.source}')`}></li>   
+                    <li class="w-8 h-8 rounded-sm overflow-hidden bg-cover bg-center" style={variant.media?.source && `background-image: url('${variant.media?.source}')`}></li>   
                 {/each}
             </ul>
-            <span class="text-[#858585] text-[0.775rem]">{variations[0]?.variants.length} opções disponíveis</span>
+            <span class="text-[#858585] text-[0.775rem]">{variations[0]?.variants?.length} opções disponíveis</span>
         </div>
     </div>
     <div class="flex items-center h-full">

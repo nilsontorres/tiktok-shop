@@ -1,23 +1,18 @@
-export const observe = (el) => {
+export const observe = (el, callback) => {
     const io = new IntersectionObserver(
         (entries) => {
             for (const e of entries) {
-                if (e.isIntersecting && e.intersectionRatio > 0.6) {
-                    onVisible();
+                if (e.isIntersecting && e.intersectionRatio > 0.3) {
+                    callback(e.target);
                 }
             }
         },
-        {
-            root: el,
-            threshold: 0.6
-        }
+        { threshold: 0.3 }
     );
 
     io.observe(el);
 
     return {
-        destroy() {
-            io.disconnect();
-        }
+        destroy() { io.disconnect(); }
     };
 }
