@@ -31,9 +31,7 @@
     let dragging = $state(false);
     let sections = $state({ overview: 0 });
     let tab = $state("overview");
-    let loaded = $state(false);
     let ready = $state(false);
-    let drawers = $state({});
     let scroll = $state(0);
 
     let variations = $state([]);
@@ -47,8 +45,6 @@
     let videos = $state([]);
     let reviews = $state([]);
     let suggestions = $state([]);
-
-    let saved = $state(false);
 
     let shipping = $state({
         amount: 47.00,
@@ -77,15 +73,6 @@
         }
     }
 
-    const openDrawer = (name) => {
-        for (const name in drawers){
-            drawers[name]?.closeDrawer();
-        }
-        drawers[name]?.openDrawer();
-    }
-    const closeDrawer = (name) => {
-        drawers[name]?.closeDrawer();
-    }
     const updateScroll = () => {
         scroll = window.scrollY;
 
@@ -103,12 +90,8 @@
         dragging = true;
         tab = value;
 
-        if(value != "overview"){
-            window.scrollTo({ top: sections[tab]+90, behavior: "smooth" });
-        }
-        else{
-            window.scrollTo({ top: sections[tab], behavior: "smooth" });
-        }
+        if(value != "overview") window.scrollTo({ top: sections[tab]+90, behavior: "smooth" });
+        else window.scrollTo({ top: sections[tab], behavior: "smooth" });
 
         setTimeout(() => {
             dragging = false;
@@ -198,5 +181,15 @@
         <FooterBar price={price}/>
     </div>
 {:else}
+    {#each images as image, index}
+        <img class="w-0 h-0" src={image?.source} alt="pre-loading"/>
+    {/each}
+    {#each variations as variation}
+        {#if variation.type == "image"}
+            {#each variation.variants as variant}
+                <img class="w-0 h-0" src={variant.media.source} alt="pre-loading"/> 
+            {/each}
+        {/if}
+    {/each}
     <ShopSkeleton/>
 {/if}

@@ -5,12 +5,6 @@
 
     let component = $state();
 
-    const observer = new IntersectionObserver(([entry]) => {
-        if(entry.isIntersecting && entry.boundingClientRect.top <= 0){
-            onChangeTab("suggestions");
-        }
-    }, { root: null, threshold: 0, rootMargin: "0px 0px -99% 0px" });
-
     $effect(() => {
         if(component){
             const { top } = component.getBoundingClientRect();
