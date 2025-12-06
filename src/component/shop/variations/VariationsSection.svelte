@@ -1,12 +1,38 @@
 <script>
     import VariationDrawer from "$component/shop/variations/VariationsDrawer.svelte";
 
-    let { variations=[], quantity, onIncrementQuantity, onDecrementQuantity, onChangeVariant } = $props();
+    let { variations=$bindable([]) } = $props();
 
     let drawer = $state();
+    let quantity = $state(1);
+
+    const incrementQuantity = () => {
+        quantity += 1;
+        if(quantity > 10){
+            quantity = 10;
+        }
+    }
+    const decrementQuantity = () => {
+        quantity -= 1;
+        if(quantity < 1){
+            quantity = 1;
+        }
+    }
+    const updateVariant = (new_variant) => {
+        variations?.forEach((variation, i) => {
+            variation?.variants.forEach((variant, j) => {
+                if(variant.variation.id == new_variant.variation.id){
+                    variations[i].variants[j].selected = false;
+                }
+                if(variant.id == new_variant.id){
+                    variations[i].variants[j].selected = !variations[i].variants[j].selected;
+                }
+            });
+        });
+    }
 </script>
 
-<VariationDrawer bind:this={drawer} {variations} {quantity} {onIncrementQuantity} {onDecrementQuantity} {onChangeVariant}/>
+<VariationDrawer bind:this={drawer} {variations} {quantity} onIncrementQuantity={incrementQuantity} onDecrementQuantity={decrementQuantity} onChangeVariant={updateVariant}/>
 
 <button onclick={() => drawer.openDrawer()} type="button" aria-label="Variações" class="flex w-full justify-between items-center gap-[0.3rem] mt-[0.8rem]">
     <div class="flex items-center gap-[0.6rem]">

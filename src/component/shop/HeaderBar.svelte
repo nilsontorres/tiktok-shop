@@ -1,7 +1,7 @@
 <script>
     import { onMount } from "svelte";
 
-    let { scroll=0, tab="overview", updateTab=()=>{} } = $props();
+    let { scroll=0, tab="overview", onChangeTab=()=>{} } = $props();
 </script>
 
 <header class="flex flex-col fixed top-0 left-0 w-full z-40">
@@ -36,16 +36,16 @@
             <div>
                 <div class="flex items-center">
                     <div class="flex w-[0.9rem]"></div>
-                    <button type="button" class={`flex justify-between items-center gap-[0.4rem] pb-[0.5rem] pt-[0.6rem] px-[0.6rem] border-b-[0.16rem] ${tab == "overview" ? "border-black" : "border-transparent"} relative`} onclick={() => updateTab("overview")}>
+                    <button type="button" class={`flex justify-between items-center gap-[0.4rem] pb-[0.5rem] pt-[0.6rem] px-[0.6rem] border-b-[0.16rem] ${tab == "overview" ? "border-black" : "border-transparent"} relative`} onclick={() => onChangeTab("overview")}>
                         <span class={`text-[0.95rem] ${tab == "overview" ? "text-black" : "text-[#707070]"} font-semibold whitespace-nowrap`}>Visão geral</span>
                     </button>
-                    <button type="button" class={`flex justify-between items-center gap-[0.4rem] pb-[0.5rem] pt-[0.6rem] px-[0.6rem] border-b-[0.16rem] ${tab == "reviews" ? "border-black" : "border-transparent"} relative`} onclick={() => updateTab("reviews")}>
+                    <button type="button" class={`flex justify-between items-center gap-[0.4rem] pb-[0.5rem] pt-[0.6rem] px-[0.6rem] border-b-[0.16rem] ${tab == "reviews" ? "border-black" : "border-transparent"} relative`} onclick={() => onChangeTab("reviews")}>
                         <span class={`text-[0.95rem] ${tab == "reviews" ? "text-black" : "text-[#707070]"} font-semibold whitespace-nowrap`}>Avaliações</span>
                     </button>
-                    <button type="button" class={`flex justify-between items-center gap-[0.4rem] pb-[0.5rem] pt-[0.6rem] px-[0.6rem] border-b-[0.16rem] ${tab == "description" ? "border-black" : "border-transparent"} relative`} onclick={() => updateTab("description")}>
+                    <button type="button" class={`flex justify-between items-center gap-[0.4rem] pb-[0.5rem] pt-[0.6rem] px-[0.6rem] border-b-[0.16rem] ${tab == "description" ? "border-black" : "border-transparent"} relative`} onclick={() => onChangeTab("description")}>
                         <span class={`text-[0.95rem] ${tab == "description" ? "text-black" : "text-[#707070]"} font-semibold whitespace-nowrap`}>Descrição</span>
                     </button>
-                    <button type="button" class={`flex justify-between items-center gap-[0.4rem] pb-[0.5rem] pt-[0.6rem] px-[0.6rem] border-b-[0.16rem] ${tab == "suggestions" ? "border-black" : "border-transparent"} relative`} onclick={() => updateTab("suggestions")}>
+                    <button type="button" class={`flex justify-between items-center gap-[0.4rem] pb-[0.5rem] pt-[0.6rem] px-[0.6rem] border-b-[0.16rem] ${tab == "suggestions" ? "border-black" : "border-transparent"} relative`} onclick={() => onChangeTab("suggestions")}>
                         <span class={`text-[0.95rem] ${tab == "suggestions" ? "text-black" : "text-[#707070]"} font-semibold whitespace-nowrap`}>Recomendações</span>
                     </button>
                     <div class="flex w-[0.9rem]"></div>

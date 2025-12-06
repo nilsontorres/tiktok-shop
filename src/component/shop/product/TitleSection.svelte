@@ -1,5 +1,11 @@
 <script>
-    let { product={}, saved=false } = $props();
+    let { product={} } = $props();
+
+    let saved = $state(false);
+
+    const saveProduct = () => {
+        saved = !saved;
+    }
 </script>
 
 <div class="flex justify-between itens-start mt-[0.35rem]">

@@ -68,7 +68,6 @@
     });
 
     let price = $derived(getLowestPrice(product?.prices));
-    let quantity = $state(1);
     let cart = {
         items: [],
         price: {
@@ -86,33 +85,6 @@
     }
     const closeDrawer = (name) => {
         drawers[name]?.closeDrawer();
-    }
-    const saveProduct = () => {
-        saved = !saved;
-    }
-    const incrementQuantity = () => {
-        quantity += 1;
-        if(quantity > 10){
-            quantity = 10;
-        }
-    }
-    const decrementQuantity = () => {
-        quantity -= 1;
-        if(quantity < 1){
-            quantity = 1;
-        }
-    }
-    const updateVariant = (new_variant) => {
-        variations?.forEach((variation, i) => {
-            variation?.variants.forEach((variant, j) => {
-                if(variant.variation.id == new_variant.variation.id){
-                    variations[i].variants[j].selected = false;
-                }
-                if(variant.id == new_variant.id){
-                    variations[i].variants[j].selected = !variations[i].variants[j].selected;
-                }
-            });
-        });
     }
     const updateScroll = () => {
         scroll = window.scrollY;
@@ -174,8 +146,6 @@
             ready = true;
         }
     });
-
-    $inspect(tab);
 </script>
 
 <svelte:head>
@@ -197,20 +167,20 @@
 {#if ready}
     <ImageModal images={images}/>
     <div class="w-full h-full bg-[#F5F5F5]">
-        <HeaderBar tab={tab} {scroll} {updateTab}/>
+        <HeaderBar tab={tab} {scroll} onChangeTab={updateTab}/>
         <main class="flex flex-col mt-12 mb-16 no-selectable">
             <ImagesSection {images} {scroll}/>
             <PriceSection {product} {price}/>
             <div class="flex flex-col px-4 pt-[0.65rem] pb-[0.85rem] bg-white">
                 <InstallmentsSection {price}/>
                 <CouponSection {coupons}/>
-                <TitleSection {product} {saved}/>
+                <TitleSection {product}/>
                 <RatingSection {product}/>
                 <TagsSection {tags}/>
                 <Spacer size="0.053" color="#efefef" margin="0.6"/>
                 <ShippingSection {shipping}/>
                 <Spacer size="0.053" color="#efefef" margin="0.9"/>
-                <VariationsSection {variations}/>
+                <VariationsSection bind:variations={variations}/>
             </div>
             <ProtetionsSection/>
             <Spacer size="0.5"/>
