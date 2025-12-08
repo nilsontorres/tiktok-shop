@@ -1,22 +1,24 @@
 import { error } from "@sveltejs/kit";
+import supabase from "$lib/supabase";
 
-import { getCountries } from "$model/location";
-import { getImagesByProductID } from "$model/media";
-import { getVideosByProductID } from "$model/video";
-import { getVariationsByProductID } from "$model/variation";
-import { getCouponsByProductID } from "$model/coupon";
-import { getTagsByProductID } from "$model/tag";
-import { getPromotionsByProductID } from "$model/promotion";
-import { getProductBySlug } from "$model/product";
-import { getReviewsByProductID } from "$model/review";
-import { getStoreByID } from "$model/store";
+const getProductID = async (slug) => {
+    if(!slug) return;
+
+    const { data, error } = await supabase
+        .from("products")
+        .select("id, images:images(id, source, index)")
+        .match({ slug, is_active: true })
+        .maybeSingle();
+
+    if(error) throw console.error("Error on getProductID:", error);
+    return data;
+}
 
 export const load = async ({ params }) => {
-    // Busca o produto.
-    const product = await getProductBySlug(params?.slug);
-    if(!product){
-        throw error(404, "Page not found");
-    }
-    
-    return { slug: params?.slug }
+    // Verifica se o produto existe.
+    const product = await getProductID(params.slug);
+    if(!product) throw error(404, "Page not found");
+
+    // Retorna os dados.
+    return { product }
 }

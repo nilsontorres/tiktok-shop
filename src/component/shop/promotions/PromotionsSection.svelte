@@ -2,12 +2,10 @@
     import PromotionsDrawer from "$component/shop/promotions/PromotionsDrawer.svelte";
     import PromotionsSlider from "$component/shop/promotions/PromotionsSlider.svelte";
 
-    let { coupons=[] } = $props();
-
     let drawer = $state();
 </script>
 
-<PromotionsDrawer bind:this={drawer} {coupons} />
+<PromotionsDrawer bind:this={drawer} />
 
 <button type="button" class="flex w-full flex-col py-[1.1rem] bg-white" onclick={() => drawer.openDrawer()}>
     <div class="flex w-full justify-between items-center px-4">
@@ -18,7 +16,7 @@
     </div>
     <div class="flex w-full overflow-hidden items-center mt-[0.8rem]">
         <div class="flex w-full items-center relative">
-            <PromotionsSlider {coupons}/>
+            <PromotionsSlider/>
         </div>
     </div>
 </button>

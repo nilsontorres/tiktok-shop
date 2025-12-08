@@ -1,0 +1,207 @@
+-- WARNING: This schema is for context only and is not meant to be run.
+-- Table order and constraints may not be valid for execution.
+
+CREATE TABLE public.creator_videos (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  product_id uuid,
+  user_id uuid,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  updated_at timestamp with time zone DEFAULT now(),
+  is_active boolean,
+  video_thumbnail text,
+  CONSTRAINT creator_videos_pkey PRIMARY KEY (id),
+  CONSTRAINT creators_videos_product_id_fkey FOREIGN KEY (product_id) REFERENCES public.shop_products(id),
+  CONSTRAINT videos_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.shop_users(id)
+);
+CREATE TABLE public.location_cities (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  city_name text NOT NULL,
+  region_id uuid,
+  country_id uuid,
+  created_at timestamp with time zone DEFAULT now(),
+  updated_at timestamp with time zone DEFAULT now(),
+  CONSTRAINT location_cities_pkey PRIMARY KEY (id),
+  CONSTRAINT cities_region_id_fkey FOREIGN KEY (region_id) REFERENCES public.location_regions(id),
+  CONSTRAINT cities_country_id_fkey FOREIGN KEY (country_id) REFERENCES public.location_countries(id)
+);
+CREATE TABLE public.location_countries (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  country_name text NOT NULL,
+  country_code character NOT NULL,
+  created_at timestamp with time zone DEFAULT now(),
+  updated_at timestamp with time zone DEFAULT now(),
+  CONSTRAINT location_countries_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.location_regions (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  region_name text NOT NULL,
+  region_code character NOT NULL,
+  country_id uuid,
+  created_at timestamp with time zone DEFAULT now(),
+  updated_at timestamp with time zone DEFAULT now(),
+  CONSTRAINT location_regions_pkey PRIMARY KEY (id),
+  CONSTRAINT regions_country_id_fkey FOREIGN KEY (country_id) REFERENCES public.location_countries(id)
+);
+CREATE TABLE public.medias (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  product_id uuid,
+  media_source text,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  updated_at timestamp with time zone DEFAULT now(),
+  media_index bigint,
+  is_active boolean,
+  media_origin text,
+  review_id uuid,
+  media_type text,
+  CONSTRAINT medias_pkey PRIMARY KEY (id),
+  CONSTRAINT product_images_product_id_fkey FOREIGN KEY (product_id) REFERENCES public.shop_products(id),
+  CONSTRAINT images_review_id_fkey FOREIGN KEY (review_id) REFERENCES public.product_reviews(id)
+);
+CREATE TABLE public.product_images (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  product_id uuid,
+  source text,
+  index double precision,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  updated_at timestamp with time zone DEFAULT now(),
+  CONSTRAINT product_images_pkey PRIMARY KEY (id),
+  CONSTRAINT product_images_product_id_fkey1 FOREIGN KEY (product_id) REFERENCES public.shop_products(id)
+);
+CREATE TABLE public.product_prices (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  product_id uuid,
+  variants jsonb,
+  promotional_price double precision,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  updated_at timestamp with time zone DEFAULT now(),
+  is_active boolean,
+  regular_price double precision,
+  CONSTRAINT product_prices_pkey PRIMARY KEY (id),
+  CONSTRAINT prices_product_id_fkey FOREIGN KEY (product_id) REFERENCES public.shop_products(id)
+);
+CREATE TABLE public.product_reviews (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  product_id uuid,
+  user_id uuid,
+  review_content text,
+  review_rating double precision,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  updated_at timestamp with time zone DEFAULT now(),
+  is_active boolean,
+  item_description text,
+  CONSTRAINT product_reviews_pkey PRIMARY KEY (id),
+  CONSTRAINT reviews_product_id_fkey FOREIGN KEY (product_id) REFERENCES public.shop_products(id),
+  CONSTRAINT reviews_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.shop_users(id)
+);
+CREATE TABLE public.product_tags (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  product_id uuid,
+  tag_label text,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  updated_at timestamp with time zone DEFAULT now(),
+  is_active boolean,
+  CONSTRAINT product_tags_pkey PRIMARY KEY (id),
+  CONSTRAINT tags_product_id_fkey FOREIGN KEY (product_id) REFERENCES public.shop_products(id)
+);
+CREATE TABLE public.product_variations (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  product_id uuid,
+  variation_label text,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  updated_at timestamp with time zone DEFAULT now(),
+  variation_type text,
+  is_active boolean,
+  variation_index bigint,
+  CONSTRAINT product_variations_pkey PRIMARY KEY (id),
+  CONSTRAINT product_variations_product_id_fkey FOREIGN KEY (product_id) REFERENCES public.shop_products(id)
+);
+CREATE TABLE public.review_images (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  review_id uuid,
+  source text,
+  index double precision,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  updated_at timestamp with time zone DEFAULT now(),
+  CONSTRAINT review_images_pkey PRIMARY KEY (id),
+  CONSTRAINT review_images_review_id_fkey FOREIGN KEY (review_id) REFERENCES public.product_reviews(id)
+);
+CREATE TABLE public.shop_coupons (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  product_id uuid,
+  discount_type text,
+  discount_value double precision,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  updated_at timestamp with time zone DEFAULT now(),
+  is_active boolean,
+  coupon_type text,
+  discount_max double precision,
+  price_min double precision,
+  coupon_origin text,
+  CONSTRAINT shop_coupons_pkey PRIMARY KEY (id),
+  CONSTRAINT coupons_product_id_fkey FOREIGN KEY (product_id) REFERENCES public.shop_products(id)
+);
+CREATE TABLE public.shop_products (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  product_title text,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  updated_at timestamp with time zone DEFAULT now(),
+  is_active boolean,
+  product_slug text,
+  flash_sale timestamp with time zone,
+  average_rating double precision,
+  total_reviews bigint,
+  total_sales bigint,
+  store_id uuid,
+  product_description text,
+  campaign_bedge text,
+  CONSTRAINT shop_products_pkey PRIMARY KEY (id),
+  CONSTRAINT products_store_id_fkey FOREIGN KEY (store_id) REFERENCES public.shop_stores(id)
+);
+CREATE TABLE public.shop_stores (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  store_title text,
+  total_reviews bigint,
+  total_sales bigint,
+  is_active boolean,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  updated_at timestamp with time zone DEFAULT now(),
+  store_image text,
+  CONSTRAINT shop_stores_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.shop_users (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  user_fullname text,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  updated_at timestamp with time zone DEFAULT now(),
+  user_image text,
+  CONSTRAINT shop_users_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.variation_values (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  variation_id uuid,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  updated_at timestamp with time zone DEFAULT now(),
+  is_active boolean,
+  image_id uuid,
+  value_text text,
+  variation_image text,
+  CONSTRAINT variation_values_pkey PRIMARY KEY (id),
+  CONSTRAINT variation_values_variation_id_fkey FOREIGN KEY (variation_id) REFERENCES public.product_variations(id),
+  CONSTRAINT variation_values_image_id_fkey1 FOREIGN KEY (image_id) REFERENCES public.product_images(id)
+);
+CREATE TABLE public.zip_codes (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  city_id uuid,
+  region_id uuid,
+  country_id uuid,
+  address_street text NOT NULL,
+  address_complement text,
+  created_at timestamp with time zone DEFAULT now(),
+  updated_at timestamp with time zone DEFAULT now(),
+  district_name text,
+  zip_code text UNIQUE,
+  CONSTRAINT zip_codes_pkey PRIMARY KEY (id),
+  CONSTRAINT postals_city_id_fkey FOREIGN KEY (city_id) REFERENCES public.location_cities(id),
+  CONSTRAINT postals_region_id_fkey FOREIGN KEY (region_id) REFERENCES public.location_regions(id),
+  CONSTRAINT postals_country_id_fkey FOREIGN KEY (country_id) REFERENCES public.location_countries(id)
+);

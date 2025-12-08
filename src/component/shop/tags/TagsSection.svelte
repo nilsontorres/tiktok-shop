@@ -1,10 +1,10 @@
 <script>
     import { onMount } from "svelte";
+    import { useProductState } from "$state/product.svelte"; 
 
     import TagItem from "$component/shop/tags/TagItem.svelte";
 
-    let { tags=[] } = $props();
-
+    let product = useProductState();
     let container = $state(null);
     let carrosel = $state(null);
     let start_arrow = $state(false);
@@ -45,7 +45,7 @@
         <div class="flex overflow-x-auto overscroll-contain relative no-selectable no-scrollbar h-8" bind:this={container} onscroll={updateScroll}>
             <button type="button" class="mt-0">
                 <ul class="flex items-center gap-1" bind:this={carrosel}>
-                    {#each tags as tag, index}
+                    {#each product?.tags as tag, index}
                         <TagItem {tag}/>
                     {/each}
                 </ul>

@@ -1,18 +1,25 @@
 <script>
+    import { useProductState } from "$state/product.svelte";
+    import { onMount } from "svelte";
     import { formatNumber } from "$lib/formating";
+    import { PUBLIC_UPLOAD_BASE } from "$env/static/public";
 
     import ProductItem from "$component/shop/store/ProductItem.svelte";
 
-    let { store={} } = $props();
+    let product = useProductState();
+
+    onMount(async () => {
+        await product?.loadStore();
+    });
 </script>
 
 <div class="flex flex-col py-[1rem] bg-white">
     <div class="flex justify-between items-center px-4">
         <div class="flex items-center gap-[0.75rem]">
-            <div class="w-[3.5rem] h-[3.5rem] bg-center bg-cover rounded-full" style={store.media?.source && `background-image: url('${store.media?.source}');`}></div>
+            <div class="w-[3.5rem] h-[3.5rem] bg-center bg-cover rounded-full" style={product?.store?.image?.source && `background-image: url('${PUBLIC_UPLOAD_BASE}/${product?.store?.image?.source}');`}></div>
             <div class="flex flex-col">
-                <span class="text-black text-[0.9rem] font-semibold">{store?.title}</span>
-                <span class="text-[#666] text-[0.775rem] leading-none mt-[0.15rem]">{formatNumber(store?.sales).en} vendido(s)</span>
+                <span class="text-black text-[0.9rem] font-semibold">{product?.store?.title}</span>
+                <span class="text-[#666] text-[0.775rem] leading-none mt-[0.15rem]">{formatNumber(product?.store?.total_sales).en} vendido(s)</span>
             </div>
         </div>
         <button type="button" class="flex items-center gap-[0.25rem] px-[1.2rem] h-[1.8rem] bg-[#F2F2F2] active:bg-[#e3e3e3] rounded-sm">
@@ -33,7 +40,7 @@
             <div class="flex overflow-x-auto relative no-selectable no-scrollbar">
                 <ul class="flex items-center gap-[0.5rem]">
                     <div class="flex w-[0.5rem]"></div>
-                    {#each store?.products as product}
+                    {#each product?.store?.products as product}
                         <ProductItem product={product}/>
                     {/each}
                     <div class="flex w-[0.8rem]"></div>

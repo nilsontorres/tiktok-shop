@@ -11,7 +11,8 @@ const config = {
 			$style: "./src/style",
 			$component: "./src/component",
 			$model: "./src/model",
-			$action: "./src/action"
+			$action: "./src/action",
+			$state: "./src/state"
 		}
 	}
 };

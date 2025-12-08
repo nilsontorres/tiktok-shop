@@ -1,38 +1,27 @@
 <script>
+    import { useProductState } from "$state/product.svelte";
+    import { PUBLIC_UPLOAD_BASE } from "$env/static/public";
+
     import VariationDrawer from "$component/shop/variations/VariationsDrawer.svelte";
 
-    let { variations=$bindable([]) } = $props();
-
     let drawer = $state();
-    let quantity = $state(1);
+    let product = useProductState();
 
-    const incrementQuantity = () => {
-        quantity += 1;
-        if(quantity > 10){
-            quantity = 10;
-        }
-    }
-    const decrementQuantity = () => {
-        quantity -= 1;
-        if(quantity < 1){
-            quantity = 1;
-        }
-    }
     const updateVariant = (new_variant) => {
-        variations?.forEach((variation, i) => {
+        product?.variations?.forEach((variation, i) => {
             variation?.variants.forEach((variant, j) => {
                 if(variant.variation.id == new_variant.variation.id){
-                    variations[i].variants[j].selected = false;
+                    product.variations[i].variants[j].selected = false;
                 }
                 if(variant.id == new_variant.id){
-                    variations[i].variants[j].selected = !variations[i].variants[j].selected;
+                    product.variations[i].variants[j].selected = !product.variations[i].variants[j].selected;
                 }
             });
         });
     }
 </script>
 
-<VariationDrawer bind:this={drawer} {variations} {quantity} onIncrementQuantity={incrementQuantity} onDecrementQuantity={decrementQuantity} onChangeVariant={updateVariant}/>
+<VariationDrawer bind:this={drawer} onChangeVariant={updateVariant}/>
 
 <button onclick={() => drawer.openDrawer()} type="button" aria-label="Variações" class="flex w-full justify-between items-center gap-[0.3rem] mt-[0.8rem]">
     <div class="flex items-center gap-[0.6rem]">
@@ -41,11 +30,11 @@
         </svg>                  
         <div class="flex items-center gap-[0.6rem]">
             <ul class="flex items-center gap-[0.3rem]">
-                {#each variations?.find(v => v.type == "image")?.variants as variant}
-                    <li class="w-8 h-8 rounded-sm overflow-hidden bg-cover bg-center" style={variant.media?.source && `background-image: url('${variant.media?.source}')`}></li>   
+                {#each product?.variations?.find(v => v.type == "image")?.variants as variant}
+                    <li class="w-8 h-8 rounded-sm overflow-hidden bg-cover bg-center" style={variant.image?.source && `background-image: url('${PUBLIC_UPLOAD_BASE}/${variant.image?.source}')`}></li>   
                 {/each}
             </ul>
-            <span class="text-[#858585] text-[0.775rem]">{variations[0]?.variants?.length} opções disponíveis</span>
+            <span class="text-[#858585] text-[0.775rem]">{product?.variations[0]?.variants?.length} opções disponíveis</span>
         </div>
     </div>
     <div class="flex items-center h-full">

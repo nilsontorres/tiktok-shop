@@ -1,13 +1,13 @@
 <script>
-    import { maskWords } from "$lib/formating";
-    import ReviewRating from "$component/shop/reviews/ReviewRating.svelte";
-    import ReviewItem from "./ReviewItem.svelte";
+    import { useProductState } from "$state/product.svelte";
 
-    let { reviews=[] } = $props();
+    import ReviewItem from "$component/shop/reviews/ReviewItem.svelte";
+
+    const product = useProductState();
 </script>
 
 <ul class="flex flex-col gap-4 px-4">
-    {#each reviews as review}
+    {#each product?.reviews as review}
         <ReviewItem {review}/>
     {/each}
 </ul>

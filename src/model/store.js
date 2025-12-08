@@ -5,57 +5,44 @@ export const getStoreByID = async (id) => {
 
     const { data, error } = await supabase
         .from("stores")
-        .select("*, media:medias(id, source), products:products(id, title, rating, sales, lightning, medias:medias(id, index, source), prices:prices(id, regular, promotional), coupons:coupons(id, type, target, minimum, limit, origin, discount))")
-        .match({
-            id: id,
-            is_active: true
-        })
-        .single();
+        .select(`
+            id,
+            title,
+            total_sales,
+            total_reviews,
+            image:images(id, source)
+        `)
+        .match({ id, is_active: true })
+        .maybeSingle();
 
-    if(error) throw console.log("Get store by ID error: ", error);
+    if(error) throw console.log("Get store by id error: ", error);
+    return data;
+}
 
-    return {
-        id: data?.id,
-        title: data?.title,
-        reviews: data?.reviews,
-        sales: data?.sales,
-        media: {
-            id: data?.media?.id,
-            source: data?.media?.source
-        },
-        products: data?.products?.map(product => {
-            return {
-                id: product?.id,
-                title: product?.title,
-                rating: product?.rating,
-                sales: product?.sales,
-                lightning: product?.lightning,
-                coupons: product?.coupons.map(coupon => {
-                    return {
-                        id: coupon?.id,
-                        type: coupon?.type,
-                        target: coupon?.target,
-                        minimum: coupon?.minimum,
-                        limit: coupon?.limit,
-                        origin: coupon?.origin,
-                        discount: coupon?.discount
-                    }
-                }),
-                medias: product?.medias.map(media => {
-                    return {
-                        id: media?.id,
-                        index: media?.index,
-                        source: media?.source
-                    }
-                }),
-                prices: product?.prices?.map(price => {
-                    return {
-                        id: price?.id,
-                        regular: price?.regular,
-                        promotional: price?.promotional
-                    }
-                })
-            }
-        })
-    }
+export const getStoreProducts = async (id, limit=null) => {
+    if(!id) return;
+
+    const { data, error } = await supabase
+        .from("products")
+        .select(`
+            id,
+            slug,
+            title,
+            description,
+            bedge,
+            rating,
+            total_sales,
+            total_reviews,
+            flash_sale,
+            store_id,
+            images:images(id, source, index),
+            coupons:coupons(id, type, discount, target, limit, minimum),
+            prices:prices(id, regular, promotional),
+            tags:tags(id, label)
+        `)
+        .match({ store_id: id, is_active: true })
+        .limit(limit);
+
+    if(error) throw console.log(`Get store products error: `, error);
+    return data;
 }

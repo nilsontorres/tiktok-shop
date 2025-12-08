@@ -1,8 +1,11 @@
 <script>
-    let { product={}, onSectionPosition=()=>{} } = $props();
+    import { useProductState } from "$state/product.svelte";
+
+    let { onSectionPosition=()=>{} } = $props();
 
     let component = $state();
     let minimized = $state(true);
+    let product = useProductState();
 
     const minize = () => {
         minimized = !minimized;

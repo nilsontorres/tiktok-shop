@@ -1,9 +1,5 @@
 <script>
-    let {
-        rating=5,
-        size=0.7,
-        gap=0.16
-    } = $props();
+    let { rating=5, size=0.7, gap=0.16 } = $props();
 
     const getStars = (rating) => {
         const stars = [];

@@ -1,10 +1,10 @@
 <script>
     import { onMount } from "svelte";
+    import { useProductState } from "$state/product.svelte";
 
     import CouponItem from "$component/shop/coupons/CouponItem.svelte";
 
-    let { coupons=[] } = $props();
-
+    let product = useProductState();
     let container = $state(null);
     let carrosel = $state(null);
     let show_start_arrow = $state(false);
@@ -45,7 +45,7 @@
         <div class="flex overflow-x-auto relative no-selectable no-scrollbar h-8" bind:this={container} onscroll={updateScroll}>
             <button type="button" class="mt-0">
                 <ul class="flex items-center gap-1" bind:this={carrosel}>
-                    {#each coupons as coupon, index}
+                    {#each product?.coupons as coupon, index}
                         {#if coupon.target == "product"}
                             <CouponItem {coupon}/>
                         {/if}

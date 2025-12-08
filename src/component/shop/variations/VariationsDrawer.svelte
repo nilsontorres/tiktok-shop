@@ -1,19 +1,20 @@
 <script>
+    import { useProductState } from "$state/product.svelte";
+    import { PUBLIC_UPLOAD_BASE } from "$env/static/public";
+
     import QuantityField from "$component/shop/variations/QuantityField.svelte";
 
     let {
-        quantity=1,
-        variations=[],
         shipping={},
-        onIncrementQuantity=()=>{},
-        onDecrementQuantity=()=>{},
         onChangeVariant=()=>{}
     } = $props();
+
+    let product = useProductState();
 
     let container = $state(null);
     let is_open = $state(false);
 
-    let default_media = $derived(variations.find(v => v.type == "media")?.variants.find(v => v.selected)?.media || variations?.find(v => v.type == "image")?.variants[0].media);
+    let image = $derived(product?.variations.find(v => v.type == "image")?.variants.find(v => v.selected)?.image || product?.variations?.find(v => v.type == "image")?.variants[0].image);
 
     export const openDrawer = () => {
         is_open = true;
@@ -33,7 +34,7 @@
             </svg>
         </button>
         <div class="flex w-full gap-[0.75rem] p-4">
-            <div class="flex min-w-[6rem] max-w-[6rem] min-h-[6rem] max-h-[6rem] rounded-lg bg-[#F6F6F6] bg-contain bg-center" style={default_media?.source && `background-image: url('${default_media?.source}')`}></div>
+            <div class="flex min-w-[6rem] max-w-[6rem] min-h-[6rem] max-h-[6rem] rounded-lg bg-[#F6F6F6] bg-contain bg-center" style={image?.source && `background-image: url('${PUBLIC_UPLOAD_BASE}/${image?.source}')`}></div>
             <div class="flex flex-col w-full justify-between relative overflow-hidden">
                 <div class="flex flex-col">
                     <div class="flex items-center gap-2">
@@ -57,7 +58,7 @@
                     {/if}
                 </div>
                 <span class="inline-block max-w-full whitespace-nowrap overflow-hidden text-ellipsis text-[#707070] text-[0.775rem]">
-                    {variations.flatMap(variation => variation.variants).filter(variant => variant.selected).map(variant => variant.label).join(", ")}
+                    {product?.variations.flatMap(variation => variation.variants).filter(variant => variant.selected).map(variant => variant.label).join(", ")}
                 </span>
             </div>
         </div>
@@ -66,7 +67,7 @@
         </div>
         <div class=" overflow-y-auto overscroll-y-contain no-scrollbar" bind:this={container}>
             <span class="flex w-full h-3"></span>
-            {#each variations as variation}
+            {#each product?.variations as variation}
                 <div class="flex flex-col px-4">
                     <span class="text-[#595959] text-[0.85rem] font-semibold">{variation.title}</span>
                     <div class="flex flex-wrap gap-[0.5rem] mt-[0.5rem]">
@@ -77,7 +78,7 @@
                                 </button>
                             {:else if variation.type == "image"}
                                 <button onclick={() => { onChangeVariant(variant); }} type="button" class={`flex w-[6rem] flex-col justify-center items-center border-[0.063rem] ${variant.selected ? "border-[#FE2C55] text-[#FE2C55]" : "border-[#D3D3D3] text-black"} rounded-md overflow-hidden`}>
-                                    <div class="flex w-[6rem] h-[6rem] bg-contain bg-center bg-[#F6F6F6]" style={`background-image: url('${variant?.media?.source}')`}></div>
+                                    <div class="flex w-[6rem] h-[6rem] bg-contain bg-center bg-[#F6F6F6]" style={`background-image: url('${PUBLIC_UPLOAD_BASE}/${variant?.image?.source}')`}></div>
                                     <span class="inline-block max-w-full text-ellipsis overflow-hidden whitespace-nowrap w-full text-center text-[0.75rem] py-[0.25rem] px-[0.4rem]">{variant?.label}</span>
                                 </button>
                             {/if}
@@ -88,7 +89,7 @@
             {/each}
             <div class="flex justify-between items-center px-4 mt-[0.5rem]">
                 <span class="text-[#595959] text-[0.85rem] font-semibold">Quantidade</span>
-                <QuantityField {quantity} {onIncrementQuantity} {onDecrementQuantity}/>
+                <QuantityField quantity={product.quantity} onIncrementQuantity={product.incrementQuantity} onDecrementQuantity={product.decrementQuantity}/>
             </div>
             <span class="flex w-full h-25"></span>
         </div>

@@ -1,8 +1,10 @@
 <script>
+    import { PUBLIC_UPLOAD_BASE } from "$env/static/public";
+
     let { video={} } = $props();
 </script>
 
-<li class="flex w-[7.5rem] h-[10rem] bg-[#F6F6F6] rounded-lg relative overflow-hidden bg-cover bg-center" style={video?.media?.source && `background-image: url('${video.media?.source}');`}>
+<li class="flex w-[7.5rem] h-[10rem] bg-[#F6F6F6] rounded-lg relative overflow-hidden bg-cover bg-center" style={video?.image?.source && `background-image: url('${PUBLIC_UPLOAD_BASE}/${video.image?.source}');`}>
     <div class="absolute top-[0.5rem] left-[0.5rem]">
         <svg class="w-[1.25rem]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 60 60">
             <circle cx="30" cy="30" r="30" fill="#000" fill-opacity=".25"/>
@@ -10,7 +12,7 @@
         </svg>
     </div>
     <div class="flex w-full items-center gap-[0.2rem] absolute bottom-[0.5rem] left-[0.5rem] overflow-hidden pe-[0.75rem]">
-        <div class="block min-w-[1rem] max-w-[1rem] min-h-[1rem] max-h-[1rem] rounded-full overflow-hidden bg-[#eae8e8] bg-cover bg-center" style={video.user?.media?.source && `background-image: url('${video.user?.media?.source}')`}></div>
+        <div class="block min-w-[1rem] max-w-[1rem] min-h-[1rem] max-h-[1rem] rounded-full overflow-hidden bg-[#eae8e8] bg-cover bg-center" style={video.user?.image?.source && `background-image: url('${PUBLIC_UPLOAD_BASE}/${video.user?.image?.source}')`}></div>
         <span class="inline-block max-w-full text-ellipsis overflow-hidden whitespace-nowrap text-white text-[0.7rem] font-medium leading-none text-shadow-md">{video.user?.fullname}</span>
     </div>
 </li>
