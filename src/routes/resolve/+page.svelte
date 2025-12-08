@@ -1,10 +1,14 @@
 <script>
+    import { initPageState } from "$state/page.svelte";
+
+    import ProductPage from '$component/product/ProductPage.svelte';
+
     let { data } = $props();
 
-    let page = $state(data?.page);
-    let params = $state(data?.params);
+    const page = initPageState();
+    page.changePage(data?.page, data?.data);
 </script>
 
-{#if page == "product"}
-    <h1>Página de produto</h1>
+{#if page?.name == "product"}
+    <ProductPage/>
 {/if}

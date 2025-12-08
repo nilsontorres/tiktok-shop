@@ -27,7 +27,7 @@ export const load = async ({ url, locals }) => {
         
         return {
             page: "product",
-            params: {
+            data: {
                 id: product?.id,
                 slug: product?.slug,
                 images: product?.images

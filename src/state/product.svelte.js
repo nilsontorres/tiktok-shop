@@ -7,27 +7,28 @@ class ProductState {
     description = $state();
     badge = $state();
     rating = $state();
-    flash_sale = $state();
-    store = $state();
-    images = $state([]);
-    prices = $state([]);
-    tags = $state([]);
-    coupons = $state([]);
-    videos = $state([]);
-    reviews = $state([]);
-    variations = $state([]);
     total_reviews = $state();
     total_sales = $state();
+    flash_sale = $state();
+    images = $state();
+    prices = $state();
+    coupons = $state();
+    tags = $state();
+    variations = $state();
     saved = $state();
     quantity = $state();
+    store = $state({});
 
-    async loadProduct(slug, callback=()=>{}){
+    videos = $state();
+    reviews = $state();
+
+    async loadProduct(id, callback=()=>{}){
         const request = await fetch("/api/product", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ slug })
+            body: JSON.stringify({ id })
         });
 
         if(request.status === 200){
@@ -39,42 +40,40 @@ class ProductState {
             this.badge = response.badge;
             this.rating = response.rating;
             this.flash_sale = response.flash_sale;
-            this.store = response.store;
             this.images = response.images;
             this.prices = response.prices;
             this.tags = response.tags;
             this.coupons = response.coupons;
-            this.videos = response.videos;
-            this.reviews = response.reviews;
             this.variations = response.variations;
             this.total_reviews = response.total_reviews;
             this.total_sales = response.total_sales;
             this.is_saved = false;
             this.quantity = 1;
+
+            this.store.id = response.store.id;
+            this.store.title = response.store.title;
+            this.store.total_reviews = response.store.total_reviews;
+            this.store.total_sales = response.store.total_sales;
+            this.store.image = response.store.image;
+
+            console.log(this.coupons);
         }
 
         callback();
     }
 
-    async loadStore(id, callback=()=>{}){
-        const request = await fetch("/api/store", {
+    async loadStoreProducts(callback=()=>{}){
+        const request = await fetch("/api/store/products", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ id })
+            body: JSON.stringify({ id: this.store?.id })
         });
 
         if(request.status === 200){
             const response = await request.json();
-            this.store = {
-                id: response.id,
-                title: response?.title,
-                reviews: response?.reviews,
-                sales: response?.sales,
-                image: response?.image,
-                products: response?.products
-            }
+            this.store.products = response.products;
         }
 
         callback();
