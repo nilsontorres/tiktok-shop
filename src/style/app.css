@@ -61,6 +61,7 @@ html, body {
     -ms-overflow-style: none;
     scrollbar-width: none;
     background-color: #FFF;
+    overscroll-behavior: none;
 }
 html::-webkit-scrollbar, body::-webkit-scrollbar {
     display: none;

@@ -2,7 +2,7 @@
     import { removeAccent } from "$lib/formating";
     import { onMount } from "svelte";
 
-    import Loading from "$component/loadings/Loading.svelte";
+    import Loading from "$component/Loading.svelte";
     
     let {
         view="countries",

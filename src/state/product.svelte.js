@@ -10,17 +10,18 @@ class ProductState {
     total_reviews = $state();
     total_sales = $state();
     flash_sale = $state();
-    images = $state();
-    prices = $state();
-    coupons = $state();
-    tags = $state();
-    variations = $state();
-    saved = $state();
-    quantity = $state();
+    images = $state([]);
+    prices = $state([]);
+    coupons = $state([]);
+    tags = $state([]);
+    variations = $state([]);
+    saved = $state(false);
+    quantity = $state(1);
     store = $state({});
 
-    videos = $state();
-    reviews = $state();
+    videos = $state([]);
+    reviews = $state([]);
+    suggestions = $state([]);
 
     async loadProduct(id, callback=()=>{}){
         const request = await fetch("/api/product", {
@@ -57,10 +58,8 @@ class ProductState {
             this.store.total_sales = response.store.total_sales;
             this.store.image = response.store.image;
 
-            console.log(this.coupons);
+            callback();
         }
-
-        callback();
     }
 
     async loadStoreProducts(callback=()=>{}){
@@ -73,11 +72,24 @@ class ProductState {
         });
 
         if(request.status === 200){
-            const response = await request.json();
-            this.store.products = response.products;
+            this.store.products = await request.json();
+            callback();
         }
+    }
 
-        callback();
+    async loadProductSuggestions(callback=()=>{}){
+        const request = await fetch("/api/product/suggestions", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ id: this?.id })
+        });
+
+        if(request.status === 200){
+            this.suggestions = await request.json();
+            callback();
+        }
     }
 
     incrementQuantity(){

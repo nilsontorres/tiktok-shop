@@ -10,8 +10,8 @@
     let product = useProductState();
 
     onMount(async () => {
-        console.log(product?.store);
         await product?.loadStoreProducts(() => {
+            console.log("Loading store products");
             ready = true;
         });
     });

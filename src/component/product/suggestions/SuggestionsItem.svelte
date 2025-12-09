@@ -3,6 +3,8 @@
     import { getLowestPrice } from "$lib/prices";
     import { formatNumber, formatPrice } from "$lib/formating";
     import { onMount } from "svelte";
+
+    import { PUBLIC_UPLOAD_BASE } from "$env/static/public";
     
     let { suggestion={} } = $props();
 
@@ -28,7 +30,7 @@
             return `Desconto de ${coupon.type == "variable" ? `${Math.floor(coupon.discount * 100)}%` : `R$ ${formatPrice(coupon.discount)}`}, máximo de R$ ${formatPrice(coupon.limit)}`;
         }
         else if(coupon.minimum){
-            return `Compre R$ ${formatPrice(coupon.minimum)} e ganhe ${coupon.type == "variable" ? `${Math.floor(coupon.discount * 100)}%` : `R$ ${formatPrice(coupon.discount)}`} de desconto`;
+            return `Ganhe ${coupon.type == "variable" ? `${Math.floor(coupon.discount * 100)}%` : `R$ ${formatPrice(coupon.discount)}`} de desconto`;
         }
         else{
             return `Desconto de ${coupon.type == "variable" ? `${Math.floor(coupon.discount * 100)}%` : `R$ ${formatPrice(coupon.discount)}`}`;
@@ -36,11 +38,11 @@
     }
 
     let price = $derived(getLowestPrice(suggestion.prices));
-    let image = $derived(suggestion.medias?.find(image => image.index == 0));
+    let image = $derived(suggestion.images?.find(image => image.index == 0));
 
     onMount(() => {
-        if(suggestion.lightning){
-            const difference = getSecondsBetweenDates(Date.now(), suggestion.lightning);
+        if(suggestion.flash_sale){
+            const difference = getSecondsBetweenDates(Date.now(), suggestion.flash_sale);
             if(difference >= 0 && difference < 86400){
                 timer = difference;
                 interval = setInterval(updateTimer, 1000);
@@ -55,7 +57,7 @@
 
 <div class="rounded-lg overflow-hidden bg-white shadow-recommendations relative"  style="width: calc(50vw - 1.28rem);">
     <div class="w-full pb-[100%] relative">
-        <div class="absolute top-0 left-0 w-full h-full bg-[#eaeaea] bg-cover bg-center" style={image?.source && `background-image: url('${image?.source}')`}></div>
+        <div class="absolute top-0 left-0 w-full h-full bg-[#eaeaea] bg-cover bg-center" style={image?.source && `background-image: url('${PUBLIC_UPLOAD_BASE}/${image?.source}')`}></div>
     </div>
     <div class="flex flex-col w-full bg-white px-[0.5rem] pt-[0.75rem] pb-[0.7rem] overflow-hidden">
         <span class="inline-block max-w-full text-ellipsis text-black text-[0.875rem] overflow-hidden whitespace-nowrap leading-none">{suggestion.title}</span>

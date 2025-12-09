@@ -1,11 +1,9 @@
-import { json } from '@sveltejs/kit';
+import { error, json } from '@sveltejs/kit';
 import supabase from "$lib/supabase";
 
 export const POST = async ({ request }) => {
     const { id } = await request.json();
-    if(!id){
-        return json({ error: true });
-    }
+    if(!id) return error(400);
 
     const { data, error } = await supabase
         .from("products")
@@ -31,10 +29,6 @@ export const POST = async ({ request }) => {
         .limit(3, { foreignTable: "reviews" })
         .maybeSingle();
     
-    if(error){
-        console.log(`Get product by id error: `, error);
-        return json({ error: true })
-    }
-
+    if(error) throw console.log(`Get product by id error: `, error);
     return json(data);
 }

@@ -23,7 +23,6 @@
     import SuggestionsSection from "$component/product/suggestions/SuggestionsSection.svelte";
     import TagsSection from "$component/product/tags/TagsSection.svelte";
     import InstallmentsSection from "$component/product/installments/InstallmentsSection.svelte";
-    import Spacer from "$component/product/Spacer.svelte";
     import ProductSkeleton from '$component/product/ProductSkeleton.svelte';
 
     let { data } = $props();
@@ -83,7 +82,6 @@
     }
 
     onMount(async () => {
-        console.log(data?.id);
         product?.loadProduct(data?.id, () => {
             ready = true;
         });
@@ -110,21 +108,21 @@
                 <TitleSection/>
                 <RatingSection/>
                 <TagsSection/>
-                <Spacer size="0.053" color="#efefef" margin="0.6"/>
+                <span class="w-full h-[0.053rem] bg-[#efefef] mt-[0.6rem]"></span>
                 <ShippingSection {shipping}/>
-                <Spacer size="0.053" color="#efefef" margin="0.9"/>
+                <span class="w-full h-[0.053rem] bg-[#efefef] mt-[0.9rem]"></span>
                 <VariationsSection/>
             </div>
             <ProtetionsSection/>
-            <Spacer size="0.5"/>
+            <span class="w-full h-[0.5rem]"></span>
             <PromotionsSection {countries}/>
-            <Spacer size="0.5" margin="0.1"/>
+            <span class="w-full h-[0.5rem] mt-[0.1rem]"></span>
             <VideosSection/>
-            <Spacer size="0.5" margin="0.1"/>
+            <span class="w-full h-[0.5rem] mt-[0.1rem]"></span>
             <ReviewsSection {scroll} onSectionPosition={updateSection}/>
-            <Spacer size="0.5" margin="0.1"/>
+            <span class="w-full h-[0.5rem] mt-[0.1rem]"></span>
             <StoreSection/>
-            <Spacer size="0.5" margin="0.1"/>
+            <span class="w-full h-[0.5rem] mt-[0.1rem]"></span>
             <DescriptionSection {scroll} onSectionPosition={updateSection}/>
             <SuggestionsSection {scroll} onSectionPosition={updateSection}/>
         </main>

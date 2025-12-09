@@ -3,14 +3,14 @@ import supabase from "$lib/supabase";
 
 export const POST = async ({ request }) => {
     const { id } = await request.json();
-    if(!id)return error(400);
+    if(!id) return error(400);
 
     const { data, error } = await supabase
         .from("products")
         .select("id, title, rating, total_sales, total_reviews, flash_sale, images:images(id, index, source), prices:prices(id, regular, promotional), coupons:coupons(id, type, target, minimum, limit, origin, discount)")
-        .eq("store_id", id)
-        .eq("is_active", true);
+        .eq("is_active", true) //.neq("id", id)
+        .limit(6);
 
-    if(error) throw console.log(`Get products by store error: `, error);
+    if(error) throw console.log(`Get products for suggestions error: `, error);
     return json(data);
 }
