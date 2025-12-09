@@ -14,7 +14,7 @@
     let container = $state(null);
     let is_open = $state(false);
 
-    let image = $derived(product?.variations.find(v => v.type == "image")?.variants.find(v => v.selected)?.image || product?.variations?.find(v => v.type == "image")?.variants[0].image);
+    let image = $derived(product?.variations?.find(v => v.type == "image")?.variants?.find(v => v.selected)?.image || product?.variations?.find(v => v.type == "image")?.variants[0]?.image);
 
     export const openDrawer = () => {
         is_open = true;

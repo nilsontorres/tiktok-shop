@@ -20,6 +20,7 @@ export const POST = async ({ request }) => {
             total_reviews,
             flash_sale,
             store:stores(id, title, total_sales, total_reviews, image:images(id, source)),
+            reviews:reviews(id, content, rating, item, user:users(id, fullname, image:images(id, source)), images:images(id, source, index)),
             images:images(id, source, index),
             coupons:coupons(id, type, discount, target, limit, minimum, origin),
             variations:variations(id, type, index, label, variants:variants(id, value, image:images(id, source))),
@@ -27,6 +28,7 @@ export const POST = async ({ request }) => {
             tags:tags(id, label)
         `)
         .match({ id, is_active: true })
+        .limit(3, { foreignTable: "reviews" })
         .maybeSingle();
     
     if(error){

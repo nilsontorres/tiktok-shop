@@ -1,5 +1,6 @@
 <script>
-    import { onMount } from 'svelte';
+    import { onMount } from "svelte";
+    import { navigating } from "$app/stores";
     import { usePageState } from '$state/page.svelte';
     import { initProductState } from '$state/product.svelte';
     import { PUBLIC_UPLOAD_BASE } from '$env/static/public';
@@ -24,6 +25,8 @@
     import InstallmentsSection from "$component/product/installments/InstallmentsSection.svelte";
     import Spacer from "$component/product/Spacer.svelte";
     import ProductSkeleton from '$component/product/ProductSkeleton.svelte';
+
+    let { data } = $props();
 
     let ready = $state(false);
     let dragging = $state(false);
@@ -80,7 +83,8 @@
     }
 
     onMount(async () => {
-        product?.loadProduct(page?.data?.id, () => {
+        console.log(data?.id);
+        product?.loadProduct(data?.id, () => {
             ready = true;
         });
     });

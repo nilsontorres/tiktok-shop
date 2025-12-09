@@ -47,6 +47,7 @@ class ProductState {
             this.variations = response.variations;
             this.total_reviews = response.total_reviews;
             this.total_sales = response.total_sales;
+            this.reviews = response.reviews;
             this.is_saved = false;
             this.quantity = 1;
 

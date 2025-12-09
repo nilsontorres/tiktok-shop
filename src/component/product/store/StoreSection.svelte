@@ -42,13 +42,26 @@
     <div class="w-full mt-[0.8rem]">
         <div class="flex w-full items-center relative">
             <div class="flex overflow-x-auto relative no-selectable no-scrollbar">
-                <ul class="flex items-center gap-[0.5rem]">
-                    <div class="flex w-[0.5rem]"></div>
-                    {#each product?.store?.products as product}
-                        <ProductItem product={product}/>
-                    {/each}
-                    <div class="flex w-[0.8rem]"></div>
-                </ul>
+                {#if product?.store?.products}
+                    <ul class="flex items-center gap-[0.5rem]">
+                        <div class="flex w-[0.5rem]"></div>
+                        {#each product?.store?.products as product}
+                            <ProductItem product={product}/>
+                        {/each}
+                        <div class="flex w-[0.8rem]"></div>
+                    </ul>
+                {:else}
+                    <ul class="flex gap-[0.5rem]">
+                        <div class="flex w-[0.5rem]"></div>
+                        {#each Array(6) as item}
+                            <li class="flex flex-col gap-[0.5rem]">
+                                <div class="w-[6rem] h-[6rem] rounded-lg skeleton"></div>
+                                <div class="w-[3rem] h-[1.1rem] rounded-sm skeleton"></div>
+                            </li>
+                        {/each}
+                        <div class="flex w-[0.8rem]"></div>
+                    </ul>
+                {/if}
             </div>
         </div>
     </div>

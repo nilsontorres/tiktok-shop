@@ -48,7 +48,7 @@
     </div>
     <span class="flexw-full h-[0.06rem] bg-[#f0f0f0] mx-4 mt-[1.1rem]"></span>
     <div class="flex justify-between items-center px-4 mt-[1.1rem]">
-        <span class="text-black text-[0.93rem] font-semibold leading-none">Avaliações da loja ({formatNumber(product?.store?.reviews).pt})</span>
+        <span class="text-black text-[0.93rem] font-semibold leading-none">Avaliações da loja ({formatNumber(product?.store?.total_reviews).pt})</span>
         <div class="flex items-center gap-[0.4rem]">
             <svg class="min-h-[0.58rem] max-h-[0.6rem]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 15 26">
                 <path fill="#696969" d="M2.213 0 0 2.25 10.574 13 0 23.75 2.213 26 15 13 2.213 0Z"/>
