@@ -27,6 +27,7 @@
 
     let { data } = $props();
 
+    let timeout;
     let ready = $state(false);
     let dragging = $state(false);
     let countries = $state([]);
@@ -60,9 +61,9 @@
         scroll = window.scrollY;
 
         if(!dragging){
-            if(scroll >= (sections.suggestions - 90)) tab = "suggestions";
-            else if(scroll >= (sections.description - 90)) tab = "description";
-            else if(scroll >= (sections.reviews - 90)) tab = "reviews";
+            if(scroll >= sections.suggestions) tab = "suggestions";
+            else if(scroll >= sections.description) tab = "description";
+            else if(scroll >= sections.reviews) tab = "reviews";
             else tab = "overview";
         }
     }
@@ -70,15 +71,16 @@
         sections[name] = value;
     }
     const updateTab = (value) => {
+        clearTimeout(timeout);
+
         dragging = true;
         tab = value;
 
-        if(value != "overview") window.scrollTo({ top: sections[tab]+90, behavior: "smooth" });
-        else window.scrollTo({ top: sections[tab], behavior: "smooth" });
+        window.scrollTo({ top: sections[tab], behavior: "smooth" });
 
-        setTimeout(() => {
+        timeout = setTimeout(() => {
             dragging = false;
-        }, 350);
+        }, 1000);
     }
 
     onMount(async () => {
@@ -89,8 +91,10 @@
 </script>
 
 <svelte:head>
-    {#each page?.data?.images as image}
-        <link rel="prefetch" href={`${PUBLIC_UPLOAD_BASE}/${image.source}`}/>
+    {#each data?.images as image}
+        {#if image.index == 0}
+            <link rel="preload" as="image" href={`${PUBLIC_UPLOAD_BASE}/${image.source}`}/>
+        {/if}
     {/each}
 </svelte:head>
 
@@ -119,12 +123,12 @@
             <span class="w-full h-[0.5rem] mt-[0.1rem]"></span>
             <VideosSection/>
             <span class="w-full h-[0.5rem] mt-[0.1rem]"></span>
-            <ReviewsSection {scroll} onSectionPosition={updateSection}/>
+            <ReviewsSection {scroll} onUpdateSection={updateSection}/>
             <span class="w-full h-[0.5rem] mt-[0.1rem]"></span>
             <StoreSection/>
             <span class="w-full h-[0.5rem] mt-[0.1rem]"></span>
-            <DescriptionSection {scroll} onSectionPosition={updateSection}/>
-            <SuggestionsSection {scroll} onSectionPosition={updateSection}/>
+            <DescriptionSection {scroll} onUpdateSection={updateSection}/>
+            <SuggestionsSection {scroll} onUpdateSection={updateSection}/>
         </main>
         <FooterBar price={price}/>
     </div>

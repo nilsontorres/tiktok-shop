@@ -10,11 +10,13 @@
     let opacity = $derived(scroll >= 125 ? 100 : scroll >= 75 ? ((scroll - 75) / 50) * 100 : 0);
 
     export const openDrawer = () => {
+        document.body.classList.add("no-scrollbar");
         open = true;
     }
     export const closeDrawer = () => {
         container.scrollTo({ top: 0, behavior: "instant" });
         open = false;
+        document.body.classList.remove("no-scrollbar");
     }
 </script>
 
@@ -29,7 +31,7 @@
         <div class="flex justify-center items-center absolute top-0 left-0 w-full h-[3.3rem] bg-white z-40" style={`opacity: ${opacity}%`}>
             <span class="text-black text-[1rem] font-bold leading-none">Proteção do cliente</span>
         </div>
-        <div bind:this={container} onscroll={updateScroll} class="flex flex-col overflow-y-auto overscroll-y-contain overflow-x-hidden no-scrollbar">
+        <div bind:this={container} onscroll={updateScroll} class="flex flex-col overflow-y-auto overscroll-y-contain overflow-x-hidden transparent-scrollbar">
             <div class="flex w-full pb-[41.5%] bg-contain bg-no-repeat bg-center relative z-20" style="background-image: url(/images/bg-protecao-1.jpg?v2);">
                 <div class="flex items-center w-full h-full absolute left-4 top-0">
                     <span class="text-[#895109] text-[1.5rem] font-bold">Proteção do cliente</span>

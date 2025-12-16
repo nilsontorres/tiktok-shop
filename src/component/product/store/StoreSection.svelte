@@ -41,7 +41,7 @@
     </div>
     <div class="w-full mt-[0.8rem]">
         <div class="flex w-full items-center relative">
-            <div class="flex overflow-x-auto relative no-selectable no-scrollbar">
+            <div class="flex overflow-x-auto relative no-selectable transparent-scrollbar">
                 {#if product?.store?.products}
                     <ul class="flex items-center gap-[0.5rem]">
                         <div class="flex w-[0.5rem]"></div>

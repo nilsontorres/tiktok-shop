@@ -37,7 +37,7 @@
         </div>
     </div>
     <div class="flex flex-col w-full bg-white" style={`opacity: ${scroll >= 75 ? "100" : (scroll / 75) * 100}%`}>
-        <div class="flex overflow-x-auto relative no-selectable no-scrollbar -mb-[0.04rem] z-20">
+        <div class="flex overflow-x-auto relative no-selectable transparent-scrollbar -mb-[0.04rem] z-20">
             <div>
                 <div class="flex items-center">
                     <div class="flex w-[0.9rem]"></div>

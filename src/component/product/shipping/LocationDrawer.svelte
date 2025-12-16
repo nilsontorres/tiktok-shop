@@ -90,10 +90,12 @@
     });
 
     export const openDrawer = () => {
+        document.body.classList.add("no-scrollbar");
         is_open = true;
     }
     export const closeDrawer = () => {
         is_open = false;
+        document.body.classList.remove("no-scrollbar");
     }
 </script>
 
@@ -132,7 +134,7 @@
                 <SearchPostalField onChangeCity={updateCity} onChangeRegion={updateRegion} onChangeCountry={updateCountry}/>
             </div>
         </div>
-        <div bind:this={container} onscroll={updateScroll} class="flex overflow-x-auto overscroll-y-contain h-full snap-x snap-mandatory scroll-smooth no-scrollbar">
+        <div bind:this={container} onscroll={updateScroll} class="flex overflow-x-auto overscroll-y-contain h-full snap-x snap-mandatory scroll-smooth transparent-scrollbar">
             <div class="flex snap-start snap-always flex-none w-screen h-full relative">
                 <CountriesView {view} {location} onChangeView={updateView} onChangeCountry={updateCountry}/>
             </div>

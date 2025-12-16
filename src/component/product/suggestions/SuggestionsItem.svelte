@@ -12,7 +12,7 @@
     let interval;
 
     const updateTimer = () => {
-        timer = getSecondsBetweenDates(Date.now(), suggestion.lightning);
+        timer = getSecondsBetweenDates(Date.now(), suggestion.flash_sale);
     }
     const formatTimer = (value) => {
         const hours = Math.floor(value / 3600);
@@ -65,7 +65,7 @@
             <span class="text-[#FD2C55] text-[0.85rem] font-semibold leading-none">R$<b class="text-[1.1rem] font-semibold ps-[0.15rem]">{formatPrice(price.promotional)}</b></span>
             <span class="text-[#858585] text-[0.75rem] line-through">R$ {formatPrice(price.regular)}</span>
         </div>
-        {#if suggestion.lightning}
+        {#if suggestion.flash_sale}
             <div class="flex mt-[0.25rem]">
                 <div class="flex items-center">
                     <div class={`flex items-center ${timer ? "rounded-s-sm" : "rounded-sm"} ps-[0.2rem] pe-[0.2rem] h-[1rem] gap-[0.15rem] bg-[#FE5C21]`}>
@@ -101,7 +101,7 @@
             <svg class="w-[0.14rem] h-[0.56rem]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 4 27">
                 <path fill="#D9D9D9" d="M0 2a2 2 0 0 1 4 0v23a2 2 0 1 1-4 0V2Z"/>
             </svg>
-            <span class="text-[#444] text-[0.75rem] leading-none">{formatNumber(suggestion.sales).en} vendidos</span>                    
+            <span class="text-[#444] text-[0.75rem] leading-none">{formatNumber(suggestion.total_sales).en} vendidos</span>                    
         </div>
     </div>
 </div>

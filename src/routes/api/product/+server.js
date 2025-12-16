@@ -12,7 +12,7 @@ export const POST = async ({ request }) => {
             slug,
             title,
             description,
-            bedge,
+            badge,
             rating,
             total_sales,
             total_reviews,
@@ -23,12 +23,13 @@ export const POST = async ({ request }) => {
             coupons:coupons(id, type, discount, target, limit, minimum, origin),
             variations:variations(id, type, index, label, variants:variants(id, value, image:images(id, source))),
             prices:prices(id, regular, promotional),
+            videos:videos(id, user:users(id, fullname, image:images(id, source)), image:images(id, source)),
             tags:tags(id, label)
         `)
         .match({ id, is_active: true })
         .limit(3, { foreignTable: "reviews" })
         .maybeSingle();
-    
+
     if(error) throw console.log(`Get product by id error: `, error);
     return json(data);
 }

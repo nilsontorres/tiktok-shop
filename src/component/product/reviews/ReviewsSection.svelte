@@ -5,16 +5,14 @@
     import ReviewRating from "$component/product/reviews/ReviewRating.svelte";
     import ReviewItem from "$component/product/reviews/ReviewItem.svelte";
 
-    let { onSectionPosition=()=>{} } = $props();
+    let { scroll=0, onUpdateSection=()=>{} } = $props();
 
     let component = $state();
     let product = useProductState();
 
     $effect(() => {
-        if(component){
-            const { top } = component.getBoundingClientRect();
-            onSectionPosition("reviews", top);
-        }
+        const { top } = component?.getBoundingClientRect();
+        onUpdateSection("reviews", top+scroll-90);
     });
 </script>
 

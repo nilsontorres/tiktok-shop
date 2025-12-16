@@ -1,7 +1,15 @@
 <script>
+    import { goto } from "$app/navigation";
     import { formatPrice } from "$lib/formating";
+    import { useProductState } from "$state/product.svelte";
 
     let { price } = $props();
+
+    const product = useProductState();
+
+    const finalizeOrder = () => {
+        goto(`/finalize/${product?.slug}`);
+    }
 </script>
 
 <div class="flex fixed bottom-0 left-0 w-full h-16 py-[0.6rem] px-[0.6rem] gap-2 bg-white border-t-[0.063rem] border-[#E8E8E8] z-40">
@@ -28,7 +36,7 @@
             </svg>
         </button>
     </div>
-    <button type="button" title="Adicionar ao carrinho" class="flex flex-col justify-center w-full h-11 gap-1 items-center bg-[#FE2C55] rounded-lg hover:bg-[#E81D44] active:bg-[#E81D44] overflow-hidden">
+    <button type="button" title="Adicionar ao carrinho" class="flex flex-col justify-center w-full h-11 gap-1 items-center bg-[#FE2C55] rounded-lg hover:bg-[#E81D44] active:bg-[#E81D44] overflow-hidden" onclick={finalizeOrder}>
         <span class="text-white text-[1rem] font-semibold leading-none">R$ {formatPrice(price.promotional)}</span>
         <span class=" inline-block max-w-full text-ellipsis overflow-hidden whitespace-nowrap text-white text-[0.675rem] font-medium leading-none">Compre pelo preço de Oferta relâmpago</span>
     </button>

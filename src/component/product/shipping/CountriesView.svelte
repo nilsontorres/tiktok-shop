@@ -76,7 +76,7 @@
             </div>
         </div>
     {:else}
-        <div class="flex flex-col w-full overflow-y-auto overscroll-y-contain relative bg-amber-500 no-scrollbar no-selectable" onscroll={onScroll} bind:this={container}>
+        <div class="flex flex-col w-full overflow-y-auto overscroll-y-contain relative bg-amber-500 transparent-scrollbar no-selectable" onscroll={onScroll} bind:this={container}>
             <div class="flex w-full relative">
                 <div class="flex flex-col w-full">
                     {#each Object.keys(countries) as key, index}

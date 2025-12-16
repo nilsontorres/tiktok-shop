@@ -10,18 +10,18 @@ class ProductState {
     total_reviews = $state();
     total_sales = $state();
     flash_sale = $state();
-    images = $state([]);
-    prices = $state([]);
-    coupons = $state([]);
-    tags = $state([]);
-    variations = $state([]);
-    saved = $state(false);
-    quantity = $state(1);
+    images = $state();
+    prices = $state();
+    coupons = $state();
+    tags = $state();
+    variations = $state();
+    saved = $state();
+    quantity = $state();
     store = $state({});
 
-    videos = $state([]);
-    reviews = $state([]);
-    suggestions = $state([]);
+    videos = $state();
+    reviews = $state();
+    suggestions = $state();
 
     async loadProduct(id, callback=()=>{}){
         const request = await fetch("/api/product", {
@@ -41,22 +41,25 @@ class ProductState {
             this.badge = response.badge;
             this.rating = response.rating;
             this.flash_sale = response.flash_sale;
-            this.images = response.images;
-            this.prices = response.prices;
-            this.tags = response.tags;
-            this.coupons = response.coupons;
-            this.variations = response.variations;
             this.total_reviews = response.total_reviews;
             this.total_sales = response.total_sales;
-            this.reviews = response.reviews;
-            this.is_saved = false;
-            this.quantity = 1;
 
             this.store.id = response.store.id;
             this.store.title = response.store.title;
             this.store.total_reviews = response.store.total_reviews;
             this.store.total_sales = response.store.total_sales;
             this.store.image = response.store.image;
+
+            this.reviews = response.reviews;
+            this.images = response.images;
+            this.prices = response.prices;
+            this.tags = response.tags;
+            this.coupons = response.coupons;
+            this.variations = response.variations;
+            this.videos = response.videos;
+
+            this.is_saved = false;
+            this.quantity = 1;
 
             callback();
         }

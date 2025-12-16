@@ -1,7 +1,7 @@
 <script>
     import { useProductState } from "$state/product.svelte";
 
-    let { onSectionPosition=()=>{} } = $props();
+    let { scroll=0, onUpdateSection=()=>{} } = $props();
 
     let component = $state();
     let minimized = $state(true);
@@ -12,10 +12,8 @@
     }
 
     $effect(() => {
-        if(component){
-            const { top } = component.getBoundingClientRect();
-            onSectionPosition("description", top);
-        }
+        const { top } = component?.getBoundingClientRect();
+        onUpdateSection("description", top+scroll-90);
     });
 </script>
 

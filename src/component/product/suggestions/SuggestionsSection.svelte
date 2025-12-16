@@ -1,8 +1,11 @@
 <script>
     import { useProductState } from "$state/product.svelte";
+    import { onMount } from "svelte";
     import { visible } from "$action/visible";
 
     import SuggestionsItem from "$component/product/suggestions/SuggestionsItem.svelte";
+
+    let { scroll=0, onUpdateSection=()=>{} } = $props();
 
     let component = $state();
     let product = useProductState();
@@ -12,6 +15,11 @@
             product.loadProductSuggestions();
         }
     }
+
+    $effect(() => {
+        const { top } = component?.getBoundingClientRect();
+        onUpdateSection("suggestions", top+scroll-90);
+    });
 </script>
 
 <div class="flex flex-col py-[1rem] mt-[0.35rem]" bind:this={component} use:visible={onVisible}>
@@ -32,7 +40,7 @@
         </div>
         <div class="w-full px-4 mt-[1.25rem]">
             <div class="flex flex-wrap w-full relative gap-[0.55rem]">
-                {#each Array(2) as item}
+                {#each Array(6) as item}
                     <div class="rounded-lg overflow-hidden bg-white shadow-recommendations relative"  style="width: calc(50vw - 1.28rem);">
                         <div class="w-full pb-[100%] relative">
                             <div class="absolute top-0 left-0 w-full h-full bg-[#F8F8F8]"></div>
