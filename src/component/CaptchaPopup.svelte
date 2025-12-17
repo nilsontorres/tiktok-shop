@@ -56,19 +56,22 @@
     }
 
     const onTouchStart = (e) => {
-        e.stopPropagation();
+        e.preventDefault();
+        
         if(processing) return;
         animated = false;
         dragging = true;
         start = e.touches[0].clientX;
     };
     const onTouchMove = (e) => {
-        e.stopPropagation();
+        e.preventDefault();
+
         if (!dragging || solved || processing) return;
         left = Math.max(0, Math.min((track.offsetWidth - handle.offsetWidth), (e.touches[0].clientX - start)));
     };
     const onTouchEnd = async (e) => {
-        e.stopPropagation();
+        e.preventDefault();
+
         dragging = false;
         processing = true;
 
@@ -115,10 +118,20 @@
     }
 
     onMount(() => {
+        handle.addEventListener("touchstart", onTouchStart, { passive: false });
+        track.addEventListener("touchmove", onTouchMove, { passive: false });
+        track.addEventListener("touchend", onTouchEnd, { passive: false });
+
         setTimeout(() => {
             openPopup();
             updateCaptcha();
         }, 100);
+
+        return () => {
+            handle.removeEventListener("touchstart", onTouchStart);
+            track.removeEventListener("touchmove", onTouchMove);
+            track.removeEventListener("touchend", onTouchEnd);
+        }
     });
 </script>
 
@@ -134,21 +147,20 @@
                 <div class="absolute top-0 left-0 w-full">
                     <div bind:this={canvas} class="flex w-[18rem] h-[11rem] relative">
                         {#if canvas_width && canvas_height && target_px && top_px}
-                            <div class="absolute top-0 left-0 size-[5rem] z-20" style={`background-image: url('${piece.black}'); transform: translate3d(calc(${target_px}px + 0.19rem), ${top_px}px, 0); background-size: 100% 100%;`}></div>
-                            <div class={`absolute top-0 left-0 size-[5rem] z-20 will-change-transform ${animated && "duration-300 transition-transform"}`} style={`transform: translate3d(${left}px, ${top_px}px, 0);`}>
+                            <div class="absolute top-0 left-0 size-[4.5rem] z-20" style={`background-image: url('${piece.black}'); transform: translate3d(${target_px}px, ${top_px}px, 0); background-size: 100% 100%;`}></div>
+                            <div class={`absolute top-0 left-0 size-[4.5rem] z-20 will-change-transform ${animated && "duration-300 transition-transform"}`} style={`transform: translate3d(${left}px, ${top_px}px, 0);`}>
                                 <div
-                                    class="size-[5rem]"
+                                    class="size-[4.5rem]"
                                     style={`
                                         background-image: url('${image}');
                                         background-size: ${canvas_width}px ${canvas_height}px;
-                                        background-position: calc(-${target_px}px - 0.19rem) -${top_px}px;
+                                        background-position: -${target_px}px -${top_px}px;
                                         mask-image: url('${piece.mask}');
                                         mask-repeat: no-repeat;
                                         mask-size: 100% 100%;
-                                        transform: translateX(0.19rem);
                                     `}
                                 ></div>
-                                <div class="size-[5rem] bg-cover absolute top-0 left-0" style={`background-image: url('${piece.white}'); transform: translateX(0.19rem);`}></div>
+                                <div class="size-[4.5rem] bg-cover absolute top-0 left-0" style={`background-image: url('${piece.white}');`}></div>
                             </div>
                         {/if}
                         <div class={`flex justify-center items-center absolute top-0 left-0 w-full rounded-[0.25rem] h-full z-30 bg-[#000000b2] transition-opacity duration-300 ${(processing || failed || solved) ? "opacity-100" : "opacity-0"}`}>
@@ -177,13 +189,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="flex w-full h-[3.1rem] mt-[0.3rem] relative z-30 touch-none" ontouchmovecapture={onTouchMove} ontouchendcapture={onTouchEnd}>
+                    <div bind:this={track} class="flex w-full h-[3.1rem] mt-[0.3rem] relative z-30 touch-none">
                         <div class={`flex w-full h-full z-10 rounded-[0.25rem] overflow-hidden transition-opacity duration-300 ${((dragging && left > 0) || solved || processing || failed) ? "opacity-100" : "opacity-0"}`}>
                             <div class={`w-full ${failed ? "bg-[#FFC2C4]" : "bg-[#C9F0DF]"}`} style={`width: ${left}px`}></div>
                             <div class={`w-[4rem] h-full bg-linear-to-r ${failed ? "from-[#FFC2C4]" : "from-[#C9F0DF]"} to-transparent`}></div>
                         </div>
-                        <div bind:this={track} class="flex w-full absolute top-0 left-0 z-20">
-                            <div bind:this={handle} class={`p-[0.25rem] no-selectable will-change-transform touch-none ${animated && "duration-300 transition-transform"}`} style={`transform: translateX(${left}px);`} ontouchstartcapture={onTouchStart}>
+                        <div class="flex w-full absolute top-0 left-0 z-20">
+                            <div bind:this={handle} class={`p-[0.25rem] no-selectable will-change-transform touch-none ${animated && "duration-300 transition-transform"}`} style={`transform: translateX(${left}px);`}>
                                 <div class="flex items-center justify-center w-[4rem] h-[2.6rem] rounded-[0.25rem] bg-white border-[0.08rem] border-[#D8D8D9] active:border-[#b6b6b9] group">
                                     <svg class="w-[1.5rem] fill-[#B7B7B9] group-active:fill-[#959597]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 206 178">
                                         <path d="M0 56.46a5 5 0 0 1 5-5h76.088a5 5 0 0 0 4.999-4.911l.737-41.629c.073-4.112 4.802-6.383 8.057-3.867L201.5 83.46c5 4 4.5 7.5 0 11L94.872 176.41c-3.256 2.503-7.974.23-8.046-3.876l-.74-42.162a5 5 0 0 0-5-4.913H5a5 5 0 0 1-5-5v-64Z"/>
