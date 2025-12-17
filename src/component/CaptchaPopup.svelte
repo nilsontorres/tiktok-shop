@@ -56,16 +56,19 @@
     }
 
     const onTouchStart = (e) => {
+        e.stopPropagation();
         if(processing) return;
         animated = false;
         dragging = true;
         start = e.touches[0].clientX;
     };
     const onTouchMove = (e) => {
+        e.stopPropagation();
         if (!dragging || solved || processing) return;
         left = Math.max(0, Math.min((track.offsetWidth - handle.offsetWidth), (e.touches[0].clientX - start)));
     };
     const onTouchEnd = async (e) => {
+        e.stopPropagation();
         dragging = false;
         processing = true;
 
@@ -103,8 +106,8 @@
         loading = true;
         image = getRandomImage();
         piece = getRandomPiece();
-        top = getRandomDouble(0, 0.8);
-        target = getRandomDouble(0.3, 1);
+        top = getRandomDouble(0, 0.75);
+        target = getRandomDouble(0.3, 0.9);
 
         setTimeout(() => {
             loading = false;
@@ -174,13 +177,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="flex w-full h-[3.1rem] mt-[0.3rem] relative z-30 touch-pan-x" ontouchmove={onTouchMove} ontouchend={onTouchEnd}>
+                    <div class="flex w-full h-[3.1rem] mt-[0.3rem] relative z-30 touch-none" ontouchmovecapture={onTouchMove} ontouchendcapture={onTouchEnd}>
                         <div class={`flex w-full h-full z-10 rounded-[0.25rem] overflow-hidden transition-opacity duration-300 ${((dragging && left > 0) || solved || processing || failed) ? "opacity-100" : "opacity-0"}`}>
                             <div class={`w-full ${failed ? "bg-[#FFC2C4]" : "bg-[#C9F0DF]"}`} style={`width: ${left}px`}></div>
                             <div class={`w-[4rem] h-full bg-linear-to-r ${failed ? "from-[#FFC2C4]" : "from-[#C9F0DF]"} to-transparent`}></div>
                         </div>
                         <div bind:this={track} class="flex w-full absolute top-0 left-0 z-20">
-                            <div bind:this={handle} class={`p-[0.25rem] no-selectable will-change-transform ${animated && "duration-300 transition-transform"}`} style={`transform: translateX(${left}px);`} ontouchstart={onTouchStart}>
+                            <div bind:this={handle} class={`p-[0.25rem] no-selectable will-change-transform touch-none ${animated && "duration-300 transition-transform"}`} style={`transform: translateX(${left}px);`} ontouchstartcapture={onTouchStart}>
                                 <div class="flex items-center justify-center w-[4rem] h-[2.6rem] rounded-[0.25rem] bg-white border-[0.08rem] border-[#D8D8D9] active:border-[#b6b6b9] group">
                                     <svg class="w-[1.5rem] fill-[#B7B7B9] group-active:fill-[#959597]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 206 178">
                                         <path d="M0 56.46a5 5 0 0 1 5-5h76.088a5 5 0 0 0 4.999-4.911l.737-41.629c.073-4.112 4.802-6.383 8.057-3.867L201.5 83.46c5 4 4.5 7.5 0 11L94.872 176.41c-3.256 2.503-7.974.23-8.046-3.876l-.74-42.162a5 5 0 0 0-5-4.913H5a5 5 0 0 1-5-5v-64Z"/>
