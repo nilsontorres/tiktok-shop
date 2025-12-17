@@ -3,21 +3,24 @@
 
     let { onResolve=()=>{}, tolerance=0.03 } = $props();
 
-    let handle = $state();
-    let track = $state();
-    let canvas = $state();
+    let handle = $state(null);
+    let track = $state(null);
+    let canvas = $state(null);
 
     let open = $state(true);
+    let image = $state("");
+    let piece = $state({});
+    let top = $state(0);
+    let target = $state(0);
     let left = $state(0);
+    let start = $state(0);
 
     let dragging = $state(false);
     let failed = $state(false);
     let solved = $state(false);
-    let loading = $state(false);
+    let loading = $state(true);
     let processing = $state(false);
     let animated = $state(false);
-
-    let start = 0;
 
     const getRandomImage = () => {
         const random_int = Math.floor(Math.random() * 15) + 1;
@@ -36,11 +39,6 @@
     const getRandomDouble = (min, max) => {
         return min + Math.random() * (max - min);
     }
-
-    let image = $state(getRandomImage());
-    let piece = $state(getRandomPiece());
-    let top = $state(getRandomDouble(0, 0.8));
-    let target = $state(getRandomDouble(0.3, 1));
 
     let canvas_width = $derived(canvas?.offsetWidth ?? 0);
     let canvas_height = $derived(canvas?.offsetHeight ?? 0);
@@ -87,8 +85,7 @@
                 processing = false;
 
                 setTimeout(() => {
-                    image = getRandomImage();
-                    piece = getRandomPiece();
+                    updateCaptcha();
 
                     failed = false;
                     animated = true;
@@ -102,9 +99,22 @@
         }
     };
 
+    const updateCaptcha = () => {
+        loading = true;
+        image = getRandomImage();
+        piece = getRandomPiece();
+        top = getRandomDouble(0, 0.8);
+        target = getRandomDouble(0.3, 1);
+
+        setTimeout(() => {
+            loading = false;
+        }, 1000);
+    }
+
     onMount(() => {
         setTimeout(() => {
             openPopup();
+            updateCaptcha();
         }, 100);
     });
 </script>
@@ -114,28 +124,28 @@
         <div class="flex flex-col bg-white rounded-[0.5rem] p-[1.2rem]">
             <span class="text-[#343434] text-[1rem] leading-none">Verifique para continuar:</span>
             <div class="flex flex-col relative mt-[0.75rem]">
-                <div class="w-[18rem] h-[11rem] bg-[#F8F8F8] rounded-[0.25rem]" style={`background-image: url('${image}'); background-size: 100% 100%`}></div>
-                <div class="w-full h-[3.1rem] bg-[#F8F8F8] rounded-[0.25rem] mt-[0.3rem] relative">
+                <div class="w-[18rem] h-[11rem] bg-[#F2F2F4] rounded-[0.25rem]" style={`background-image: url('${image}'); background-size: 100% 100%`}></div>
+                <div class="w-full h-[3.1rem] bg-[#F2F2F4] rounded-[0.25rem] mt-[0.3rem] relative">
                     <span class={`absolute top-[0.5rem] left-[4rem] px-[1rem] text-[#909191] text-center text-[0.75rem] leading-[1rem] ${!dragging && "duration-300 transition-opacity"} ${(dragging && left >= 0) || processing || failed || solved || loading ? "opacity-0" : "opacity-100"}`}>Arraste a peça do quebra-cabeça para o lugar certo</span>
                 </div>
                 <div class="absolute top-0 left-0 w-full">
                     <div bind:this={canvas} class="flex w-[18rem] h-[11rem] relative">
                         {#if canvas_width && canvas_height && target_px && top_px}
-                            <div class="absolute top-0 left-0 size-[4rem] z-20" style={`background-image: url('${piece.black}'); transform: translate3d(calc(${target_px}px + 0.19rem), ${top_px}px, 0); background-size: 100% 100%;`}></div>
-                            <div class={`absolute top-0 left-0 size-[4rem] z-20 will-change-transform ${animated && "duration-300 transition-transform"}`} style={`transform: translate3d(${left}px, ${top_px}px, 0);`}>
+                            <div class="absolute top-0 left-0 size-[5rem] z-20" style={`background-image: url('${piece.black}'); transform: translate3d(calc(${target_px}px + 0.19rem), ${top_px}px, 0); background-size: 100% 100%;`}></div>
+                            <div class={`absolute top-0 left-0 size-[5rem] z-20 will-change-transform ${animated && "duration-300 transition-transform"}`} style={`transform: translate3d(${left}px, ${top_px}px, 0);`}>
                                 <div
-                                    class="size-[4rem]"
+                                    class="size-[5rem]"
                                     style={`
                                         background-image: url('${image}');
                                         background-size: ${canvas_width}px ${canvas_height}px;
-                                        background-position: -${target_px}px -${top_px}px;
+                                        background-position: calc(-${target_px}px - 0.19rem) -${top_px}px;
                                         mask-image: url('${piece.mask}');
                                         mask-repeat: no-repeat;
                                         mask-size: 100% 100%;
                                         transform: translateX(0.19rem);
                                     `}
                                 ></div>
-                                <div class="size-[4rem] bg-cover absolute top-0 left-0" style={`background-image: url('${piece.white}'); transform: translateX(0.19rem);`}></div>
+                                <div class="size-[5rem] bg-cover absolute top-0 left-0" style={`background-image: url('${piece.white}'); transform: translateX(0.19rem);`}></div>
                             </div>
                         {/if}
                         <div class={`flex justify-center items-center absolute top-0 left-0 w-full rounded-[0.25rem] h-full z-30 bg-[#000000b2] transition-opacity duration-300 ${(processing || failed || solved) ? "opacity-100" : "opacity-0"}`}>
@@ -146,7 +156,7 @@
                                     <svg class="w-[1.58rem] h-[1.58rem]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 80 80">
                                         <path fill="#fff" d="M16.799 7.416a40.002 40.002 0 0 1 51.485 4.3l-3.567 3.567a34.955 34.955 0 1 0 9.99 20.572l5.01-.598A40 40 0 1 1 16.8 7.417Zm63.2 12.084L40 59 18 36l3.5-3.5 18.5 19 36.5-36 3.5 4Z"/>
                                     </svg>
-                                    <span class="max-w-[14rem] text-white text-[0.88rem] text-center leading-[1.2rem] mt-[0.5rem]">Verificado</span>
+                                    <span class="max-w-[14rem] text-white text-[0.92rem] text-center leading-[1.2rem] mt-[0.5rem]">Verificado</span>
                                 </div>
                             {:else}
                                 <div class="flex flex-col justify-center items-center">
@@ -154,18 +164,18 @@
                                         <path fill="#fff" d="m40.254 36.655 14.934-14.763 3.515 3.555L43.77 40.211l14.764 14.934-3.556 3.515-14.764-14.934L25.279 58.49l-3.515-3.555L36.698 40.17 21.935 25.236l3.555-3.515 14.764 14.934Z"/>
                                         <path fill="#fff" fill-rule="evenodd" d="M40 0c22.091 0 40 17.909 40 40S62.091 80 40 80 0 62.091 0 40 17.909 0 40 0Zm0 4.568C20.432 4.568 4.568 20.432 4.568 40S20.432 75.432 40 75.432 75.432 59.568 75.432 40 59.568 4.568 40 4.568Z" clip-rule="evenodd"/>
                                     </svg>
-                                    <span class="max-w-[14rem] text-white text-[0.88rem] text-center leading-[1.2rem] mt-[0.5rem]">A verificação falhou. Por favor tente novamente</span>
+                                    <span class="max-w-[14rem] text-white text-[0.92rem] text-center leading-[1.2rem] mt-[0.5rem]">A verificação falhou. Por favor tente novamente</span>
                                 </div>
                             {/if}
                         </div>
-                        <div class={`flex justify-center items-center absolute top-0 left-0 w-full h-full z-30 bg-[#F8F6FA] transition-opacity duration-300 ${loading ? "opacity-100" : "opacity-0"}`}>
+                        <div class={`flex justify-center items-center absolute top-0 left-0 w-full h-full z-30 bg-[#F2F2F4] transition-opacity duration-300 ${loading ? "opacity-100" : "opacity-0"}`}>
                             <div class="flex flex-col justify-center items-center">
-                                <span class="max-w-[12rem] text-[#C5C3C7] text-[0.92rem] text-center leading-[1.2rem] mt-[0.5rem]">Carregando...</span>
+                                <span class="max-w-[12rem] text-[#C5C3C7] text-[1rem] text-center leading-[1.2rem] mt-[0.5rem]">Carregando...</span>
                             </div>
                         </div>
                     </div>
-                    <div class="flex w-full h-[3.1rem] mt-[0.3rem] relative z-30" ontouchmove={onTouchMove} ontouchend={onTouchEnd}>
-                        <div class={`flex w-full h-full z-10 rounded-[0.25rem] overflow-hidden transition-opacity duration-300 ${((dragging && left > 0) || solved || processing || failed || loading) ? "opacity-100" : "opacity-0"}`}>
+                    <div class="flex w-full h-[3.1rem] mt-[0.3rem] relative z-30 touch-pan-x" ontouchmove={onTouchMove} ontouchend={onTouchEnd}>
+                        <div class={`flex w-full h-full z-10 rounded-[0.25rem] overflow-hidden transition-opacity duration-300 ${((dragging && left > 0) || solved || processing || failed) ? "opacity-100" : "opacity-0"}`}>
                             <div class={`w-full ${failed ? "bg-[#FFC2C4]" : "bg-[#C9F0DF]"}`} style={`width: ${left}px`}></div>
                             <div class={`w-[4rem] h-full bg-linear-to-r ${failed ? "from-[#FFC2C4]" : "from-[#C9F0DF]"} to-transparent`}></div>
                         </div>
