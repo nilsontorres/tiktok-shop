@@ -1,7 +1,7 @@
 <script>
     import { onMount } from "svelte";
 
-    let { document, openAddressDrawer=()=>{} } = $props();
+    let { shipping, openShippingDrawer=()=>{} } = $props();
     let open = $state(false);
 
     export const openPopup = () => {
@@ -12,7 +12,7 @@
     }
 
     onMount(() => {
-        if(!document){
+        if(shipping?.filled){
             setTimeout(() => {
                 open = true;
             }, 100);
@@ -31,7 +31,7 @@
                 <button class="flex items-center justify-center w-full h-[2.8rem]" type="button" onclick={closePopup}>
                     <span class="text-[#595959] text-[0.98rem] leading-none">Mais tarde</span>
                 </button>
-                <button class="flex items-center justify-center w-full h-[2.8rem] border-s-[0.054rem] border-[#eaeaea]" type="button" onclick={() => { closePopup(); openAddressDrawer(); }}>
+                <button class="flex items-center justify-center w-full h-[2.8rem] border-s-[0.054rem] border-[#eaeaea]" type="button" onclick={() => { closePopup(); openShippingDrawer(); }}>
                     <span class="text-black text-[0.98rem] font-bold leading-none">Adicionar</span>
                 </button>
             </div>

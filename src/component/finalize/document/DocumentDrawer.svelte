@@ -1,5 +1,5 @@
 <script>
-    import DocumentField from "$component/finalize/document/DocumentField.svelte";
+    import DocumentField from "$component/finalize/document/fields/DocumentField.svelte";
     import { validateCPF } from "$lib/validation";
 
     let { document, onChangeDocument=()=>{} } = $props();
@@ -8,12 +8,12 @@
     let value = $state("");
 
     export const openDrawer = () => {
-        document.body.classList.add("no-scrollbar");
+        window.document.body.classList.add("no-scrollbar");
         open = true;
     }
     export const closeDrawer = () => {
         open = false;
-        document.body.classList.remove("no-scrollbar");
+        window.document.body.classList.remove("no-scrollbar");
     }
 
     const onSave = () => {

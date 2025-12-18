@@ -1,15 +1,12 @@
 <script>
-    import IdentityDrawer from "$component/finalize/document/DocumentDrawer.svelte";
-    import IdentityPopup from "$component/finalize/document/DocumentPopup.svelte";
+    import DocumentDrawer from "$component/finalize/document/DocumentDrawer.svelte";
 
     let { document, onChangeDocument=()=>{}, openAddressDrawer=()=>{} } = $props();
 
     let drawer = $state();
-    let popup = $state();
 </script>
 
-<IdentityDrawer bind:this={drawer} {document} {onChangeDocument}/>
-<IdentityPopup bind:this={popup} {document} {openAddressDrawer}/>
+<DocumentDrawer bind:this={drawer} {document} {onChangeDocument}/>
 
 <div class="w-full overflow-hidden bg-white px-[1rem] py-[0.75rem] relative">
     {#if document}

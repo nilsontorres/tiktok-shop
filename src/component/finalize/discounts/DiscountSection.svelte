@@ -1,3 +1,8 @@
+<script>
+    import { formatPrice } from "$lib/formating";
+
+    let { shipping={} } = $props();
+</script>
 <div class="flex justify-between items-center w-full h-[3.2rem] px-[1rem] bg-white">
     <div class="flex items-center gap-[0.3rem]">
         <svg class="w-[1.16rem] h-[1rem]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 44 34">
@@ -7,23 +12,25 @@
     </div>
     <div class="flex items-center gap-[0.5rem]">
         <div class="flex items-center gap-[0.25rem]">
-            <div class="flex justify-center items-center w-[4.5rem] h-[1.7rem] relative bg-[#E2F9FC] rounded-[0.25rem]">
+            {#if shipping?.coupon}
+                <div class="flex justify-center items-center px-[0.5rem] h-[1.7rem] relative bg-[#E2F9FC] rounded-[0.25rem]">
+                    <svg class="absolute top-[0.6rem] -left-[0.02rem] h-[0.5rem]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 9 18">
+                        <path fill="#fff" d="M0 18A9 9 0 1 0 0 0v18Z"/>
+                    </svg>
+                    <svg class="absolute top-[0.6rem] -right-[0.02rem] h-[0.5rem]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 9 18">
+                        <path fill="#fff" d="M9 0a9 9 0 1 0 0 18V0Z"/>
+                    </svg>
+                    <span class="text-[#20D5EC] text-[0.7rem] font-bold whitespace-nowrap">- R$ {formatPrice(shipping?.coupon?.discount, true)}</span>
+                </div>
+            {/if}
+            <div class="flex justify-center items-center px-[0.5rem] h-[1.7rem] relative bg-[#FFF0F3] rounded-[0.25rem]">
                 <svg class="absolute top-[0.6rem] -left-[0.02rem] h-[0.5rem]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 9 18">
                     <path fill="#fff" d="M0 18A9 9 0 1 0 0 0v18Z"/>
                 </svg>
                 <svg class="absolute top-[0.6rem] -right-[0.02rem] h-[0.5rem]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 9 18">
                     <path fill="#fff" d="M9 0a9 9 0 1 0 0 18V0Z"/>
                 </svg>
-                <span class="text-[#20D5EC] text-[0.7rem] font-bold">- R$ 20,00</span>          
-            </div>
-            <div class="flex justify-center items-center w-[4.5rem] h-[1.7rem] relative bg-[#FFF0F3] rounded-[0.25rem]">
-                <svg class="absolute top-[0.6rem] -left-[0.02rem] h-[0.5rem]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 9 18">
-                    <path fill="#fff" d="M0 18A9 9 0 1 0 0 0v18Z"/>
-                </svg>
-                <svg class="absolute top-[0.6rem] -right-[0.02rem] h-[0.5rem]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 9 18">
-                    <path fill="#fff" d="M9 0a9 9 0 1 0 0 18V0Z"/>
-                </svg>
-                <span class="text-[#FE2C55] text-[0.7rem] font-bold">- R$ 11,45</span>          
+                <span class="text-[#FE2C55] text-[0.7rem] font-bold whitespace-nowrap">- R$ 11,45</span>          
             </div>
         </div>
         <svg class="h-[0.76rem]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 35">

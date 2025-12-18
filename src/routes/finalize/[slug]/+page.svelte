@@ -19,11 +19,20 @@
 
     const product = initProductState();
 
-    let drawer = $state();
+    let container = $state(null);
+    let drawer = $state(null);
     let ready = $state(false);
-    let document = $state();
-    let address = $state();
+    let document = $state(null);
+    let address = $state(null);
     let quantity = $state(1);
+
+    let shipping = $state({
+        filled: false,
+        deadline: {from: 22, to: 28, month: "dez"},
+        price: {regular: 28.70, promotional: 20.0},
+        coupon: {discount: 20.0},
+        location: {country: {name: "Brasil", code: "br"}}
+    });
 
     const updateDocument = (value) => {
         document = value;
@@ -33,6 +42,9 @@
     }
     const decrementQuantity = (value) => {
         quantity = Math.max(quantity-1, 1);
+    }
+    const updateShipping = (value) => {
+        shipping = value;
     }
 
     onMount(async () => {
@@ -54,18 +66,18 @@
     <div class={`w-full fixed top-0 left-0 z-40 duration-300 transition-transform ${drawer?.open && "-translate-x-[10rem]"}`}>
         <HeaderBar/>
     </div>
-    <div class={`flex flex-col w-full max-h-[90vh] duration-300 transition-transform ${drawer?.open && "-translate-x-[10rem]"}`}>
-        <main class="flex flex-col w-full bg-[#F8F8F8] pt-12 pb-[9.4rem]">
-            <AddressSection {address} openAddressDrawer={drawer?.openDrawer}/>
+    <div class={`flex flex-col w-full duration-300 transition-transform ${drawer?.open && "-translate-x-[10rem]"}`}>
+        <main class="flex flex-col w-full bg-[#F5F5F5] pt-12 pb-[9.4rem]">
+            <AddressSection {shipping} onChangeShipping={updateShipping} openShippingDrawer={drawer?.openDrawer}/>
             <span class="block w-full h-[0.05rem] bg-[#e0e0e0]"></span>
             <DocumentSection {document} onChangeDocument={updateDocument} openAddressDrawer={drawer?.openDrawer}/>
             <div class="w-full h-[0.5rem] bg-[#F5F5F5]"></div>
             <ItemSection {quantity} onIncrementQuantity={incrementQuantity} onDecrementQuantity={decrementQuantity}/>
-            <ShippingSection/>
+            <ShippingSection {shipping}/>
             <div class="w-full h-[0.5rem] bg-[#F5F5F5]"></div>
-            <DiscountSection/>
+            <DiscountSection {shipping}/>
             <div class="w-full h-[0.5rem] bg-[#F5F5F5]"></div>
-            <OverviewSection/>
+            <OverviewSection {shipping}/>
             <div class="w-full h-[0.5rem] bg-[#F5F5F5]"></div>
             <PaymentSection/>
             <div class="flex w-full p-[1rem]">
@@ -76,7 +88,7 @@
     <div class={`w-full fixed bottom-0 left-0 z-40 duration-300 transition-transform ${drawer?.open && "-translate-x-[10rem]"}`}>
         <FooterBar/>
     </div>
-    <div class={`flex items-start w-full h-full bg-[#F8F8F8] fixed top-0 z-50 duration-300 transition-transform ${drawer?.open ? "translate-x-0" : "translate-x-[100vw]"}`}>
+    <div class={`flex items-start w-full h-full bg-[#F5F5F5] fixed top-0 z-50 duration-300 transition-transform ${drawer?.open ? "translate-x-0" : "translate-x-[100vw]"}`}>
         <ShippingDrawer bind:this={drawer}/>
     </div>
 {:else}

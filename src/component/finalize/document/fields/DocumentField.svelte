@@ -7,10 +7,13 @@
         error = null;
         value = formatCPF(event.target.value);
     }
+    const clearInput = () => {
+        value = "";
+    }
 </script>
 
 <div class="flex flex-col mt-[0.6rem]">
-    <div class={`flex w-full h-[2.5rem] bg-[#F2F2F2] rounded-[0.35rem] border-[0.16rem] ${error ? "border-[#FF4C3A]" : "border-transparent"}`}>
+    <div class={`flex w-full h-[2.5rem] bg-[#F2F2F2] rounded-[0.35rem] border-[0.16rem] relative ${error ? "border-[#FF4C3A]" : "border-transparent"}`}>
         <input
             class="text-black text-[0.96rem] px-[0.6rem] border-none bg-transparent w-full h-full caret-[#FE2C55] outline-none"
             type="text"
@@ -19,6 +22,13 @@
             bind:value
             oninput={onInput}
         />
+        {#if value != ""}
+            <button class="flex items-center justify-center w-[2.22rem] h-[2.22rem] absolute top-0 right-[0.2rem]" type="button" aria-label="Limpar" onclick={clearInput}>
+                <svg class="min-w-[1.2rem] max-w-[1.2rem]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 44 44">
+                    <path fill="#7E7E7E" d="M22 0c12.15 0 22 9.85 22 22s-9.85 22-22 22S0 34.15 0 22 9.85 0 22 0Zm8.556 13.586a2 2 0 0 0-2.829 0l-5.656 5.657-5.657-5.655a2 2 0 0 0-2.828 2.828l5.657 5.656-5.655 5.659a2 2 0 1 0 2.828 2.827l5.656-5.658 5.659 5.657a2 2 0 0 0 2.828-2.83L24.9 22.072l5.657-5.657a2 2 0 0 0-.001-2.828Z"/>
+                </svg>                      
+            </button>
+        {/if}
     </div>
     {#if error}
         <div class="flex items-center mt-[0.75rem] gap-[0.35rem]">

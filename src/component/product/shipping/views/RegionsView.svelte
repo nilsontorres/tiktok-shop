@@ -5,9 +5,9 @@
     import Loading from "$component/Loading.svelte";
     
     let {
-        view="countries",
+        view="regions",
         location={},
-        onChangeRegion=()=>{},
+        onChangeLocation=()=>{},
         onChangeView=()=>{}
     } = $props();
 
@@ -79,15 +79,8 @@
         is_loading = false;
     };
 
-    $effect(async () => {
-        if(view == "regions"){
-            container?.scrollTo({ top: 0, behavior: "instant" });
-
-            if(country?.id != initial?.id){
-                await updateRegions();
-                initial = country;
-            }
-        }
+    onMount(async () => {
+        await updateRegions();
     });
 </script>
 

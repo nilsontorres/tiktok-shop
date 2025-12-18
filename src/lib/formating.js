@@ -1,8 +1,8 @@
-export const formatPrice = (value) => {
+export const formatPrice = (value, decimals) => {
     if(!value) return;
 
     // Se for um número inteiro (sem casas decimais diferentes de zero)
-    if (Number.isInteger(value)) {
+    if (decimals == false && Number.isInteger(value)) {
         return new Intl.NumberFormat("pt-BR", {
             minimumFractionDigits: 0, // sem casas decimais
             maximumFractionDigits: 0,
