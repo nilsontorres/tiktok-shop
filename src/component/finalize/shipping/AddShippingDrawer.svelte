@@ -2,7 +2,7 @@
     import FullnameField from "$component/finalize/shipping/fields/FullnameField.svelte";
     import PhoneField from "$component/finalize/shipping/fields/PhoneField.svelte";
     import AddressField from "$component/finalize/shipping/fields/AddressField.svelte";
-    import SaveDefault from "$component/finalize/shipping/SaveDefault.svelte";
+    import SaveShippingDefault from "$component/finalize/shipping/SaveShippingDefault.svelte";
     import DistrictField from "$component/finalize/shipping/fields/DistrictField.svelte";
     import EmailField from "$component/finalize/shipping/fields/EmailField.svelte";
     import NumberField from "$component/finalize/shipping/fields/NumberField.svelte";
@@ -10,8 +10,8 @@
     import ZipCodeField from "$component/finalize/shipping/fields/ZipCodeField.svelte";
     import RegionField from "$component/finalize/shipping/fields/RegionField.svelte";
     import CityField from "$component/finalize/shipping/fields/CityField.svelte";
-    import LocationDrawer from "$component/product/shipping/LocationDrawer.svelte";
-    import ShippingPopup from "$component/finalize/shipping/ShippingPopup.svelte";
+    import LocationDrawer from "$component/location/LocationDrawer.svelte";
+    import AddShippingPopup from "$component/finalize/shipping/AddShippingPopup.svelte";
 
     let { shipping={}, onChangeShipping=()=>{} } = $props();
 
@@ -38,7 +38,7 @@
 </script>
 
 <LocationDrawer bind:this={drawer} location={shipping?.location} onChangeLocation={updateLocation}/>
-<ShippingPopup bind:this={popup} {shipping} openShippingDrawer={() => drawer.openDrawer()}/>
+<AddShippingPopup bind:this={popup} {shipping} openShippingDrawer={() => drawer.openDrawer()}/>
 
 <div class="flex flex-col w-screen">
     <div class="flex w-full h-12 justify-between items-center fixed top-0 left-0  z-20 bg-[#F5F5F5]">
@@ -63,8 +63,8 @@
         <div class="flex flex-col bg-white w-full rounded-[0.25rem] mt-[0.6rem] pb-[1.1rem]">
             <ZipCodeField/>
             <div class="flex items-center gap-[2rem] px-[1rem]">
-                <RegionField onOpenDrawer={() => drawer.openDrawer()}/>
-                <CityField onOpenDrawer={() => drawer.openDrawer()}/>
+                <RegionField location={shipping?.location} onOpenDrawer={drawer?.openDrawer}/>
+                <CityField location={shipping?.location} onOpenDrawer={drawer?.openDrawer}/>
             </div>
             <DistrictField/>
             <AddressField/>
@@ -75,7 +75,7 @@
         <div class="flex flex-col bg-white w-full rounded-[0.25rem] mt-[0.6rem]">
             <div class="flex w-full h-[3.5rem] justify-between items-center px-[1rem]">
                 <span class="text-black text-[0.9rem]">Definir como padrão</span>
-                <SaveDefault enabled={true}/>
+                <SaveShippingDefault enabled={true}/>
             </div>
         </div>
     </div>

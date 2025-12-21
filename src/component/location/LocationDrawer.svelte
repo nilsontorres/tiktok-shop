@@ -1,9 +1,9 @@
 <script>
     import { onMount } from "svelte";
 
-    import CitiesView from "$component/product/shipping/views/CitiesView.svelte";
-    import RegionsView from "$component/product/shipping/views/RegionsView.svelte";
-    import SearchField from "$component/product/shipping/fields/SearchField.svelte";
+    import CitiesView from "$component/location/views/CitiesView.svelte";
+    import RegionsView from "$component/location/views/RegionsView.svelte";
+    import SearchField from "$component/location/fields/SearchField.svelte";
 
     let {
         location={},
@@ -11,18 +11,17 @@
         showSearchField=false
     } = $props();
 
+    let container = $state(null);
     let open = $state(false);
-    let view = $state("countries");
-    let tab = $state("countries");
+    let view = $state("regions");
+    let tab = $state("regions");
 
     let dragging = $state(false);
-    let initial = $state.snapshot(location);
     let city = $state(location?.city);
     let region = $state(location?.region)
 
-    let container;
-
     const updateView = (value, animated=true) => {
+        console.log("Update view", value);
         dragging = true;
 
         tab = value;
@@ -46,18 +45,19 @@
         }, 350);
     };
     const updateRegion = (value) => {
-        location.region = value;
-        onChangeRegion(value);
+        region = value;
+        onChangeLocation({ ...location, region: value });
     }
     const updateCity = (value) => {
-        location.city = value;
-        onChangeCity(value);
+        city = value;
+        onChangeLocation({ ...location, city: value });
+        closeDrawer();
     }
     const updateScroll = () => {
-        const scroll_x = container.scrollLeft;
-        const window_width = window.innerWidth;
+        const scroll = container.scrollLeft;
+        const width = window.innerWidth;
 
-        if(scroll_x >= (window_width * 1.5)){
+        if(scroll >= (width / 2)){
             view = "cities";
         }
         else{
@@ -69,14 +69,14 @@
         }
     }
 
-    $effect(() => {
-        if(open == true){
-            location = initial;
+    export const openDrawer = (value="regions") => {
+        if(value == "regions"){
             updateView("regions", false);
         }
-    });
-
-    export const openDrawer = () => {
+        else if(location?.region){
+            updateView("cities", false);
+        }
+        
         document.body.classList.add("no-scrollbar");
         open = true;
     }
@@ -95,7 +95,7 @@
             </svg>
         </button>
         <div class="flex justify-center items-center w-full gap-[0.75rem] px-4 pt-[1.2rem] pb-[0.3rem]">
-            <span class="text-black text-[1rem] font-bold leading-none">Selecionar {tab == "regions" ? "Estado/UF" : tab == "cities" ? "Cidade" : "País"}</span>
+            <span class="text-black text-[1rem] font-bold leading-none">Selecionar {tab == "regions" ? "Estado/UF" : "Cidade"}</span>
         </div>
         <div class="flex absolute bottom-0 left-0 w-full h-[1rem]"></div>
         <div class="flex flex-col w-full px-4 py-5 relative">
@@ -113,7 +113,7 @@
             </div>
             {#if showSearchField}
                 <div class="mt-[1rem]">
-                    <SearchField onChangeCity={updateCity} onChangeRegion={updateRegion} onChangeCountry={updateCountry}/>
+                    <SearchField onChangeCity={updateCity} onChangeRegion={updateRegion}/>
                 </div>
             {/if}
         </div>

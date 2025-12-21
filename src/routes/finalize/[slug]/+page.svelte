@@ -11,9 +11,9 @@
     import DiscountSection from "$component/finalize/discounts/DiscountSection.svelte";
     import ShippingSection from "$component/finalize/shipping/DeadlineSection.svelte";
     import ItemSection from "$component/finalize/item/ItemSection.svelte";
-    import DocumentSection from "$component/finalize/document/DocumentSection.svelte";
-    import AddressSection from "$component/finalize/shipping/ShippingSection.svelte";
-    import ShippingDrawer from "$component/finalize/shipping/ShippingDrawer.svelte";
+    import AddDocumentSection from "$component/finalize/document/AddDocumentSection.svelte";
+    import AddShippingSection from "$component/finalize/shipping/AddShippingSection.svelte";
+    import AddShippingDrawer from "$component/finalize/shipping/AddShippingDrawer.svelte";
 
     let { data } = $props();
 
@@ -31,7 +31,7 @@
         deadline: {from: 22, to: 28, month: "dez"},
         price: {regular: 28.70, promotional: 20.0},
         coupon: {discount: 20.0},
-        location: {country: {name: "Brasil", code: "br"}}
+        location: {country: {name: "Brasil", code: "BR"}}
     });
 
     const updateDocument = (value) => {
@@ -68,9 +68,9 @@
     </div>
     <div class={`flex flex-col w-full duration-300 transition-transform ${drawer?.open && "-translate-x-[10rem]"}`}>
         <main class="flex flex-col w-full bg-[#F5F5F5] pt-12 pb-[9.4rem]">
-            <AddressSection {shipping} onChangeShipping={updateShipping} openShippingDrawer={drawer?.openDrawer}/>
+            <AddShippingSection {shipping} onChangeShipping={updateShipping} openDrawer={drawer?.openDrawer}/>
             <span class="block w-full h-[0.05rem] bg-[#e0e0e0]"></span>
-            <DocumentSection {document} onChangeDocument={updateDocument} openAddressDrawer={drawer?.openDrawer}/>
+            <AddDocumentSection {document} onChangeDocument={updateDocument}/>
             <div class="w-full h-[0.5rem] bg-[#F5F5F5]"></div>
             <ItemSection {quantity} onIncrementQuantity={incrementQuantity} onDecrementQuantity={decrementQuantity}/>
             <ShippingSection {shipping}/>
@@ -89,7 +89,7 @@
         <FooterBar/>
     </div>
     <div class={`flex items-start w-full h-full bg-[#F5F5F5] fixed top-0 z-50 duration-300 transition-transform ${drawer?.open ? "translate-x-0" : "translate-x-[100vw]"}`}>
-        <ShippingDrawer bind:this={drawer}/>
+        <AddShippingDrawer {shipping} onChangeShipping={updateShipping} bind:this={drawer}/>
     </div>
 {:else}
     <FinalizeSkeleton/>

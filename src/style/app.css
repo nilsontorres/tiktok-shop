@@ -59,20 +59,19 @@
     }
 }
 
+* {
+    font-family: var(--font-tiktok);
+    outline: none
+}
 html, body {
     width: 100%;
     -ms-overflow-style: none;
     scrollbar-width: none;
     background-color: #FFF;
     overscroll-behavior: none;
-    min-height: 100vh;
-    /*overflow-x: hidden;*/
 }
 html::-webkit-scrollbar, body::-webkit-scrollbar {
     display: none;
-}
-html {
-    font-family: var(--font-tiktok);
 }
 body.no-scrollbar {
     overflow: hidden;

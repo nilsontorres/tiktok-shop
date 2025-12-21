@@ -2,12 +2,12 @@
     let { location={}, onOpenDrawer=()=>{} } = $props();
 </script>
 
-<button type="button" class="flex flex-col w-full" onclick={onOpenDrawer}>
+<button type="button" class="flex flex-col w-full" onclick={() => onOpenDrawer("regions")}>
     <div class="flex justify-between items-center w-full h-[3rem]">
         {#if location?.region}
-            <span class="text-black text-[0.86rem]">{location?.region?.name}</span>
+            <span class="text-black text-[0.84rem]">{location?.region?.name}</span>
         {:else}
-            <span class="text-[#A8A8A8] text-[0.86rem]">Estado/UF</span>
+            <span class="text-[#A8A8A8] text-[0.84rem]">Estado/UF</span>
         {/if}
         <svg class="w-[0.75rem]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 36 22">
             <path fill="#707070" d="M0 3.5 3.5 0 18 14.5 32.5 0 36 3.5l-18 18-18-18Z"/>

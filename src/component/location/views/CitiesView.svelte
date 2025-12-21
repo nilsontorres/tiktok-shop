@@ -5,18 +5,15 @@
     import Loading from "$component/Loading.svelte";
     
     let {
-        view="countries",
+        view="regions",
         location={},
         onChangeCity=()=>{},
-        onChangeView=()=>{},
-        onVisible=()=>{}
+        onChangeView=()=>{}
     } = $props();
 
-    let loaded = $state(false);
-    let is_loading = $state(true);
-    let is_ready = $state(false);
+    let loading = $state(true);
     let container = $state(null);
-    let scroll_y = $state(0);
+    let scroll = $state(0);
     let letter = $state("A");
     let childs = $state({});
     let cities = $state({});
@@ -26,10 +23,10 @@
     let initial = $state(null);
 
     const onScroll = () => {
-        const last_scroll = scroll_y;
+        const last_scroll = scroll;
         const new_scroll = container.scrollTop;
 
-        scroll_y = new_scroll;
+        scroll = new_scroll;
         
         Object.entries(childs).forEach(([key, value]) => {
             const child_rect = value.getBoundingClientRect();
@@ -41,7 +38,7 @@
         });
     }
     const updateCities = async () => {
-        is_loading = true;
+        loading = true;
 
         // tempo mínimo (em ms)
         const MIN_DELAY = 800;
@@ -84,7 +81,7 @@
             }
         }
 
-        is_loading = false;
+        loading = false;
     };
 
     $effect(async () => {
@@ -100,14 +97,14 @@
 </script>
 
 <div class="flex w-full h-full relative">
-    {#if is_loading}
+    {#if loading}
         <div class="flex justify-center items-center absolute -top-[2rem] left-0 w-full h-full z-20 pointer-events-none">
             <div class="flex justify-center items-center bg-[#494646] min-w-[5rem] min-h-[5rem] max-w-[5rem] max-h-[5rem] rounded-sm relative">
                 <Loading/>
             </div>
         </div>
     {:else}
-        {#if scroll_y > 0}
+        {#if scroll > 0}
             <div class={`flex absolute top-0 w-full h-[2.5rem] z-20 pt-[0.8rem] bg-white`}>
                 <span class="text-black text-center text-[0.9rem] px-4 font-semibold leading-none">{letter}</span>
             </div>

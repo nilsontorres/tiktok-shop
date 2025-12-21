@@ -2,7 +2,7 @@
     import { formatPrice } from "$lib/formating";
 
     import ShippingDrawer from "$component/product/shipping/ShippingDrawer.svelte";
-    import LocationDrawer from "$component/product/shipping/LocationDrawer.svelte";
+    import LocationDrawer from "$component/location/LocationDrawer.svelte";
 
     let { shipping, countries=[] } = $props();
 

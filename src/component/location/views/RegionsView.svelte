@@ -7,14 +7,13 @@
     let {
         view="regions",
         location={},
-        onChangeLocation=()=>{},
+        onChangeRegion=()=>{},
         onChangeView=()=>{}
     } = $props();
 
-    let country = $derived(location?.country);
     let initial = $state(null);
 
-    let is_loading = $state(true);
+    let loading = $state(true);
     let container = $state(null);
     let scroll_y = $state(0);
     let letter = $state("A");
@@ -37,7 +36,7 @@
         });
     }
     const updateRegions = async () => {
-        is_loading = true;
+        loading = true;
 
         const MIN_DELAY = 800;
         const start = Date.now();
@@ -46,10 +45,7 @@
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                country: country?.id
-            })
+            }
         });
 
         const elapsed = Date.now() - start;
@@ -76,7 +72,7 @@
             }
         }
 
-        is_loading = false;
+        loading = false;
     };
 
     onMount(async () => {
@@ -85,7 +81,7 @@
 </script>
 
 <div class="flex w-full h-full relative">
-    {#if is_loading}
+    {#if loading}
         <div class="flex justify-center items-center absolute -top-[2rem] left-0 w-full h-full z-20 pointer-events-none">
             <div class="flex justify-center items-center bg-[#494646] min-w-[5rem] min-h-[5rem] max-w-[5rem] max-h-[5rem] rounded-sm relative">
                 <Loading/>

@@ -2,12 +2,9 @@ import supabase from '$lib/supabase.js';
 import { json } from '@sveltejs/kit';
 
 export const POST = async ({ request }) => {
-    const body = await request.json();
-
     const { data, error } = await supabase
         .from("regions")
         .select("*")
-        .eq("country_id", body.country)
         .order("name", { ascending: true });
 
     if(error) return json({
