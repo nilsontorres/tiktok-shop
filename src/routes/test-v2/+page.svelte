@@ -1,4 +1,6 @@
 <script>
+    import { onMount } from "svelte";
+
     let container = $state(null);
     let locked = $state(false);
     let scroll = $state(0);
@@ -13,6 +15,10 @@
 		}
     }
     const handleChildScroll = () => {}
+
+    onMount(() => {
+        window.scrollTo({ top: 10 });
+    });
 </script>
 
 <svelte:window onscroll={handleWindowScroll}/>
