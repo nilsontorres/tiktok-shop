@@ -14,13 +14,13 @@
         }
     }
     const handleChildScroll = () => {
-        window.scrollTo({ top: 1, behavior: "instant" });
+        window.scrollTo({ top: container.scrollTop, behavior: "instant" });
     }
 </script>
 
 <svelte:window onscroll={handleWindowScroll}/>
 
-<div class="w-full min-h-[110vh] text-black relative overflow-hidden">
+<div class="w-full min-h-[110vh] text-black relative ov">
     <div bind:this={container} onscroll={handleChildScroll} class="flex flex-col w-full h-[100dvh] fixed top-0 left-0 overflow-y-scroll">
         [COMECO TELA 02]
         <p>O dia começou com um céu claro e uma brisa leve, criando um clima agradável para quem precisava sair cedo e organizar as tarefas pendentes da semana.</p>
