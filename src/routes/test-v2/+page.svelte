@@ -5,8 +5,6 @@
     let locked = $state(false);
     let scroll = $state(0);
 
-    let child_scroll = $state(0);
-
     const handleWindowScroll = (e) => {
         scroll = window.scrollY;
         if(!locked){
@@ -16,8 +14,7 @@
         }
     }
     const handleChildScroll = () => {
-        child_scroll = container.scrollTop;
-        window.scrollTo({ top: child_scroll, behavior: "instant" });
+        window.scrollTo({ top: 1, behavior: "instant" });
     }
 </script>
 
@@ -32,7 +29,6 @@
         <p>Aprender algo novo diariamente ajuda a manter a mente ativa e estimula a curiosidade, independentemente da idade ou da área de interesse.</p>
         <p>Momentos simples, como uma conversa tranquila ou uma caminhada curta, podem trazer uma sensação inesperada de bem-estar.</p>
         <p>Organizar ideias no papel ou na tela facilita a tomada de decisões e ajuda a enxergar soluções que antes pareciam distantes.</p>
-        {child_scroll}
         <p>A criatividade surge muitas vezes de situações comuns, quando se permite olhar para o cotidiano com uma perspectiva diferente.</p>
         <p>Trabalhar com consistência, mesmo em pequenos passos, costuma gerar resultados mais sólidos ao longo do tempo.</p>
         <p>O ambiente ao redor influencia diretamente no foco e na produtividade, tornando importante cuidar dos detalhes do espaço.</p>
