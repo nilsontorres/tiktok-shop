@@ -1,22 +1,24 @@
 <script>
+    let container = $state(null);
     let locked = $state(false);
     let scroll = $state(0);
 
-    const handleScroll = (e) => {
+    const handleWindowScroll = (e) => {
         scroll = window?.scrollY;
-        if (scroll > 10 && !locked) {
+        if (scroll > 1 && !locked) {
 			locked = true;
 
             document.body.style.position = 'fixed';
 			document.body.style.top = `-${scroll}px`;
 		}
     }
+    const handleChildScroll = () => {}
 </script>
 
-<svelte:window onscroll={handleScroll}/>
+<svelte:window onscroll={handleWindowScroll}/>
 
 <div class="flex w-full min-h-[110vh] text-black relative">
-    <div class="flex flex-col w-full h-[100dvh] fixed top-0 left-0 overflow-hidden">
+    <div bind:this={container} onscroll={handleChildScroll} class="flex flex-col w-full h-[100dvh] fixed top-0 left-0 overflow-hidden">
         [COMECO TELA 02]
         <p>O dia começou com um céu claro e uma brisa leve, criando um clima agradável para quem precisava sair cedo e organizar as tarefas pendentes da semana.</p>
         <p>Em meio à rotina, pequenas pausas fazem diferença, seja para tomar um café, respirar fundo ou simplesmente observar o movimento ao redor.</p>
