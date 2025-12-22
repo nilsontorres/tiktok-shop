@@ -47,6 +47,35 @@ export const maskWords = (value) => {
     });
 };
 
+export const maskPhone = (value) => {
+    if(!value) return;
+
+    return value.slice(0, 2) + "*".repeat(value.length - 4) + value.slice(-2);
+}
+
+export const firstAndLastName = (value) => {
+    if(!value) return;
+
+    const parts = value.split(/\s+/);
+    return parts.length > 1 ? `${parts[0]} ${parts[parts.length - 1]}` : parts[0];
+}
+
+export const formatFullname = (value) => {
+    if(!value) return;
+
+    const words = value.split(/\s+/).map(p => p.toLocaleLowerCase("pt-BR"));
+    return words.map((word, index) => {
+        if(index === 0 || index === words.length - 1){
+            return word[0].toLocaleUpperCase("pt-BR") + word.slice(1);
+        }
+        if(word.length <= 2){
+            return word;
+        }
+
+        return word[0].toLocaleUpperCase("pt-BR") + word.slice(1);
+    }).join(" ");
+}
+
 export const formatTimer = (value) => {
     const hours = Math.floor(value / 3600);
     const minutes = Math.floor((value % 3600) / 60);

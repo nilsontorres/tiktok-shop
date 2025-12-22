@@ -10,8 +10,6 @@ export const POST = async ({ request }) => {
         .eq("region_id", body.region)
         .order("name", { ascending: true });
 
-    console.log(error, data);
-
     if(error) return json({
         success: false
     });
@@ -21,15 +19,7 @@ export const POST = async ({ request }) => {
         results: data.map(result => {
             return {
                 id: result.id,
-                name: result.name,
-                country: {
-                    id: result.country?.id,
-                    name: result.country?.name
-                },
-                region: {
-                    id: result.region?.id,
-                    code: result.region?.code
-                }
+                name: result.name
             }
         })
     });

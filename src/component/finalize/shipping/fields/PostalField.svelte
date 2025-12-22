@@ -1,7 +1,7 @@
 <script>
     import { validateZipCode } from "$lib/validation";
 
-    let { value = $bindable(""), error } = $props();
+    let { value = $bindable(""), error, onChangeValue=()=>{} } = $props();
 
     let focus = $state(false);
 
@@ -16,6 +16,7 @@
         focus = false;
         value = value.trim();
         validate();
+        onChangeValue(value);
     }
     const clearInput = () => {
         value = "";
@@ -35,11 +36,12 @@
             return true;
         }
     }
+    export { value };
 </script>
 
 <div class="flex flex-col w-full">
     <div class="flex w-full px-[1rem] relative">
-        <input class="flex w-full h-[3rem] text-[0.84rem] outline-none placeholder:text-[#A8A8A8] caret-[#FE2C55] text-black" placeholder="CEP/Código postal" bind:value={value} oninput={handleInput} onfocus={handleFocus} onblur={handleBlur} spellcheck="false" autocomplete="off" type="text" inputmode="decimal" maxlength="8" name="zip_code"/>
+        <input class="flex w-full h-[3rem] text-[0.84rem] outline-none placeholder:text-[#A8A8A8] caret-[#FE2C55] text-black" placeholder="CEP/Código postal" bind:value={value} oninput={handleInput} onfocus={handleFocus} onblur={handleBlur} spellcheck="false" autocomplete="off" type="text" inputmode="decimal" maxlength="8" name="postal"/>
         {#if value !== "" && focus}
             <button class="flex items-center justify-center w-[3rem] h-[3rem] absolute top-0 right-0" type="button" aria-label="Limpar" onclick={clearInput}>
                 <svg class="min-w-[1rem] max-w-[1rem]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 44 44">

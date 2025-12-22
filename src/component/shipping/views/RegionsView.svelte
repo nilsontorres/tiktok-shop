@@ -6,7 +6,7 @@
     
     let {
         view="regions",
-        location={},
+        shipping={},
         onChangeRegion=()=>{},
         onChangeView=()=>{}
     } = $props();
@@ -119,7 +119,7 @@
                                 <span class="block w-full h-[0.05rem] bg-[#efefef]"></span>
                             </div>
                             <button onclick={() => { onChangeRegion(item); onChangeView("cities"); }} type="button" class="w-full bg-white a">
-                                <span class={`flex items-center text-[0.9rem] px-4 h-[2.8rem] ${location?.region && location?.region?.name == item.name ? "text-[#FE2C55]" : "text-black"} leading-none`}>{item.name}</span>
+                                <span class={`flex items-center text-[0.9rem] px-4 h-[2.8rem] ${shipping?.region && shipping?.region?.name == item.name ? "text-[#FE2C55]" : "text-black"} leading-none`}>{item.name}</span>
                             </button>
                         {/each}
                     {/each}

@@ -1,5 +1,5 @@
 <script>
-    let { value = $bindable(""), error } = $props();
+    let { value = $bindable(""), error, onChangeValue=()=>{} } = $props();
     let focus = $state(false);
 
     const handleInput = (e) => {
@@ -15,6 +15,7 @@
         focus = false;
         value = value.trim();
         validate();
+        onChangeValue(value);
     };
 
     const clearInput = () => {
@@ -29,6 +30,7 @@
         }
         return true;
     };
+    export { value };
 </script>
 
 <div class="flex flex-col w-full">

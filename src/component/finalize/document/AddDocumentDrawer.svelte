@@ -6,11 +6,13 @@
 
     let loading = $state(false);
     let open = $state(false);
-    let error = $state();
+    let error = $state(null);
     let value = $state("");
 
     export const openDrawer = () => {
         window.document.body.classList.add("no-scrollbar");
+        value = "";
+        error = null;
         open = true;
     }
     export const closeDrawer = () => {
@@ -24,10 +26,12 @@
         
         if(validateCPF(value)){
             closeDrawer();
+            window.document.body.classList.add("no-scrollbar");
             loading = true;
 
             setTimeout(() => {
                 loading = false;
+                window.document.body.classList.remove("no-scrollbar");
                 onChangeDocument(value);
             }, 2000);
         }
@@ -54,8 +58,8 @@
                 <path fill="#000" d="m0 4 4-4 15 15L34 0l4 4-15 15 15 15-4 4-15-15L4 38 .5 34 15 19 0 4Z"/>
             </svg>
         </button>
-        <div class="flex justify-center items-center w-full gap-[0.75rem] px-4 py-[1rem]">
-            <span class="text-black text-[1rem] font-bold leading-none">Adicionar CPF</span>
+        <div class="flex justify-center items-center w-full gap-[0.75rem] px-4 py-[1.15rem]">
+            <span class="text-black text-[1.06rem] font-bold leading-none">Adicionar CPF</span>
         </div>
         <div class="flex flex-col w-full transparent-scrollbar px-[1rem]">
             <span class="text-[#595959] text-[0.8rem] text-start leading-[0.88rem]">O CPF será usado para emitir faturas</span>

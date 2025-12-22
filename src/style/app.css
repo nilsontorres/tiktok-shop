@@ -61,14 +61,17 @@
 
 * {
     font-family: var(--font-tiktok);
+    touch-action: pan-y pan-x;
     outline: none
 }
 html, body {
     width: 100%;
+    min-height: 100vh;
     -ms-overflow-style: none;
     scrollbar-width: none;
     background-color: #FFF;
     overscroll-behavior: none;
+    overflow-x: hidden;
 }
 html::-webkit-scrollbar, body::-webkit-scrollbar {
     display: none;

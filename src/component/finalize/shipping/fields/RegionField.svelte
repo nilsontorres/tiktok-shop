@@ -1,11 +1,20 @@
 <script>
-    let { location={}, onOpenDrawer=()=>{} } = $props();
+    let { shipping={}, onOpenDrawer=()=>{}, onChangeValue=()=>{} } = $props();
+
+    export const validate = () => {
+        if(shipping?.region){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 </script>
 
 <button type="button" class="flex flex-col w-full" onclick={() => onOpenDrawer("regions")}>
     <div class="flex justify-between items-center w-full h-[3rem]">
-        {#if location?.region}
-            <span class="text-black text-[0.84rem]">{location?.region?.name}</span>
+        {#if shipping?.region}
+            <span class="text-black text-[0.84rem]">{shipping?.region?.name}</span>
         {:else}
             <span class="text-[#A8A8A8] text-[0.84rem]">Estado/UF</span>
         {/if}

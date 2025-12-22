@@ -17,12 +17,7 @@ export const POST = async ({ request }) => {
             return {
                 id: result.id,
                 name: result.name,
-                code: result.code,
-                country: {
-                    id: result.country?.id,
-                    name: result.country?.name,
-                    code: result.country?.code
-                }
+                code: result.code
             }
         })
     });

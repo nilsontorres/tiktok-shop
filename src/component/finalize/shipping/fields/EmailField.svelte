@@ -1,13 +1,13 @@
 <script>
     import { validateEmail } from "$lib/validation";
 
-    let { value = $bindable(""), error } = $props();
+    let { value = $bindable(""), error, onChangeValue=()=>{} } = $props();
 
     let focus = $state(false);
 
     const handleInput = (e) => {
         error = null;
-        value = e.target.value;
+        value = e.target.value.toLowerCase();
     }
     const handleFocus = (e) => {
         focus = true;
@@ -16,6 +16,7 @@
         focus = false;
         value = value.trim();
         validate();
+        onChangeValue(value);
     }
     const clearInput = () => {
         value = "";
@@ -31,6 +32,7 @@
             return true;
         }
     }
+    export { value };
 </script>
 
 <div class="flex flex-col w-full">

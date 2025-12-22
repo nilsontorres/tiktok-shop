@@ -1,13 +1,13 @@
 <script>
     import { onMount } from "svelte";
 
-    import CitiesView from "$component/location/views/CitiesView.svelte";
-    import RegionsView from "$component/location/views/RegionsView.svelte";
-    import SearchField from "$component/location/fields/SearchField.svelte";
+    import CitiesView from "$component/shipping/views/CitiesView.svelte";
+    import RegionsView from "$component/shipping/views/RegionsView.svelte";
+    import SearchField from "$component/shipping/fields/SearchField.svelte";
 
     let {
-        location={},
-        onChangeLocation=()=>{},
+        shipping={},
+        onChangeShipping=()=>{},
         showSearchField=false
     } = $props();
 
@@ -17,8 +17,8 @@
     let tab = $state("regions");
 
     let dragging = $state(false);
-    let city = $state(location?.city);
-    let region = $state(location?.region)
+    let city = $state(shipping?.city);
+    let region = $state(shipping?.region)
 
     const updateView = (value, animated=true) => {
         console.log("Update view", value);
@@ -46,11 +46,11 @@
     };
     const updateRegion = (value) => {
         region = value;
-        onChangeLocation({ ...location, region: value });
+        onChangeShipping({ ...shipping, region: value });
     }
     const updateCity = (value) => {
         city = value;
-        onChangeLocation({ ...location, city: value });
+        onChangeShipping({ ...shipping, city: value });
         closeDrawer();
     }
     const updateScroll = () => {
@@ -73,7 +73,7 @@
         if(value == "regions"){
             updateView("regions", false);
         }
-        else if(location?.region){
+        else if(shipping?.region){
             updateView("cities", false);
         }
         
@@ -101,12 +101,12 @@
         <div class="flex flex-col w-full px-4 py-5 relative">
             <div class="flex items-center gap-[0.75rem]">
                 <button type="button" class="flex flex-col gap-[0.35rem]" onclick={() => { updateView("regions") }}>
-                    <span class={`text-[0.9rem] font-semibold ${tab == "regions" ? "text-black" : "text-[#707070]"}`}>{location?.region ? location?.region?.name : "Estado/UF"}</span>
+                    <span class={`text-[0.9rem] font-semibold ${tab == "regions" ? "text-black" : "text-[#707070]"}`}>{shipping?.region ? shipping?.region?.name : "Estado/UF"}</span>
                     <span class={`w-full h-[0.12rem] rounded-full ${tab == "regions" ? "bg-black" : "bg-transparent"}`}></span>
                 </button>
-                {#if location?.region}
+                {#if shipping?.region}
                     <button type="button" class="flex flex-col gap-[0.35rem]" onclick={() => { updateView("cities") }}>
-                        <span class={`text-[0.9rem] font-semibold ${tab == "cities" ? "text-black" : "text-[#707070]"}`}>{location?.city ? location?.city?.name : "Cidade"}</span>
+                        <span class={`text-[0.9rem] font-semibold ${tab == "cities" ? "text-black" : "text-[#707070]"}`}>{shipping?.city ? shipping?.city?.name : "Cidade"}</span>
                         <span class={`w-full h-[0.12rem] rounded-full ${tab == "cities" ? "bg-black" : "bg-transparent"}`}></span>
                     </button>
                 {/if}
@@ -119,11 +119,11 @@
         </div>
         <div bind:this={container} onscroll={updateScroll} class="flex overflow-x-auto overscroll-y-contain h-full snap-x snap-mandatory scroll-smooth transparent-scrollbar">
             <div class="flex snap-start snap-always flex-none w-screen h-full relative">
-                <RegionsView {view} {location} onChangeView={updateView} onChangeRegion={updateRegion}/>
+                <RegionsView {view} {shipping} onChangeView={updateView} onChangeRegion={updateRegion}/>
             </div>
-            {#if location?.region}
+            {#if shipping?.region}
                 <div class="flex snap-start snap-always flex-none w-screen h-full relative">
-                    <CitiesView {view} {location} onChangeView={updateView} onChangeCity={updateCity}/>
+                    <CitiesView {view} {shipping} onChangeView={updateView} onChangeCity={updateCity}/>
                 </div>
             {/if}
         </div>

@@ -1,5 +1,5 @@
 <script>
-    let { value = $bindable(""), error } = $props();
+    let { value = $bindable(""), error, onChangeValue=()=>{} } = $props();
 
     let focus = $state(false);
 
@@ -16,6 +16,7 @@
         if(value == ""){
             value = "s/n";
         }
+        onChangeValue(value);
     }
     const clearInput = () => {
         value = "";
@@ -25,6 +26,7 @@
     export const validate = () => {
         return true;
     }
+    export { value };
 </script>
 
 <div class="flex flex-col w-full">

@@ -2,20 +2,16 @@
     import { formatPrice } from "$lib/formating";
 
     import ShippingDrawer from "$component/product/shipping/ShippingDrawer.svelte";
-    import LocationDrawer from "$component/location/LocationDrawer.svelte";
+    import AddShippingDrawer from "$component/shipping/ShippingDrawer.svelte";
 
     let { shipping, countries=[] } = $props();
 
     let shipping_drawer = $state();
     let location_drawer = $state();
-
-    let location = $state({
-        country: countries?.find(country => country.code == "BR")
-    });
 </script>
 
-<ShippingDrawer bind:this={shipping_drawer} {location} onOpenLocationDrawer={() => location_drawer.openDrawer()}/>
-<LocationDrawer bind:this={location_drawer} {location}/>
+<ShippingDrawer bind:this={shipping_drawer} {shipping} onOpenLocationDrawer={location_drawer?.openDrawer}/>
+<AddShippingDrawer bind:this={location_drawer} {shipping}/>
 
 <button onclick={() => shipping_drawer.openDrawer("shipping")} type="button" class="flex w-full justify-between items-center gap-[0.3rem] mt-[0.9rem]">
     <div class="flex items-start gap-2">

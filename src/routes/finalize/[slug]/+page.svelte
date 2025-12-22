@@ -25,13 +25,14 @@
     let document = $state(null);
     let address = $state(null);
     let quantity = $state(1);
+    let scroll = $state(0);
 
     let shipping = $state({
         filled: false,
         deadline: {from: 22, to: 28, month: "dez"},
         price: {regular: 28.70, promotional: 20.0},
         coupon: {discount: 20.0},
-        location: {country: {name: "Brasil", code: "BR"}}
+        country: {name: "Brasil", code: "BR"}
     });
 
     const updateDocument = (value) => {
@@ -46,12 +47,17 @@
     const updateShipping = (value) => {
         shipping = value;
     }
+    const updateScroll = () => {
+        scroll = window.scrollY;
+    }
 
     onMount(async () => {
         product.loadProduct(data?.id, () => {
             ready = true;
         });
     });
+
+    $inspect(shipping);
 </script>
 
 <svelte:head>
@@ -61,6 +67,7 @@
         {/if}
     {/each}
 </svelte:head>
+<svelte:window onscroll={updateScroll}/>
 
 {#if ready}
     <div class={`w-full fixed top-0 left-0 z-40 duration-300 transition-transform ${drawer?.open && "-translate-x-[10rem]"}`}>
@@ -68,7 +75,7 @@
     </div>
     <div class={`flex flex-col w-full duration-300 transition-transform ${drawer?.open && "-translate-x-[10rem]"}`}>
         <main class="flex flex-col w-full bg-[#F5F5F5] pt-12 pb-[9.4rem]">
-            <AddShippingSection {shipping} onChangeShipping={updateShipping} openDrawer={drawer?.openDrawer}/>
+            <AddShippingSection {scroll} {shipping} onChangeShipping={updateShipping} openDrawer={drawer?.openDrawer}/>
             <span class="block w-full h-[0.05rem] bg-[#e0e0e0]"></span>
             <AddDocumentSection {document} onChangeDocument={updateDocument}/>
             <div class="w-full h-[0.5rem] bg-[#F5F5F5]"></div>
