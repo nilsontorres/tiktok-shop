@@ -1,6 +1,6 @@
 <script>
     let current = $state(0);
-    let next = $state(1);
+    let next = $state(0);
 
     const changePage = (value) => {
         next = value;
