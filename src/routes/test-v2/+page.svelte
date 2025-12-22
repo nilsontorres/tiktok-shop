@@ -3,8 +3,8 @@
 </script>
 
 <svelte:window onscroll={() => scroll = window?.scrollY}/>
-<div class={`flex w-full ${scroll > 0 ? "min-h-[100vh]" : "min-h-[150vh]"}`}>
-    <div class={`flex flex-col text-black max-h-[100dvh] ${scroll > 0 ? "fixed top-0 left-0 w-full overflow-y-scroll bg-amber-200" : "overflow-hidden"}`}>
+<div class={`flex w-full ${scroll > 10 ? "min-h-[100vh]" : "min-h-[150vh]"}`}>
+    <div class={`flex flex-col text-black max-h-[100dvh] ${scroll > 10 ? "fixed top-0 left-0 w-full overflow-y-scroll bg-amber-200" : "overflow-hidden"}`}>
         [COMECO TELA 02] {scroll}
         <p>O dia começou com um céu claro e uma brisa leve, criando um clima agradável para quem precisava sair cedo e organizar as tarefas pendentes da semana.</p>
         <p>Em meio à rotina, pequenas pausas fazem diferença, seja para tomar um café, respirar fundo ou simplesmente observar o movimento ao redor.</p>
