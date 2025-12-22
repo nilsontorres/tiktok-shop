@@ -4,7 +4,7 @@
 
 <svelte:window onscroll={() => scroll = window?.scrollY}/>
 <div class="flex w-full min-h-[100vh]">
-    <div class={`text-black ${scroll > 0 && "fixed top-0 left-0 w-full max-h-[100dvh] overflow-y-scroll bg-amber-200"}`}>
+    <div class={`flex text-black max-h-[100dvh] overflow-y-scroll ${scroll > 0 && "fixed top-0 left-0 w-full bg-amber-200"}`}>
         [COMECO TELA 02] {scroll}
         <p>O dia começou com um céu claro e uma brisa leve, criando um clima agradável para quem precisava sair cedo e organizar as tarefas pendentes da semana.</p>
         <p>Em meio à rotina, pequenas pausas fazem diferença, seja para tomar um café, respirar fundo ou simplesmente observar o movimento ao redor.</p>
