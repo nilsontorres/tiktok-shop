@@ -13,16 +13,10 @@
 
             document.body.style.position = 'fixed';
 			document.body.style.top = `-${scroll}px`;
+            colored = true;
 		}
     }
     const handleChildScroll = () => {}
-
-    onMount(() => {
-        setTimeout(() => {
-            window.scrollTo({ top: 10, behavior: "instant"});
-            colored = true;
-        }, 3000);
-    });
 </script>
 
 <svelte:window onscroll={handleWindowScroll}/>
