@@ -4,6 +4,7 @@
     let container = $state(null);
     let locked = $state(false);
     let scroll = $state(0);
+    let colored = $state(false);
 
     const handleWindowScroll = (e) => {
         scroll = window?.scrollY;
@@ -17,14 +18,17 @@
     const handleChildScroll = () => {}
 
     onMount(() => {
-        window.scrollTo({ top: 10 });
+        setTimeout(() => {
+            window.scrollTo({ top: 10, behavior: "instant"});
+            colored = true;
+        }, 3000);
     });
 </script>
 
 <svelte:window onscroll={handleWindowScroll}/>
 
 <div class="flex w-full min-h-[110vh] text-black relative">
-    <div bind:this={container} onscroll={handleChildScroll} class="flex flex-col w-full h-[100dvh] fixed top-0 left-0 overflow-hidden">
+    <div bind:this={container} onscroll={handleChildScroll} class={`flex flex-col w-full h-[100dvh] fixed top-0 left-0 overflow-hidden ${colored && "bg-amber-500"}`}>
         [COMECO TELA 02]
         <p>O dia começou com um céu claro e uma brisa leve, criando um clima agradável para quem precisava sair cedo e organizar as tarefas pendentes da semana.</p>
         <p>Em meio à rotina, pequenas pausas fazem diferença, seja para tomar um café, respirar fundo ou simplesmente observar o movimento ao redor.</p>
