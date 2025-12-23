@@ -11,7 +11,7 @@
 	}
 </script>
 
-<div class="grid w-full min-h-dvh overflow-x-hidden">
+<div class="grid w-full overflow-x-hidden">
 	{#each pages as page, index}
 		<!-- 
             Calculamos a classe de posição aqui para passar 
@@ -21,7 +21,7 @@
 		
 		<div 
 			class={`
-				row-start-1 col-start-1 w-full min-h-dvh relative 
+				row-start-1 col-start-1 w-full relative 
 				transition-[left] duration-300 ease-in-out
 				${index == current || index == prevent ? "opacity-100" : "opacity-0"}
 				${index == current ? "max-h-auto z-20" : "max-h-dvh overflow-hidden z-10"} 

@@ -8,6 +8,5 @@
 
 <PageTransition pages={[
     {name: "finalization", component: FinalizationPage},
-    {name: "add_shipping", component: PageA},
-    {name: "product", component: PageB}
+    {name: "add_shipping", component: AddShippingPage}
 ]}/>
