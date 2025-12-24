@@ -34,7 +34,7 @@
 
 <svelte:window onscroll={handleScroll}/>
 
-<div class="w-full min-h-[110vh] text-black relative">
+<div class="w-full min-h-[120vh] text-black relative">
     <div class="flex flex-col w-full h-[100dvh] fixed top-0 left-0 overflow-y-scroll">
 		<span class="flex">{scroll} | {locked}</span>
 	</div>
