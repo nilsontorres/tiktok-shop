@@ -12,6 +12,7 @@
     import CityField from "$component/finalize/shipping/fields/CityField.svelte";
     import ShippingDrawer from "$component/shipping/ShippingDrawer.svelte";
     import AddShippingPopup from "$component/finalize/shipping/AddShippingPopup.svelte";
+    import { onMount } from "svelte";
 
     let { shipping={}, changePage=()=>{}, onChangeShipping=()=>{}, position } = $props();
 
@@ -95,8 +96,8 @@
         </div>
         <div class="flex w-[3.5rem] items-center"></div>
     </div>
-    <div class="flex flex-col w-full px-[0.5rem] overflow-y-scroll relative z-10" style="max-height: calc(100dvh - 10.6rem);">
-        <span class="text-[#6B6B6B] text-[0.8rem] font-semibold leading-none ps-[0.85rem] mt-[1rem]">Informações de contato</span>
+    <div class="flex flex-col w-full px-[0.5rem] pt-[1rem] pb-[1.5rem] overflow-y-scroll relative z-10" style="max-height: calc(100dvh - 10.6rem);">
+        <span class="text-[#6B6B6B] text-[0.8rem] font-semibold leading-none ps-[0.85rem]">Informações de contato</span>
         <div class="flex flex-col bg-white w-full rounded-[0.25rem] mt-[0.6rem] pb-[1.1rem]">
             <FullnameField bind:this={fullname} onChangeValue={updateFields}/>
             <PhoneField bind:this={phone} onChangeValue={updateFields}/>
