@@ -103,7 +103,7 @@
             <PhoneField bind:this={phone} onChangeValue={updateFields}/>
             <EmailField bind:this={email} onChangeValue={updateFields}/>
         </div>
-        <span class="text-[#6B6B6B] text-[0.8rem] font-semibold leading-none ps-[0.85rem] mt-[1.75rem]">Informações de endereço <a onclick={changeColor}> - Mudar cor</a></span>
+        <span class="text-[#6B6B6B] text-[0.8rem] font-semibold leading-none ps-[0.85rem] mt-[1.75rem]">Informações de endereço</span>
         <div class="flex flex-col bg-white w-full rounded-[0.25rem] mt-[0.6rem] pb-[1.1rem]">
             <PostalField bind:this={postal} onChangeValue={updateFields}/>
             <div class="flex items-center gap-[2rem] px-[1rem]">
