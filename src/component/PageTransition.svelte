@@ -16,14 +16,6 @@
 			current = index;
 		}
 	}
-
-	onMount(() => {
-		window.scrollTo({ top: 0 });
-
-		document.addEventListener('touchstart', () => {
-			window.scrollTo({ top: 20, behavior: "smooth" });
-		}, { once: true });
-	});
 </script>
 
 <svelte:window onscroll={() => !locked ? locked = true : null}/>
