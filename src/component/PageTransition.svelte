@@ -13,23 +13,9 @@
 
 <div class="grid w-full overflow-x-hidden">
 	{#each pages as page, index}
-		<!-- 
-            Calculamos a classe de posição aqui para passar 
-            tanto para o container quanto para o componente filho 
-        -->
-		{@const positionClass = index === current ? "left-0" : (index < current ? "-left-full" : "left-full")}
-		
-		<div 
-			class={`
-				row-start-1 col-start-1 w-full relative 
-				transition-[left] duration-300 ease-in-out
-				${index == current || index == prevent ? "opacity-100" : "opacity-0"}
-				${index == current ? "max-h-auto z-20" : "max-h-dvh overflow-hidden z-10"} 
-				${positionClass}
-			`}
-		>
-			<!-- Passamos a prop 'posClass' -->
-			<page.component {...page.props} {changePage} {positionClass} />
+		{@const position = index === current ? "left-0" : (index < current ? "-left-full" : "left-full")}
+		<div class={`row-start-1 col-start-1 w-full relative transition-[left] duration-300 ease-in-out ${index == current || index == prevent ? "opacity-100" : "opacity-0"} ${index == current ? "max-h-auto z-20" : "max-h-dvh overflow-hidden z-10"} ${position}`}>
+			<page.component {...page.props} {changePage} {position} />
 		</div>
 	{/each}
 </div>

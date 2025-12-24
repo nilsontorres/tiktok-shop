@@ -13,7 +13,7 @@
     import ShippingDrawer from "$component/shipping/ShippingDrawer.svelte";
     import AddShippingPopup from "$component/finalize/shipping/AddShippingPopup.svelte";
 
-    let { shipping={}, changePage=()=>{}, onChangeShipping=()=>{}, positionClass } = $props();
+    let { shipping={}, changePage=()=>{}, onChangeShipping=()=>{}, position } = $props();
 
     let drawer = $state(null);
     let popup = $state(null);
@@ -84,7 +84,7 @@
 </div>
 -->
 <div class="flex flex-col w-screen bg-[#F5F5F5] pt-12 pb-36">
-    <div class={`flex w-full h-12 justify-between items-center z-20 bg-[#F5F5F5] fixed top-0 transition-[left] duration-300 ease-in-out ${positionClass}`}>
+    <div class={`flex w-full h-12 justify-between items-center z-20 bg-[#F5F5F5] fixed top-0 transition-[left] duration-300 ease-in-out ${position}`}>
         <button class="flex justify-center items-center w-[3.5rem] h-[2rem]" type="button" aria-label="Voltar" onclick={() => changePage("finalization")}>
             <svg class="h-[1.1rem]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 31 53">
                 <path fill="#181818" d="M0 25.5 26.5 0 31 4.5l-21.5 21 21.5 22-4.5 5L0 25.5Z"/>
@@ -122,7 +122,7 @@
             </div>
         </div>
     </div>
-    <div class={`flex flex-col gap-[0.8rem] p-[1rem] pt-[0.8rem] w-full border-t-[0.054rem] bg-[#F5F5F5] border-[#C8C9CB] z-20 fixed bottom-0 transition-[left] duration-300 ease-in-out ${positionClass}`}>
+    <div class={`flex flex-col gap-[0.8rem] p-[1rem] pt-[0.8rem] w-full border-t-[0.054rem] bg-[#F5F5F5] border-[#C8C9CB] z-20 fixed bottom-0 transition-[left] duration-300 ease-in-out ${position}`}>
         <span class="text-[#444444] text-[0.76rem] text-center leading-[1.1rem]">Leia a <b class="text-black font-semibold">Política de privacidade do Tiktok</b> para saber mais sobre como usamos suas informações pessoais.</span>
         <button type="button" title="Salvar endereço" class="flex justify-center w-full h-[2.75rem] items-center rounded-lg disabled:opacity-50 bg-[#FE2C55] hover:bg-[#E81D44] active:bg-[#E81D44] overflow-hidden" disabled={!valid} onclick={saveShipping}>
             <span class="text-white text-[1rem] font-semibold leading-none">Salvar</span>

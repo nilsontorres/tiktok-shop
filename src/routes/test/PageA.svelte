@@ -1,9 +1,9 @@
 <script>
-    let { changePage=()=>{}, positionClass } = $props();
+    let { changePage=()=>{}, position } = $props();
 </script>
 
 <div class="flex flex-col w-full min-h-dvh justify-center items-center bg-red-300 relative py-12 text-black">
-    <div class={`fixed top-0 h-12 w-full flex items-center px-4 bg-white z-50 transition-[left] duration-300 ease-in-out ${positionClass}`}>
+    <div class={`h-12 w-full flex items-center px-4 bg-white z-50 fixed top-0 transition-[left] duration-300 ease-in-out ${position}`}>
         <span class="text-black">teste página A</span>
     </div>
     <p>Página de A</p>
