@@ -15,11 +15,18 @@
 			current = index;
 		}
 	}
+
+	onMount(() => {
+		document.addEventListener('touchstart', () => {
+			window.scrollTo({ top: 1, behavior: 'smooth' });
+			alert("Pronto");
+		}, { once: true });
+	});
 </script>
 
-<div class="grid grid-cols-1 grid-rows-1 w-full overflow-x-hidden bg-white">
+<div class="grid grid-cols-1 grid-rows-1 w-full overflow-hidden bg-white" style="height: calc(100dvh + 1px)">
 	{#each pages as page, index}
-		<div class={`col-start-1 row-start-1 w-full min-h-[100dvh] text-white flex flex-col min-w-full will-change-transform transition-transform ease-in-out ${index === current || index === prevent ? "duration-300" : "duration-0"} ${index === current ? "translate-x-0" : index == prevent ? current > prevent ? "-translate-x-full" : "translate-x-full" : index < current ? "-translate-x-full" : "translate-x-full"} ${index === current || index === prevent ? 'opacity-100 z-10' : 'opacity-0 pointer-events-none z-0'} ${index === current ? 'max-h-auto' : 'max-h-[100dvh] overflow-y-scroll'}`}>
+		<div class={`col-start-1 row-start-1 w-full min-h-[100dvh] flex flex-col min-w-full will-change-transform transition-transform ease-in-out ${index === current || index === prevent ? "duration-300" : "duration-0"} ${index === current ? "translate-x-0" : index == prevent ? current > prevent ? "-translate-x-full" : "translate-x-full" : index < current ? "-translate-x-full" : "translate-x-full"} ${index === current || index === prevent ? 'opacity-100 z-10' : 'opacity-0 pointer-events-none z-0'} ${index === current ? 'max-h-auto' : 'max-h-[100dvh] overflow-y-scroll'}`}>
 			<page.component {...page.props} {changePage}/>
 		</div>
 	{/each}

@@ -68,10 +68,6 @@
             changePage("finalization");
         }, 2000);
     }
-    const changeColor = () => {
-        document.body.style.backgroundColor = "#222";
-        alert("Pronto");
-    }
 </script>
 
 <ShippingDrawer bind:this={drawer} {shipping} {onChangeShipping}/>
