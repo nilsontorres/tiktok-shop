@@ -70,6 +70,7 @@ html, body {
     scrollbar-width: none;
     overscroll-behavior: none;
     background-color: #FFF;
+    overflow: hidden;
 }
 html::-webkit-scrollbar, body::-webkit-scrollbar {
     display: none;

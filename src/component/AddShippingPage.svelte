@@ -83,8 +83,8 @@
     </div>
 </div>
 -->
-<div class="flex flex-col w-screen bg-[#F5F5F5] pt-12 pb-36">
-    <div class={`flex w-full h-12 justify-between items-center z-20 bg-[#F5F5F5] fixed top-0 transition-[left] duration-300 ease-in-out ${position}`}>
+<div class="flex flex-col w-full overflow-hidden bg-[#F5F5F5] pt-[3rem] pb-[7.6rem]">
+    <div class="flex w-full h-12 justify-between items-center z-20 bg-[#F5F5F5] fixed top-0">
         <button class="flex justify-center items-center w-[3.5rem] h-[2rem]" type="button" aria-label="Voltar" onclick={() => changePage("finalization")}>
             <svg class="h-[1.1rem]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 31 53">
                 <path fill="#181818" d="M0 25.5 26.5 0 31 4.5l-21.5 21 21.5 22-4.5 5L0 25.5Z"/>
@@ -95,7 +95,7 @@
         </div>
         <div class="flex w-[3.5rem] items-center"></div>
     </div>
-    <div class="flex flex-col w-full px-[0.5rem] relative z-10">
+    <div class="flex flex-col w-full px-[0.5rem] overflow-y-scroll relative z-10" style="max-height: calc(100dvh - 10.6rem);">
         <span class="text-[#6B6B6B] text-[0.8rem] font-semibold leading-none ps-[0.85rem] mt-[1rem]">Informações de contato</span>
         <div class="flex flex-col bg-white w-full rounded-[0.25rem] mt-[0.6rem] pb-[1.1rem]">
             <FullnameField bind:this={fullname} onChangeValue={updateFields}/>
@@ -122,7 +122,7 @@
             </div>
         </div>
     </div>
-    <div class={`flex flex-col gap-[0.8rem] p-[1rem] pt-[0.8rem] w-full border-t-[0.054rem] bg-[#F5F5F5] border-[#C8C9CB] z-20 fixed bottom-0 transition-[left] duration-300 ease-in-out ${position}`}>
+    <div class="flex flex-col gap-[0.8rem] p-[1rem] w-full border-t-[0.054rem] bg-[#F5F5F5] border-[#C8C9CB] z-20 fixed bottom-0">
         <span class="text-[#444444] text-[0.76rem] text-center leading-[1.1rem]">Leia a <b class="text-black font-semibold">Política de privacidade do Tiktok</b> para saber mais sobre como usamos suas informações pessoais.</span>
         <button type="button" title="Salvar endereço" class="flex justify-center w-full h-[2.75rem] items-center rounded-lg disabled:opacity-50 bg-[#FE2C55] hover:bg-[#E81D44] active:bg-[#E81D44] overflow-hidden" disabled={!valid} onclick={saveShipping}>
             <span class="text-white text-[1rem] font-semibold leading-none">Salvar</span>
