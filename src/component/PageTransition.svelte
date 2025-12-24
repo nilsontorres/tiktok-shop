@@ -1,27 +1,4 @@
 <script>
-	let { pages=[] } = $props();
-
-	let current = $state(0);
-	let prevent = $state(null);
-
-	const changePage = (name) => {
-		prevent = current;
-		const index = pages.findIndex(page => page.name == name);
-		if(index !== -1) current = index;
-	}
-</script>
-
-<div class="grid w-full overflow-x-hidden">
-	{#each pages as page, index}
-		{@const position = index === current ? "left-0" : (index < current ? "-left-full" : "left-full")}
-		<div class={`row-start-1 col-start-1 w-full relative transition-[left] duration-300 ease-in-out ${index == current || index == prevent ? "opacity-100" : "opacity-0"} ${index == current ? "max-h-auto z-20" : "max-h-dvh overflow-hidden z-10"} ${position}`}>
-			<page.component {...page.props} {changePage} {position} />
-		</div>
-	{/each}
-</div>
-
-<!--
-<script>
     let { pages=[] } = $props();
 
 	let current = $state(0);
@@ -43,4 +20,3 @@
 		</div>
 	{/each}
 </div>
--->
