@@ -19,14 +19,12 @@
 	}
 	const handleScroll = () => {
 		scroll = window.scrollY;
+		/*
 		if(!locked && scroll >= 100){
             locked = true;
 			document.body.style.overflow = "hidden";
-			/*
-            document.body.style.position = "fixed";
-            document.body.style.top = `-${scroll}px`;
-			*/
         }
+		*/
 	}
 
 	$inspect(scroll);
