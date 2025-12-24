@@ -24,6 +24,19 @@
 			document.body.classList.add("no-scroll");
 		}
 	}
+	const preventScroll = (e) => {
+		if(locked){
+			e.preventDefault();
+		}
+	}
+
+	onMount(() => {
+		document.addEventListener('touchmove', preventScroll, { passive: false });
+
+		return () => {
+			document.removeEventListener('touchmove', preventScroll);
+		}
+	});
 </script>
 
 <svelte:window onscroll={handleScroll}/>
