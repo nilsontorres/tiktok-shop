@@ -1,6 +1,4 @@
-<div class="w-full h-dvh translate-0 overflow-hidden bg-amber-800 py-12">
-    <input class="w-full" type="text" placeholder="Nome completo">
-    <!--
+<div class="w-full h-dvh translate-0 overflow-hidden py-12">
     <div class="flex items-center justify-center w-full h-full bg-[#000000b4] fixed left-0 top-0 z-20">
         <div class="flex flex-col w-70 h-60 p-4 px-5 bg-white rounded-lg">
             <input class="w-full" type="text" placeholder="Nome completo">
@@ -29,5 +27,4 @@
     <div class="flex items-center w-full h-12 bg-red-200 fixed bottom-0 left-0">
         <span class="text-black px-4">Barra inferior</span>
     </div>
-    -->
 </div>

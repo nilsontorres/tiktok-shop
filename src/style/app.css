@@ -69,12 +69,7 @@ html, body {
     -ms-overflow-style: none;
     scrollbar-width: none;
     overscroll-behavior: none;
-}
-html {
-    background-color: bisque;
-}
-body {
-    background-color: aqua;
+    background-color: #FFF;
 }
 html::-webkit-scrollbar, body::-webkit-scrollbar {
     display: none;
