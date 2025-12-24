@@ -9,12 +9,12 @@
     let open = $state(false);
 
     export const openDrawer = () => {
-        document.body.classList.add("no-scrollbar");
+        document.body.classList.add("no-scroll");
         open = true;
     }
     export const closeDrawer = () => {
         open = false;
-        document.body.classList.remove("no-scrollbar");
+        document.body.classList.remove("no-scroll");
     }
 </script>
 
@@ -30,7 +30,7 @@
             <span class="text-black text-[1rem] font-bold leading-none">Envio</span>
         </div>
         <span class="w-full h-[0.05rem] bg-[#E8E8E8]"></span>
-        <div class="flex flex-col w-full overflow-y-auto overscroll-y-contain transparent-scrollbar px-4 py-5">
+        <div class="flex flex-col w-full overflow-y-auto overscroll-y-contain transparent-scroll px-4 py-5">
             <div class="flex items-center gap-[0.6rem]">
                 <div class="flex justify-center items-center w-[1rem] h-[1rem]">
                     <svg class="min-w-[0.82rem] max-w-[0.82rem] h-[0.84rem]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 38 37">

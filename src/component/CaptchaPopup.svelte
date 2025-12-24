@@ -47,12 +47,12 @@
     let top_px = $derived(top * (canvas_height - handle?.offsetHeight ?? 0));
 
     export const openPopup = () => {
-        document.body.classList.add("no-scrollbar");
+        document.body.classList.add("no-scroll");
         open = true;
     }
     export const closePopup = () => {
         open = false;
-        document.body.classList.remove("no-scrollbar");
+        document.body.classList.remove("no-scroll");
     }
 
     const onTouchStart = (e) => {

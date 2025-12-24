@@ -12,7 +12,7 @@
     </div>
     <div class="flex w-full overflow-hidden items-center mt-[1rem]">
         <div class="flex w-full items-center relative">
-            <div class="flex overflow-x-auto relative no-selectable transparent-scrollbar">
+            <div class="flex overflow-x-auto relative no-selectable transparent-scroll">
                 <ul class="flex items-center gap-[0.5rem]">
                     <li class="flex w-[0.5rem]"></li>
                     {#each product?.videos as video, index}

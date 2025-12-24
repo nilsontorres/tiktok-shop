@@ -10,7 +10,7 @@
     let value = $state("");
 
     export const openDrawer = () => {
-        window.document.body.classList.add("no-scrollbar");
+        window.document.body.classList.add("no-scroll");
         value = "";
         error = null;
         open = true;
@@ -18,7 +18,7 @@
     export const closeDrawer = () => {
         open = false;
         window.scrollTo({ top: 0, behavior: "instant" });
-        window.document.body.classList.remove("no-scrollbar");
+        window.document.body.classList.remove("no-scroll");
     }
 
     const onSave = () => {
@@ -26,12 +26,12 @@
         
         if(validateCPF(value)){
             closeDrawer();
-            window.document.body.classList.add("no-scrollbar");
+            window.document.body.classList.add("no-scroll");
             loading = true;
 
             setTimeout(() => {
                 loading = false;
-                window.document.body.classList.remove("no-scrollbar");
+                window.document.body.classList.remove("no-scroll");
                 onChangeDocument(value);
             }, 2000);
         }
@@ -61,7 +61,7 @@
         <div class="flex justify-center items-center w-full gap-[0.75rem] px-4 py-[1.15rem]">
             <span class="text-black text-[1.06rem] font-bold leading-none">Adicionar CPF</span>
         </div>
-        <div class="flex flex-col w-full transparent-scrollbar px-[1rem]">
+        <div class="flex flex-col w-full transparent-scroll px-[1rem]">
             <span class="text-[#595959] text-[0.8rem] text-start leading-[0.88rem]">O CPF será usado para emitir faturas</span>
             <DocumentField bind:value={value} {error}/>
         </div>

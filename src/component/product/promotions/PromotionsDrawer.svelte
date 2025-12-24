@@ -8,12 +8,12 @@
     let product = useProductState();
 
     export const openDrawer = () => {
-        document.body.classList.add("no-scrollbar");
+        document.body.classList.add("no-scroll");
         open = true;
     }
     export const closeDrawer = () => {
         open = false;
-        document.body.classList.remove("no-scrollbar");
+        document.body.classList.remove("no-scroll");
     }
 </script>
 
@@ -29,7 +29,7 @@
             <span class="text-black text-[1rem] font-bold leading-none">Ofertas</span>
         </div>
         <span class="w-full h-[0.05rem] bg-[#E8E8E8]"></span>
-        <div class="flex flex-col w-full overflow-y-auto overscroll-y-contain transparent-scrollbar pb-4">
+        <div class="flex flex-col w-full overflow-y-auto overscroll-y-contain transparent-scroll pb-4">
             <span class="flex w-full bg-[#F8F8F8] px-[0.85rem] pt-[0.75rem] pb-[0.9rem] text-[#353535] text-[0.92rem] leading-[1.2rem]">Resgate esses cupons e eles serão aplicados automaticamente na finalização da compra. Você pode aplicar 1 cupom e/ou promoção do TikTok Shop e 1 cupom e/ou promoção de cada vendedor. Aplicam-se termos individuais.</span>
             <div class="flex flex-col px-4 mt-[1.2rem]">
                 <span class="text-black text-[0.875rem] font-bold leading-none">Cupons de envio</span>

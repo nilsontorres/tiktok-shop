@@ -77,12 +77,12 @@
             updateView("cities", false);
         }
         
-        document.body.classList.add("no-scrollbar");
+        document.body.classList.add("no-scroll");
         open = true;
     }
     export const closeDrawer = () => {
         open = false;
-        document.body.classList.remove("no-scrollbar");
+        document.body.classList.remove("no-scroll");
     }
 </script>
 
@@ -117,7 +117,7 @@
                 </div>
             {/if}
         </div>
-        <div bind:this={container} onscroll={updateScroll} class="flex overflow-x-auto overscroll-y-contain h-full snap-x snap-mandatory scroll-smooth transparent-scrollbar">
+        <div bind:this={container} onscroll={updateScroll} class="flex overflow-x-auto overscroll-y-contain h-full snap-x snap-mandatory scroll-smooth transparent-scroll">
             <div class="flex snap-start snap-always flex-none w-screen h-full relative">
                 <RegionsView {view} {shipping} onChangeView={updateView} onChangeRegion={updateRegion}/>
             </div>

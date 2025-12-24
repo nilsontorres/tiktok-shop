@@ -8,12 +8,12 @@
     let open = $state(false);
 
     export const openDrawer = () => {
-        document.body.classList.add("no-scrollbar");
+        document.body.classList.add("no-scroll");
         open = true;
     }
     export const closeDrawer = () => {
         open = false;
-        document.body.classList.remove("no-scrollbar");
+        document.body.classList.remove("no-scroll");
     }
 </script>
 
@@ -29,7 +29,7 @@
             <span class="text-black text-[1rem] font-bold leading-none">Forma de pagamento</span>
         </div>
         <span class="w-full h-[0.05rem] bg-[#E8E8E8]"></span>
-        <div class="flex flex-col w-full transparent-scrollbar px-[1rem]">
+        <div class="flex flex-col w-full transparent-scroll px-[1rem]">
             <PixMethod selected={method == "pix"} {onChangePayment}/>
             <CreditCardMethod selected={method == "credit-card"} {onChangePayment} disabled={true}/>
             <ApplePayMethod selected={method == "apple-pay"} {onChangePayment} disabled={true}/>

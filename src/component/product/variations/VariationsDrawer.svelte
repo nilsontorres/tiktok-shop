@@ -18,13 +18,13 @@
     let image = $derived(product?.variations?.find(v => v.type == "image")?.variants?.find(v => v.selected)?.image || product?.variations?.find(v => v.type == "image")?.variants[0]?.image);
 
     export const openDrawer = () => {
-        document.body.classList.add("no-scrollbar");
+        document.body.classList.add("no-scroll");
         is_open = true;
     }
     export const closeDrawer = () => {
         container.scrollTo({ top: 0, behavior: "instant" });
         is_open = false;
-        document.body.classList.remove("no-scrollbar");
+        document.body.classList.remove("no-scroll");
     }
 </script>
 
@@ -68,7 +68,7 @@
         <div class="flex w-full px-4">
             <span class="w-full h-[0.05rem] bg-[#E8E8E8]"></span>
         </div>
-        <div class=" overflow-y-auto overscroll-y-contain transparent-scrollbar" bind:this={container}>
+        <div class=" overflow-y-auto overscroll-y-contain transparent-scroll" bind:this={container}>
             <span class="flex w-full h-3"></span>
             {#each product?.variations as variation}
                 <VariationItem variation={variation} {onChangeVariant}/>

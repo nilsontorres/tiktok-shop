@@ -25,10 +25,10 @@
 }
 
 @layer utilities {
-    .transparent-scrollbar::-webkit-scrollbar {
+    .transparent-scroll::-webkit-scrollbar {
         display: none;
     }
-    .transparent-scrollbar {
+    .transparent-scroll {
         -ms-overflow-style: none;
         scrollbar-width: none;
     }
@@ -75,7 +75,7 @@ html, body {
 html::-webkit-scrollbar, body::-webkit-scrollbar {
     display: none;
 }
-body.no-scrollbar {
+body.no-scroll {
     overflow: hidden;
 }
 ul {

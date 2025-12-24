@@ -9,12 +9,12 @@
     let is_open = $state(false);
 
     export const openDrawer = () => {
-        document.body.classList.add("no-scrollbar");
+        document.body.classList.add("no-scroll");
         is_open = true;
     }
     export const closeDrawer = () => {
         is_open = false;
-        document.body.classList.remove("no-scrollbar");
+        document.body.classList.remove("no-scroll");
     }
 </script>
 
@@ -30,7 +30,7 @@
             <span class="text-black text-[1rem] font-bold leading-none">Detalhes do preço</span>
         </div>
         <span class="w-full h-[0.05rem] bg-[#E8E8E8]"></span>
-        <div class="flex flex-col w-full transparent-scrollbar px-4 py-5">
+        <div class="flex flex-col w-full transparent-scroll px-4 py-5">
             <div class="flex justify-between items-center text-black text-[0.95rem] font-bold mt-[0.1rem]">
                 <span>Preço original</span>
                 <span>R$ {formatPrice(price.regular)}</span>

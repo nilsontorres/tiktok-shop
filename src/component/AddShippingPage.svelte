@@ -47,12 +47,12 @@
     const saveShipping = () => {
         if(!valid) return;
 
-        window.document.body.classList.add("no-scrollbar");
+        window.document.body.classList.add("no-scroll");
         loading = true;
 
         setTimeout(() => {
             loading = false;
-            window.document.body.classList.remove("no-scrollbar");
+            window.document.body.classList.remove("no-scroll");
             onChangeShipping({
                 ...shipping,
                 filled: true,
@@ -96,7 +96,7 @@
         </div>
         <div class="flex w-[3.5rem] items-center"></div>
     </div>
-    <div class="flex flex-col w-full px-[0.5rem] pt-[1rem] pb-[1.5rem] overflow-y-scroll relative z-10" style="max-height: calc(100dvh - 10.6rem);">
+    <div class="flex flex-col w-full px-[0.5rem] pt-[1rem] pb-[1.5rem] overflow-y-scroll transparent-scroll relative z-10" style="max-height: calc(100dvh - 10.6rem);">
         <span class="text-[#6B6B6B] text-[0.8rem] font-semibold leading-none ps-[0.85rem]">Informações de contato</span>
         <div class="flex flex-col bg-white w-full rounded-[0.25rem] mt-[0.6rem] pb-[1.1rem]">
             <FullnameField bind:this={fullname} onChangeValue={updateFields}/>

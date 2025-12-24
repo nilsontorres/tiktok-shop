@@ -35,12 +35,12 @@
 
     export const openDrawer = () => {
         container.scrollTo({ top: 0, behavior: "instant" });
-        document.body.classList.add("no-scrollbar");
+        document.body.classList.add("no-scroll");
         open = true;
     }
     export const closeDrawer = () => {
         open = false;
-        document.body.classList.remove("no-scrollbar");
+        document.body.classList.remove("no-scroll");
     }
 
     const updateFields = () => {
@@ -58,12 +58,12 @@
     const saveShipping = () => {
         if(!valid) return;
 
-        window.document.body.classList.add("no-scrollbar");
+        window.document.body.classList.add("no-scroll");
         loading = true;
 
         setTimeout(() => {
             loading = false;
-            window.document.body.classList.remove("no-scrollbar");
+            window.document.body.classList.remove("no-scroll");
             onChangeShipping({
                 ...shipping,
                 filled: true,
