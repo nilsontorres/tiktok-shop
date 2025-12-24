@@ -1,4 +1,6 @@
 <script>
+    import { onMount } from "svelte";
+
     let { pages=[] } = $props();
 
 	let current = $state(0);
@@ -6,6 +8,8 @@
 
 	const changePage = (name) => {
 		const index = pages.findIndex(page => page.name == name);
+		document.body.style.backgroundColor = pages[index]?.color;
+
 		if(index !== -1){
 			prevent = current;
 			current = index;

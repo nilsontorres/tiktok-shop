@@ -7,6 +7,6 @@
 </script>
 
 <PageTransition pages={[
-    {name: "finalization", component: FinalizationPage},
-    {name: "add_shipping", component: AddShippingPage}
+    {name: "finalization", component: FinalizationPage, color: "#FFFFFF"},
+    {name: "add_shipping", component: AddShippingPage, color: "#F5F5F5"}
 ]}/>
