@@ -19,7 +19,7 @@
 	}
 	const handleScroll = () => {
 		scroll = window.scrollY;
-		if(!locked && scroll >= 10){
+		if(!locked && scroll >= 100){
             locked = true;
 			document.body.style.overflow = "hidden";
 			/*
