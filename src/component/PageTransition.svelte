@@ -19,30 +19,25 @@
 	}
 	const handleScroll = () => {
 		scroll = window.scrollY;
-		if(!locked && scroll > 1){
-			locked = true;
-			document.body.classList.add("no-scroll");
-		}
-	}
-	const preventScroll = (e) => {
-		if(locked){
-			e.preventDefault();
-		}
+		if(!locked && scroll >= 10){
+            locked = true;
+			document.body.style.overflow = "hidden";
+			/*
+            document.body.style.position = "fixed";
+            document.body.style.top = `-${scroll}px`;
+			*/
+        }
 	}
 
-	onMount(() => {
-		document.addEventListener('touchmove', preventScroll, { passive: false });
-
-		return () => {
-			document.removeEventListener('touchmove', preventScroll);
-		}
-	});
+	$inspect(scroll);
 </script>
 
 <svelte:window onscroll={handleScroll}/>
 
-<div class="w-full min-h-[200vh] overflow-hidden bg-amber-400">
-	<span class="flex pt-10">{scroll} | {locked}</span>
+<div class="w-full min-h-[110vh] text-black relative">
+    <div class="flex flex-col w-full h-[100dvh] fixed top-0 left-0 overflow-y-scroll">
+		<span class="flex">{scroll} | {locked}</span>
+	</div>
 	<!--
 	<div class="fixed top-0 left-0 grid grid-cols-1 grid-rows-1 w-dvw h-dvh bg-white">
 		{#each pages as page, index}
