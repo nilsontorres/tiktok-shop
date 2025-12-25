@@ -1,9 +1,15 @@
 <script>
-    let { changePage=()=>{}, position } = $props();
+    let { changePage=()=>{}, locked=false } = $props();
+
+    let scrollable = $state(null);
+
+    export const scrollTo = (params) => {
+        scrollable.scrollTo(params);
+    }
 </script>
 
-<div class="flex flex-col w-full min-h-dvh justify-center items-center bg-red-300 relative py-12 text-black">
-    <div class={`h-12 w-full flex items-center px-4 bg-white z-50 fixed top-0 transition-[left] duration-300 ease-in-out ${position}`}>
+<div bind:this={scrollable} class={`flex flex-col w-full min-h-dvh justify-center items-center bg-red-300 relative py-12 text-black ${locked ? "overflow-y-scroll" : "overflow-hidden"}`}>
+    <div class="h-12 w-full flex items-center px-4 bg-white z-50 fixed top-0 transition-[left] duration-300 ease-in-out">
         <span class="text-black">teste página A</span>
     </div>
     <p>Página de A</p>
@@ -23,7 +29,7 @@
     <p>Em meio à rotina, pequenas pausas fazem diferença, seja para tomar um café, respirar fundo ou simplesmente observar o movimento ao redor.</p>
     <p>A tecnologia tem transformado a forma como as pessoas se comunicam, tornando as interações mais rápidas, mas também exigindo mais atenção e equilíbrio.</p>
     <p>Aprender algo novo diariamente ajuda a manter a mente ativa e estimula a curiosidade, independentemente da idade ou da área de interesse.</p>
-    <div class={`fixed bottom-0 h-12 w-full flex items-center px-4 bg-white z-50 transition-[left] duration-300 ease-in-out ${positionClass}`}>
+    <div class="fixed bottom-0 h-12 w-full flex items-center px-4 bg-white z-50 transition-[left] duration-300 ease-in-out">
         <span class="text-black">teste página A</span>
     </div>
 </div>

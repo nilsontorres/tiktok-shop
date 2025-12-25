@@ -1,9 +1,15 @@
 <script>
-    let { changePage=()=>{}, position } = $props();
+    let { changePage=()=>{}, locked=false } = $props();
+
+    let scrollable = $state(null);
+
+    export const scrollTo = (params) => {
+        scrollable.scrollTo(params);
+    }
 </script>
 
-<div class="flex flex-col w-full min-h-dvh justify-center items-center bg-amber-300 py-12 relative text-black">
-    <div class={`fixed top-0 h-12 w-full flex items-center px-4 bg-white z-50 transition-[left] duration-300 ease-in-out ${position}`}>
+<div bind:this={scrollable} class={`flex flex-col w-full min-h-dvh justify-center items-center bg-amber-300 py-12 relative text-black ${locked ? "overflow-y-scroll" : "overflow-hidden"}`}>
+    <div class="fixed top-0 h-12 w-full flex items-center px-4 bg-white z-50 transition-[left] duration-300 ease-in-out">
         <span class="text-black">teste página B</span>
     </div>
     <p>Página de B</p>
@@ -33,7 +39,7 @@
     <p>Trabalhar com consistência, mesmo em pequenos passos, costuma gerar resultados mais sólidos ao longo do tempo.</p>
     <p>O ambiente ao redor influencia diretamente no foco e na produtividade, tornando importante cuidar dos detalhes do espaço.</p>
     <p>No fim do dia, refletir sobre o que foi aprendido ajuda a encerrar o ciclo com mais clareza e preparação para o próximo desafio.</p>
-    <div class={`fixed bottom-0 h-12 w-full flex items-center px-4 bg-white z-50 transition-[left] duration-300 ease-in-out ${positionClass}`}>
+    <div class="fixed bottom-0 h-12 w-full flex items-center px-4 bg-white z-50 transition-[left] duration-300 ease-in-out">
         <span class="text-black">teste página B</span>
     </div>
 </div>

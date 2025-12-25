@@ -14,8 +14,9 @@
     import AddShippingPopup from "$component/finalize/shipping/AddShippingPopup.svelte";
     import { onMount } from "svelte";
 
-    let { shipping={}, changePage=()=>{}, onChangeShipping=()=>{}, position } = $props();
+    let { shipping={}, changePage=()=>{}, onChangeShipping=()=>{}, locked=false } = $props();
 
+    let scrollable = $state(null);
     let drawer = $state(null);
     let popup = $state(null);
     let valid = $state(false);
@@ -68,6 +69,10 @@
             changePage("finalization");
         }, 2000);
     }
+
+    export const scrollTo = (params) => {
+        scrollable.scrollTo(params);
+    }
 </script>
 
 <ShippingDrawer bind:this={drawer} {shipping} {onChangeShipping}/>
@@ -96,7 +101,7 @@
         </div>
         <div class="flex w-[3.5rem] items-center"></div>
     </div>
-    <div class="flex flex-col w-full px-[0.5rem] pt-[1rem] pb-[1.5rem] overflow-y-scroll transparent-scroll relative z-10" style="max-height: calc(100dvh - 10.6rem);">
+    <div bind:this={scrollable} class={`flex flex-col w-full px-[0.5rem] pt-[1rem] pb-[1.5rem] overflow-y-scroll transparent-scroll relative z-10 ${locked ? "overflow-y-scroll" : "overflow-hidden"}`} style="max-height: calc(100dvh - 10.6rem);">
         <span class="text-[#6B6B6B] text-[0.8rem] font-semibold leading-none ps-[0.85rem]">Informações de contato</span>
         <div class="flex flex-col bg-white w-full rounded-[0.25rem] mt-[0.6rem] pb-[1.1rem]">
             <FullnameField bind:this={fullname} onChangeValue={updateFields}/>
