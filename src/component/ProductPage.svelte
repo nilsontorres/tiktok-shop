@@ -1,5 +1,5 @@
 <script>
-    let { changePage=()=>{} } = $props();
+    let { changePage=()=>{}, locked=false } = $props();
 </script>
 
 <div class="flex flex-col w-full min-h-dvh justify-center items-center bg-amber-500 relative">
