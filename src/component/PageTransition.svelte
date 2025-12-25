@@ -33,7 +33,7 @@
 
 <svelte:window onscroll={handleScroll}/>
 
-<div class="w-full min-h-[120vh] text-black relative">
+<div class="w-full min-h-[120vh] relative">
     <!--
 	<div bind:this={container} class={`flex flex-col w-full max-h-[100dvh] fixed top-0 left-0 ${locked ? "overflow-y-scroll" : "overflow-hidden"}`}>
 		<p>O dia começou com um céu claro e uma brisa leve, criando um clima agradável para quem precisava sair cedo e organizar as tarefas pendentes da semana.</p>
@@ -53,7 +53,7 @@
 	</div>
 	-->
 	
-	<div class="fixed top-0 left-0 grid grid-cols-1 grid-rows-1 w-dvw h-dvh bg-white">
+	<div class="fixed top-0 left-0 grid grid-cols-1 grid-rows-1 min-w-dvw max-h-dvh">
 		{#each pages as page, index}
 			<div class={`col-start-1 row-start-1 flex flex-col min-w-dvw min-h-dvh max-h-dvh overflow-hidden will-change-transform transition-transform ease-in-out ${index === current || index === prevent ? "duration-300" : "duration-0"} ${index === current ? "translate-x-0" : index == prevent ? current > prevent ? "-translate-x-full" : "translate-x-full" : index < current ? "-translate-x-full" : "translate-x-full"} ${index === current || index === prevent ? 'opacity-100 z-10' : 'opacity-0 pointer-events-none z-0'}`}>
 				<page.component bind:this={handlers[index]} {...page.props} {changePage} {locked}/>
