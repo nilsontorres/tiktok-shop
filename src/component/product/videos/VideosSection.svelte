@@ -1,9 +1,7 @@
 <script>
-    import { useProductState } from "$state/product.svelte";
-
     import VideoItem from "$component/product/videos/VideoItem.svelte";
 
-    let product = useProductState();
+    let { product={} } = $props();
 </script>
 
 <button type="button" class="flex flex-col py-[1.1rem] bg-white">

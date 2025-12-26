@@ -2,9 +2,9 @@
     import { formatPrice } from "$lib/formating";
 
     import ShippingDrawer from "$component/product/shipping/ShippingDrawer.svelte";
-    import AddShippingDrawer from "$component/shipping/ShippingDrawer.svelte";
+    import AddShippingDrawer from "$component/location/LocationDrawer.svelte";
 
-    let { shipping, countries=[] } = $props();
+    let { shipping={} } = $props();
 
     let shipping_drawer = $state();
     let location_drawer = $state();
@@ -20,28 +20,28 @@
         </svg>
         <div class="flex flex-col">
             <div class="flex items-center gap-[0.3rem]">
-                {#if shipping.total == 0}
+                {#if shipping?.price?.promotional == 0}
                     <div class="flex items-center bg-[#E0F6F6] py-[0.2rem] ps-[0.25rem] pe-[0.2rem] rounded-sm">
                         <span class="text-[#059091] text-[0.75rem] font-medium leading-none">Frete grátis</span>
                     </div>
                 {/if}
                 <div class="flex items-center gap-[0.1rem] text-black text-[0.85rem] leading-none">
-                    <span>Receba até {shipping.deadline.from}</span>
+                    <span>Receba até {shipping?.deadline?.from}</span>
                     <span class="w-[0.4rem] h-[0.08rem] bg-black"></span>
-                    <span>{shipping.deadline.to} de {shipping.deadline.month}</span>
+                    <span>{shipping?.deadline?.to} de {shipping?.deadline?.month}</span>
                 </div>
             </div>
             <div class="flex items-center text-[#595959] text-[0.8rem] gap-[0.3rem] mt-[0.5rem] leading-none">
                 <span>Taxa de envio:</span>
-                {#if shipping.discount}
-                    <span class="line-through">R$ {formatPrice(shipping.amount)}</span>
-                    <span class="text-black">R$ {formatPrice(shipping.total)}</span>
+                {#if shipping?.coupon?.discount}
+                    <span class="line-through">R$ {formatPrice(shipping?.price?.regular)}</span>
+                    <span class="text-black">R$ {formatPrice(shipping?.price?.promotional)}</span>
                 {:else}
-                    <span class="text-black">R$ {formatPrice(shipping.amount)}</span>
+                    <span class="text-black">R$ {formatPrice(shipping?.price?.regular)}</span>
                 {/if}
             </div>
-            {#if shipping.discount}
-                <span class="text-[#059091] text-[0.8rem] mt-[0.3rem] text-start leading-[1.1rem]">{shipping.discount.description}</span>
+            {#if shipping?.coupon}
+                <span class="text-[#059091] text-[0.8rem] mt-[0.3rem] text-start leading-[1.1rem]">Desconto de R$ {formatPrice(shipping?.coupon?.discount, false)} no frete em pedidos acima de R$ {formatPrice(shipping?.coupon?.minimum, false)}</span>
             {/if}
         </div>
     </div>

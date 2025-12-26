@@ -35,6 +35,16 @@ export const validateFullname = (value) => {
     return false;
 }
 
+export const validatePhone = (value) => {
+    if(!value) return;
+    
+    const digits = value.replace(/\D/g, '');
+    if(digits.length == 11){
+        return true;
+    }
+    return false;
+}
+
 export const validateEmail = (value) => {
     if(!value) return;
 
@@ -44,10 +54,28 @@ export const validateEmail = (value) => {
     return false;
 }
 
-export const validateZipCode = (value) => {
+export const validatePostal = (value) => {
     if(!value) return;
 
     if(/^[0-9]{8}$/.test(value)){
+        return true;
+    }
+    return false;
+}
+
+export const validateDistrict = (value) => {
+    if(!value) return;
+
+    if(/([A-z]{1,})/.test(value) && value.length >= 2){
+        return true;
+    }
+    return false;
+}
+
+export const validateStreet = (value) => {
+    if(!value) return;
+
+    if(/([A-z]{1,})/.test(value) && value.length >= 2){
         return true;
     }
     return false;

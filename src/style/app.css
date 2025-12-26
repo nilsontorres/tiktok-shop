@@ -77,6 +77,9 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 body.no-scroll {
     overflow: hidden;
 }
+body {
+    padding-bottom: env (safe-area-inset-top);
+}
 ul {
     margin-bottom: 0.05rem;
 }

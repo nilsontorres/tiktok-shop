@@ -1,10 +1,9 @@
 <script>
     import { formatPrice } from "$lib/formating";
     import { getLowestPrice } from "$lib/prices";
-    import { useProductState } from "$state/product.svelte";
     import { PUBLIC_UPLOAD_BASE } from "$env/static/public";
 
-    let product = useProductState();
+    let { product={} } = $props();
 
     let price = $derived(getLowestPrice(product?.prices));
     let image = $derived(product?.images?.find(image => image.index == 0));

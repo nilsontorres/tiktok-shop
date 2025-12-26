@@ -1,8 +1,7 @@
 <script>
-    import { useProductState } from "$state/product.svelte";
     import { formatNumber } from "$lib/formating";
 
-    let product = useProductState();
+    let { product={} } = $props();
 </script>
 
 <div class="flex items-center gap-[0.3rem] mt-[0.5rem]">

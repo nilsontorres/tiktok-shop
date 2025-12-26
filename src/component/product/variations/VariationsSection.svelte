@@ -1,12 +1,18 @@
 <script>
-    import { useProductState } from "$state/product.svelte";
     import { PUBLIC_UPLOAD_BASE } from "$env/static/public";
 
     import VariationDrawer from "$component/product/variations/VariationsDrawer.svelte";
 
-    let drawer = $state();
-    let product = useProductState();
+    let { quantity=1, product={}, variant={}, updateQuantity=()=>{}, updateVariant=()=>{} } = $props();
 
+    let drawer = $state();
+    let selected = $state({});
+
+    const selectVariation = (name, value) => {
+        selected[name] = value;
+    }
+
+    /*
     const updateVariant = (new_variant) => {
         product?.variations?.forEach((variation, i) => {
             variation?.variants.forEach((variant, j) => {
@@ -19,9 +25,10 @@
             });
         });
     }
+    */
 </script>
 
-<VariationDrawer bind:this={drawer} onChangeVariant={updateVariant}/>
+<VariationDrawer bind:this={drawer} {selectVariation}/>
 
 <button onclick={() => drawer.openDrawer()} type="button" aria-label="Variações" class="flex w-full justify-between items-center gap-[0.3rem] mt-[0.8rem]">
     <div class="flex items-center gap-[0.6rem]">
@@ -34,7 +41,7 @@
                     <li class="w-8 h-8 rounded-sm overflow-hidden bg-cover bg-center" style={variant.image?.source && `background-image: url('${PUBLIC_UPLOAD_BASE}/${variant.image?.source}')`}></li>   
                 {/each}
             </ul>
-            <span class="text-[#858585] text-[0.775rem]">{product?.variations[0]?.variants?.length} opções disponíveis</span>
+            <span class="text-[#858585] text-[0.775rem]">{product?.variations?.[0]?.variants?.length} opções disponíveis</span>
         </div>
     </div>
     <div class="flex items-center h-full">

@@ -1,12 +1,12 @@
 import { error } from "@sveltejs/kit";
 import supabase from "$lib/supabase";
 
-const getProductID = async (slug) => {
+const getProductBySlug = async (slug) => {
     if(!slug) return;
 
     const { data, error } = await supabase
         .from("products")
-        .select("id, images:images(id, source, index)")
+        .select("id, images:images(id, source, index), prices:prices(id, regular, promotional)")
         .match({ slug, is_active: true })
         .maybeSingle();
 
@@ -15,12 +15,34 @@ const getProductID = async (slug) => {
 }
 
 export const load = async ({ url, locals, params }) => {
-    // Pega o ID e imagens para pré-carregamento.
-    const product = await getProductID(params.slug);
+    // Busca os dados do produto.
+    const product = await getProductBySlug(params.slug);
     if(!product) throw error(404, "Page not found");
+
+    // Pega o envio.
+    const shipping = {
+        price: {
+            regular: 47.00,
+            promotional: 27.00
+        },
+        location: {
+            country: {name: "Brasil", code: "BR"}
+        },
+        coupon: {
+            discount: 20.00,
+            minimum: 29.00
+        },
+        deadline: {
+            from: 19,
+            to: 28,
+            month: "dez"
+        }
+    };
+
+    // Pega o menor preço.
+    const price = product.prices.reduce((a, b) => {
+        return b.promotional < a.promotional ? b : a;
+    });
     
-    return {
-        id: product?.id,
-        images: product?.images
-    }
+    return { product, shipping, price };
 }

@@ -1,29 +1,31 @@
 <script>
-    import { useProductState } from "$state/product.svelte";
     import { onMount } from "svelte";
-    import { visible } from "$action/visible";
 
     import SuggestionsItem from "$component/product/suggestions/SuggestionsItem.svelte";
 
-    let { scroll=0, onUpdateSection=()=>{} } = $props();
+    let { product={}, scroll=0, updateSection=()=>{} } = $props();
 
-    let component = $state();
-    let product = useProductState();
+    let products = $state([]);
 
-    const onVisible = async () => {
-        if(!product.suggestions){
-            product.loadProductSuggestions();
+    const loadSuggestions = async () => {
+        const request = await fetch("/api/product/suggestions", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ id: product?.id })
+        });
+
+        if(request.status === 200){
+            products = await request.json();
         }
     }
 
-    $effect(() => {
-        const { top } = component?.getBoundingClientRect();
-        onUpdateSection("suggestions", top+scroll-90);
-    });
+    onMount(loadSuggestions);
 </script>
 
-<div class="flex flex-col py-[1rem] mt-[0.35rem]" bind:this={component} use:visible={onVisible}>
-    {#if product.suggestions}
+<div class="flex flex-col py-[1rem] mt-[0.35rem]">
+    {#if products.length > 0}
         <div class="flex justify-between items-center px-4">
             <span class="text-black text-[0.93rem] font-semibold leading-none">Você também pode gostar</span>
         </div>

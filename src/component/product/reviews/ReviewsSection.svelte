@@ -1,18 +1,16 @@
 <script>
     import { formatNumber } from "$lib/formating";
-    import { useProductState } from "$state/product.svelte";
 
     import ReviewRating from "$component/product/reviews/ReviewRating.svelte";
     import ReviewItem from "$component/product/reviews/ReviewItem.svelte";
 
-    let { scroll=0, onUpdateSection=()=>{} } = $props();
+    let { product={}, scroll=0, updateSection=()=>{} } = $props();
 
     let component = $state();
-    let product = useProductState();
 
     $effect(() => {
         const { top } = component?.getBoundingClientRect();
-        onUpdateSection("reviews", top+scroll-90);
+        updateSection("reviews", top+scroll-90);
     });
 </script>
 

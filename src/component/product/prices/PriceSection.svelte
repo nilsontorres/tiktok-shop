@@ -1,14 +1,12 @@
 <script>
-    import { useProductState } from "$state/product.svelte";
     import { getSecondsBetweenDates } from "$lib/datetime";
 
     import PriceDrawer from "$component/product/prices/PriceDrawer.svelte";
     import FlashPrice from "$component/product/prices/FlashPrice.svelte";
     import NormalPrice from "$component/product/prices/NormalPrice.svelte";
 
-    let { price={} } = $props();
+    let { product={}, price={} } = $props();
 
-    let product = useProductState();
     let drawer = $state();
 </script>
 

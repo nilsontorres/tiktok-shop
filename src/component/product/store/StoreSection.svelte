@@ -1,20 +1,30 @@
 <script>
-    import { useProductState } from "$state/product.svelte";
     import { onMount } from "svelte";
     import { formatNumber } from "$lib/formating";
     import { PUBLIC_UPLOAD_BASE } from "$env/static/public";
 
     import ProductItem from "$component/product/store/ProductItem.svelte";
 
-    let ready = $state(false);
-    let product = useProductState();
+    let { product={} } = $props();
 
-    onMount(async () => {
-        await product?.loadStoreProducts(() => {
-            console.log("Loading store products");
-            ready = true;
+    let ready = $state(false);
+    let products = $state([]);
+
+    const loadStoreProducts = async () => {
+        const request = await fetch("/api/store/products", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ id: product?.store?.id })
         });
-    });
+
+        if(request.status === 200){
+            products = await request.json();
+        }
+    }
+
+    onMount(loadStoreProducts);
 </script>
 
 <div class="flex flex-col py-[1rem] bg-white">
@@ -42,10 +52,10 @@
     <div class="w-full mt-[0.8rem]">
         <div class="flex w-full items-center relative">
             <div class="flex overflow-x-auto relative no-selectable transparent-scroll">
-                {#if product?.store?.products}
+                {#if products}
                     <ul class="flex items-center gap-[0.5rem]">
                         <div class="flex w-[0.5rem]"></div>
-                        {#each product?.store?.products as product}
+                        {#each products as product}
                             <ProductItem product={product}/>
                         {/each}
                         <div class="flex w-[0.8rem]"></div>

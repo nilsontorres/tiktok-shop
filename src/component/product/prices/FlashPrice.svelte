@@ -4,11 +4,7 @@
     import { getLowestPrice, isDifferentPrices } from "$lib/prices";
     import { onMount } from "svelte";
 
-    let {
-        prices=[],
-        coupon=false,
-        expiration
-    } = $props();
+    let { prices=[], coupon=false, expiration } = $props();
 
     let timer = $state(null);
     let interval;

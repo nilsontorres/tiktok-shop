@@ -1,13 +1,15 @@
+<script>
+    let { updatePage=()=>{} } = $props();
+</script>
+
 <div class="w-full h-full fixed top-0 left-0">
     <header class="flex flex-col w-full z-40">
         <div class="flex justify-between items-center h-12 bg-white border-b-[0.05rem] border-[#e0e0e0]">
-            <div class="flex justify-center items-center w-[3.5rem] h-[2rem] items-center">
-                <button type="button" aria-label="Voltar">
-                    <svg class="h-[1.1rem]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 31 53">
-                        <path fill="#181818" d="M0 25.5 26.5 0 31 4.5l-21.5 21 21.5 22-4.5 5L0 25.5Z"/>
-                    </svg>
-                </button>
-            </div>
+            <button class="flex justify-center items-center w-[2.7rem] h-[2rem]" type="button" aria-label="Voltar" onclick={() => updatePage("product")}>
+                <svg class="h-[1.1rem]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 31 53">
+                    <path fill="#181818" d="M0 25.5 26.5 0 31 4.5l-21.5 21 21.5 22-4.5 5L0 25.5Z"/>
+                </svg>
+            </button>
             <div class="flex flex-col items-center justify-center gap-[0.4rem]">
                 <span class="text-black text-[0.92rem] font-bold leading-none">Resumo do pedido</span>
                 <div class="flex items-center gap-[0.2rem]">

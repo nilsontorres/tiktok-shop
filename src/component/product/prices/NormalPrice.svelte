@@ -3,10 +3,7 @@
     import { onMount } from "svelte";
     import { getLowestPrice, isDifferentPrices } from "$lib/prices";
 
-    let {
-        prices=[],
-        coupon=false
-    } = $props();
+    let { prices=[], coupon=false } = $props();
     
     let price = $derived(getLowestPrice(prices));
 </script>

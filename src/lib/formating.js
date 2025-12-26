@@ -104,3 +104,8 @@ export const formatCPF = (value) => {
     value = value.replace(/(\d{3})\.(\d{3})(\d)/, '$1.$2.$3');
     return value.replace(/(\d{3})\.(\d{3})\.(\d{3})(\d{1,2})/, '$1.$2.$3-$4');
 }
+
+export const formatPhone = (value) => {
+    if(!value) return;
+    return value.replace(/\D/g, '');
+}

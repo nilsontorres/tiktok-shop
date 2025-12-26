@@ -1,11 +1,11 @@
 <script>
     import { formatPrice } from "$lib/formating";
-    import { useProductState } from "$state/product.svelte";
 
     import PromotionItem from "$component/product/promotions/PromotionItem.svelte";
 
+    let { product={} } = $props();
+
     let open = $state(false);
-    let product = useProductState();
 
     export const openDrawer = () => {
         document.body.classList.add("no-scroll");

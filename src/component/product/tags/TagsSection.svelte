@@ -1,10 +1,10 @@
 <script>
     import { onMount } from "svelte";
-    import { useProductState } from "$state/product.svelte"; 
 
     import TagItem from "$component/product/tags/TagItem.svelte";
 
-    let product = useProductState();
+    let { product={} } = $props();
+
     let container = $state(null);
     let carrosel = $state(null);
     let start_arrow = $state(false);

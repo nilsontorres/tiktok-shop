@@ -1,10 +1,10 @@
 <script>
-    import { useProductState } from "$state/product.svelte";
     import PromotionItem from "$component/product/promotions/PromotionItem.svelte";
     import PromotionsDrawer from "$component/product/promotions/PromotionsDrawer.svelte";
 
+    let { product={} } = $props();
+
     let drawer = $state();
-    let product = useProductState();
 </script>
 
 <PromotionsDrawer bind:this={drawer} />

@@ -7,7 +7,7 @@
     let current = $state(0);
     let prevent = $state(0);
 
-    const changePage = (name) => {
+    const updatePage = (name) => {
         const index = pages.findIndex(page => page.name == name);
         if(pages[index]?.color) document.body.style.backgroundColor = pages[index].color;
 
@@ -48,8 +48,7 @@
 </script>
 
 <style>
-    :global(.is-unlocking *) {
-		flex-shrink: 0;
+    :global(.is-unlocking .scrollable) {
         overflow: hidden !important;
         touch-action: pan-y !important;
     }
@@ -69,7 +68,7 @@
                     ${index === current && locked ? "overflow-y-auto overscroll-y-contain" : "overflow-hidden"}
                     ${!locked ? "is-unlocking" : ""}
 					`}>
-                <page.component {...page.props} {changePage}/>
+                <page.component {...page.props} {updatePage}/>
             </div>
         {/each}
     </div>

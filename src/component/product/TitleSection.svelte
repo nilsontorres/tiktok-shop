@@ -1,7 +1,5 @@
 <script>
-    import { useProductState } from "$state/product.svelte";
-
-    let product = useProductState();
+    let { product={}, saved=false, saveProduct=()=>{} } = $props();
 </script>
 
 <div class="flex justify-between itens-start mt-[0.35rem]">
@@ -50,8 +48,8 @@
         {/if}
         <span class="text-black text-[0.95rem] font-medium">{product?.title}</span>
     </div>
-    <button type="button" title="Salvar" class="-mt-[0.8rem]" onclick={product?.toggleSaved}>
-        {#if product?.saved}
+    <button type="button" title="Salvar" class="-mt-[0.8rem]" onclick={saveProduct}>
+        {#if saved}
             <svg class="min-w-[0.875rem] max-w-[0.875rem] h-[1.2rem]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 40 50">
                 <path fill="#202020" d="M34 0c3 0 6 1.5 6 5v42c0 3-3 3-5.5 1.5L20 36 5 48.5c-2 1.5-5 1-5-1.5V5c0-3 2.5-5 6-5h28Z"/>
             </svg>
