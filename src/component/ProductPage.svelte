@@ -77,7 +77,7 @@
     <header class="flex flex-col fixed top-0 left-0 w-full z-40">
         <div class="flex justify-between items-center h-12 px-5 bg-white">
             <div class="flex items-center">
-                <button type="button" title="Fechar">
+                <button type="button" title="Fechar" onclick={window?.close}>
                     <svg class="min-w-4 max-w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 47 46">
                         <path fill="#000" d="M46.077 4.053 27.091 22.89l18.986 18.84-4.022 4.052-19.017-18.87-19.017 18.87L0 41.73l18.984-18.84L0 4.054 4.021 0l19.017 18.87L42.055 0l4.022 4.053Z"/>
                     </svg>
