@@ -3,7 +3,7 @@
     import { initProductState } from "$state/product.svelte";
     import { PUBLIC_UPLOAD_BASE } from '$env/static/public';
 
-    import FinalizeSkeleton from "$component/finalize/FinalizeSkeleton.svelte";
+    import FinalizationSkeleton from "$component/FinalizationSkeleton.svelte";
     import FooterBar from "$component/finalize/FooterBar.svelte";
     import HeaderBar from "$component/finalize/HeaderBar.svelte";
     import PaymentSection from "$component/finalize/payment/PaymentSection.svelte";
@@ -15,11 +15,10 @@
     import AddShippingSection from "$component/finalize/shipping/AddShippingSection.svelte";
     import AddShippingDrawer from "$component/finalize/shipping/AddShippingDrawer.svelte";
 
-    let { id, images=[], changePage=()=>{}, locked=false } = $props();
+    let { id, images=[], changePage=()=>{} } = $props();
 
     const product = initProductState();
 
-    let scrollable = $state(null);
     let ready = $state(false);
     let document = $state(null);
     let address = $state(null);
@@ -50,10 +49,6 @@
         scroll = window.scrollY;
     }
 
-    export const scrollTo = (params) => {
-        scrollable.scrollTo(params);
-    }
-
     onMount(async () => {
         product.loadProduct(id, () => {
             ready = true;
@@ -65,14 +60,14 @@
 
 {#if ready}
     <div class="flex flex-col max-h-dvh relative">
-        <header class="flex flex-col w-full fixed top-0 left-0 z-50">
-            <div class="flex justify-between items-center h-12 bg-white border-b-[0.05rem] border-[#e0e0e0]">
+        <header class="flex flex-col w-dvw fixed top-0 left-0 z-50">
+            <div class="flex flex-wrap justify-between items-center h-12 bg-white border-b-[0.05rem] border-[#e0e0e0]">
                 <button class="flex justify-center items-center w-[3.5rem] h-[2rem]" type="button" aria-label="Voltar" onclick={() => changePage("finalization")}>
                     <svg class="h-[1.1rem]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 31 53">
                         <path fill="#181818" d="M0 25.5 26.5 0 31 4.5l-21.5 21 21.5 22-4.5 5L0 25.5Z"/>
                     </svg>
                 </button>
-                <div class="flex flex-col w-full items-center justify-center gap-[0.4rem]">
+                <div class="flex flex-col items-center justify-center gap-[0.4rem]">
                     <span class="text-black text-[0.92rem] font-bold leading-none">Resumo do pedido</span>
                     <div class="flex items-center gap-[0.2rem]">
                         <svg class="w-[0.63rem] h-[0.69rem]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 28 35">
@@ -84,10 +79,9 @@
                 <div class="flex w-[3.5rem] items-center"></div>
             </div>
         </header> 
-        <main bind:this={scrollable} class={`flex flex-col w-full bg-[#F5F5F5] transparent-scroll pt-[3rem] pb-[9.4rem] ${locked ? "overflow-y-scroll" : "overflow-hidden"}`}>
+        <main class="flex flex-col w-full bg-[#F5F5F5] transparent-scroll pt-[3rem] overscroll-y-contain pb-[11.4rem] overscroll-y-contain overflow-y-scroll">
             <AddShippingSection {scroll} {shipping} onChangeShipping={updateShipping} openDrawer={() => changePage("add_shipping")}/>
             <span class="flex shrink-0 w-full h-[0.05rem] bg-[#e0e0e0]"></span>
-            <span>{locked}</span>
             <AddDocumentSection {document} onChangeDocument={updateDocument}/>
             <div class="flex shrink-0 w-full h-[0.5rem] bg-[#F5F5F5]"></div>
             <ItemSection {quantity} onIncrementQuantity={incrementQuantity} onDecrementQuantity={decrementQuantity}/>
@@ -109,13 +103,13 @@
                 </svg>          
                 <span class="text-[#FE2C55] text-[0.76rem] font-medium">Você está economizando R$ 39,37 nesse pedido.</span>
             </div>
-            <div class="w-full border-t-[0.05rem] border-[#e0e0e0] bg-white">
+            <div class="w-full pb-[2rem] border-t-[0.05rem] border-[#e0e0e0] bg-white">
                 <div class="flex flex-col gap-[0.6rem] p-[1rem] pt-[0.7rem]">
                     <div class="flex justify-between items-center">
                         <span class="text-black text-[1rem] font-semibold leading-none">Total (1 item)</span>
                         <span class="text-[#FE2C55] text-[1rem] font-semibold">R$ 47,70</span>
                     </div>
-                    <button class="flex flex-col justify-center items-center w-full h-[3rem] bg-[#FE2C55] rounded-lg hover:bg-[#E81D44] active:bg-[#E81D44] overflow-hidden" type="button">
+                    <button class="flex flex-col justify-center items-center w-full h-[3rem] bg-[#FE2C55] rounded-lg hover:bg-[#E81D44] active:bg-[#E81D44]" type="button">
                         <span class="text-white text-[0.96rem] font-medium leading-none">Fazer pedido</span>
                         <span class="text-white text-[0.675rem] font-medium leading-none mt-[0.3rem]">O cupom expira em 08:37:15</span>
                     </button>
@@ -124,5 +118,5 @@
         </footer>
     </div>
 {:else}
-    <FinalizeSkeleton/>
+    <FinalizationSkeleton/>
 {/if}

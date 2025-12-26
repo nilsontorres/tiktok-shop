@@ -8,7 +8,7 @@
                     </svg>
                 </button>
             </div>
-            <div class="flex flex-col w-full items-center justify-center gap-[0.4rem]">
+            <div class="flex flex-col items-center justify-center gap-[0.4rem]">
                 <span class="text-black text-[0.92rem] font-bold leading-none">Resumo do pedido</span>
                 <div class="flex items-center gap-[0.2rem]">
                     <svg class="w-[0.63rem] h-[0.69rem]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 28 35">
