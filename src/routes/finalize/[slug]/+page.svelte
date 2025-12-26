@@ -3,7 +3,7 @@
     import { initProductState } from "$state/product.svelte";
     import { PUBLIC_UPLOAD_BASE } from '$env/static/public';
 
-    import FinalizeSkeleton from "$component/finalize/FinalizeSkeleton.svelte";
+    import FinalizeSkeleton from "$component/FinalizationSkeleton.svelte";
     import FooterBar from "$component/finalize/FooterBar.svelte";
     import HeaderBar from "$component/finalize/HeaderBar.svelte";
     import PaymentSection from "$component/finalize/payment/PaymentSection.svelte";
