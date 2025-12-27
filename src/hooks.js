@@ -1,6 +1,5 @@
 export const reroute = ({ url }) => {
     const { pathname } = url;
-    return "/test-v2";
 
     if(pathname.startsWith("/api/")){
         return pathname;
