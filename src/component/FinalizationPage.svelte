@@ -81,7 +81,7 @@
                     <span class="text-black text-[1rem] font-semibold leading-none">Total (1 item)</span>
                     <span class="text-[#FE2C55] text-[1rem] font-semibold">R$ 47,70</span>
                 </div>
-                <button class="flex flex-col justify-center items-center w-full h-[3rem] bg-[#FE2C55] rounded-lg hover:bg-[#E81D44] active:bg-[#E81D44]" type="button">
+                <button class="flex flex-col justify-center items-center w-full h-[3rem] bg-[#FE2C55] rounded-lg hover:bg-[#E81D44] active:bg-[#E81D44]" type="button" onclick={() => updatePage("payment")}>
                     <span class="text-white text-[0.96rem] font-medium leading-none">Fazer pedido</span>
                     <span class="text-white text-[0.675rem] font-medium leading-none mt-[0.3rem]">O cupom expira em 08:37:15</span>
                 </button>

@@ -1,5 +1,6 @@
 <script>
     import { onMount } from 'svelte';
+    import { addHoursToDate } from '$lib/datetime.js';
     import { PUBLIC_UPLOAD_BASE } from '$env/static/public';
 
     import PageTransition from "$component/PageTransition.svelte";
@@ -7,6 +8,7 @@
     import ShippingPage from "$component/ShippingPage.svelte";
     import ProductPage from '$component/ProductPage.svelte';
     import ProductSkeleton from '$component/product/ProductSkeleton.svelte';
+    import OrderPage from '$component/PaymentPage.svelte';
 
     let { data } = $props();
 
@@ -76,6 +78,9 @@
         {name: "shipping", color: "#F5F5F5", component: ShippingPage, props: {
             shipping,
             updateShipping
+        }},
+        {name: "payment", color: "#FFFFFF", component: OrderPage, props: {
+            order: {method: "pix", total: 47.70, expiration: addHoursToDate(Date.now(), 23)}
         }}
     ]}/>
 {:else}
