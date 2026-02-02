@@ -1,5 +1,5 @@
 <script>
-    let { updatePage=()=>{} } = $props();
+    let { openBackPopup=()=>{}, updatePage=()=>{} } = $props();
 </script>
 
 <div class="w-full h-full fixed top-0 left-0">

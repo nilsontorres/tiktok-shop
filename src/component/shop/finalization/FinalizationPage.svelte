@@ -169,5 +169,5 @@
         <FinalizationFooter {total} {discounts} {submitOrder}/>
     </div>
 {:else}
-    <FinalizationSkeleton/>
+    <FinalizationSkeleton openBackPopup={back_popup?.openPopup}/>
 {/if}
