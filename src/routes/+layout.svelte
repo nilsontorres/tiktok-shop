@@ -3,8 +3,7 @@
 	
 	import { navigating } from "$app/stores";
 
-    import ProductSkeleton from "$component/product/ProductSkeleton.svelte";
-    import FinalizationSkeleton from "$component/FinalizationSkeleton.svelte";
+    import ProductSkeleton from "$component/shop/product/ProductSkeleton.svelte";
 	
 	let { children } = $props();
 </script>
@@ -12,8 +11,6 @@
 {#if $navigating}
 	{#if $navigating.to.route.id == "/product/[slug]"}
 		<ProductSkeleton/>
-	{:else if $navigating.to.route.id == "/finalize/[slug]"}
-		<FinalizationSkeleton/>
 	{/if}
 {:else}
 	{@render children()}

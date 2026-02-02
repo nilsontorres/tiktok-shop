@@ -4,6 +4,9 @@ export const reroute = ({ url }) => {
     if(pathname.startsWith("/api/")){
         return pathname;
     }
+    else if(pathname.startsWith("/manager/")){
+        return pathname;
+    }
     else if(pathname.startsWith("/captcha")){
         return pathname;
     }

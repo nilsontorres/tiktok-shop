@@ -17,11 +17,19 @@
         100% { left: 0 }
     }
 
+    @keyframes reveal {
+        0% { transform: translateY(0px); }
+        13% { transform: translateY(-28px); }
+        87% { transform: translateY(-28px); }
+        100% { transform: translateY(0px); }
+    }
+
     --font-tiktok: "Tiktok Sans", sans-serif;
     --animate-revolve: revolve 0.8s ease-in-out infinite;
+    --animate-installments: reveal 3s ease-in-out 1;
     --shadow-custom: 0 0.2rem 1rem rgba(0, 0, 0, 0.15);
     --shadow-recommendations: 0 0 0.5rem rgba(0, 0, 0, 0.03);
-    --shadow-input-error: 0 0 0 0.2rem #FF4C3A;
+    --shadow-input-error: inset 0 0 0 2px #FF4C3A;
 }
 
 @layer utilities {
@@ -51,11 +59,23 @@
         animation: skeleton-pulse 1.2s ease-in-out infinite;
         background-color: #fcfcfc;
     }
+    .shake {
+        animation: shake 0.4s ease;
+    }
 
     @keyframes skeleton-pulse {
         0% { opacity: 1; }
         50% { opacity: 0.45; }
         100% { opacity: 1; }
+    }
+      
+    @keyframes shake {
+        0%   { transform: translateX(0); }
+        20%  { transform: translateX(-6px); }
+        40%  { transform: translateX(6px); }
+        60%  { transform: translateX(-6px); }
+        80%  { transform: translateX(6px); }
+        100% { transform: translateX(0); }
     }
 }
 
@@ -66,10 +86,12 @@
 }
 html, body {
     max-width: 100dvw;
+    min-height: 100dvh;
     -ms-overflow-style: none;
     scrollbar-width: none;
-    overscroll-behavior: none;
+    overscroll-behavior: contain;
     background-color: #FFF;
+    overflow-x: hidden;
 }
 html::-webkit-scrollbar, body::-webkit-scrollbar {
     display: none;
@@ -77,9 +99,20 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 body.no-scroll {
     overflow: hidden;
 }
-body {
-    padding-bottom: env (safe-area-inset-top);
-}
 ul {
     margin-bottom: 0.05rem;
+}
+.garanties-animation {
+    animation: garanties-slider 10s ease-in-out infinite;
+}
+
+@keyframes garanties-slider {
+    4%  { transform: translateY(0); }
+    33% { transform: translateY(0); }
+    37%  { transform: translateY(-15px); }
+    63%  { transform: translateY(-15px); }
+    67%  { transform: translateY(-30px); }
+    96%  { transform: translateY(-30px); }
+    99.98% { transform: translateY(-45px); }
+    99.99% { transform: translateY(0px); }
 }

@@ -1,6 +1,6 @@
 <script>
-    import CaptchaPopup from "$component/CaptchaPopup.svelte";
-    import ProductSkeleton from "$component/product/ProductSkeleton.svelte";
+    import CaptchaPopup from "$component/shop/CaptchaPopup.svelte";
+    import ProductSkeleton from "$component/shop/product/ProductSkeleton.svelte";
 
     let { data } = $props();
 

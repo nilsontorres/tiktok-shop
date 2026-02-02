@@ -7,7 +7,7 @@ export const POST = async ({ request }) => {
 
     const { data, error } = await supabase
         .from("products")
-        .select("id, title, rating, total_sales, total_reviews, flash_sale, images:images(id, index, source), prices:prices(id, regular, promotional), coupons:coupons(id, type, target, minimum, limit, origin, discount)")
+        .select("id, title, rating, total_sales, total_reviews, flash_sale, images:images(id, source, index), prices:prices(id, regular, promotional), coupons:coupons(id, type, target, minimum, limit, origin, discount)")
         .eq("is_active", true) //.neq("id", id)
         .limit(6);
 
