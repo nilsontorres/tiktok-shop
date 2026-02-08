@@ -1,7 +1,13 @@
 <script>
     import { formatPrice } from "$lib/formating";
     
-    let { product, shipping, price, gotoFinalization=()=>{} } = $props();
+    let { costs, discounts, product, coupons, shipping, price, gotoFinalization=()=>{} } = $props();
+
+    let coupon = $derived.by(() => {
+        const coupon = coupons?.find(item => item.category == "product" && item.is_applied);
+        const amount = coupon ? coupon.type == "variable" ? price?.regular * coupon.discount : coupon.discount : 0;
+        return { ...coupon, amount };
+    });
 </script>
 
 <footer class="flex fixed bottom-0 left-0 w-full py-[10px] pb-[44px] px-[10px] gap-[8px] bg-white border-t-[1px] border-[#eeeeee] z-40">
@@ -29,7 +35,7 @@
         </button>
     </div>
     <button type="button" title="Adicionar ao carrinho" class="flex flex-col justify-center w-full h-[44px] gap-[4px] items-center bg-[#FE2C55] rounded-[8px] hover:bg-[#E81D44] active:bg-[#E81D44] overflow-hidden" onclick={() => gotoFinalization()}>
-        <span class="text-white text-[16px] font-semibold leading-none">R$ {formatPrice(price?.promotional)}</span>
-        <span class="inline-block max-w-full text-ellipsis overflow-hidden whitespace-nowrap text-white text-[10px] font-medium leading-none">{product?.flash_sale ? "Compre pelo preço de Oferta relâmpago" : shipping?.price?.promotional === 0 ? "Comprar agora | Frete grátis" : "Comprar agora"}</span>
+        <span class="text-white text-[16px] font-semibold leading-none">R$ {formatPrice(price?.promotional - coupon?.amount)}</span>
+        <span class="inline-block max-w-full text-ellipsis overflow-hidden whitespace-nowrap text-white text-[10px] font-medium leading-none">{product?.flash_sale ? "Compre pelo preço de Oferta relâmpago" : (costs.shipping - discounts.shipping.total) === 0 ? "Comprar agora | Frete grátis" : "Comprar agora"}</span>
     </button>
 </footer>

@@ -3,10 +3,10 @@
     import { formatFullname, formatPrice } from "$lib/formating";
     import { onMount } from "svelte";
 
-    let { product, card, method, price, updateMethod=()=>{}, updatePage=()=>{}, closeDrawer=()=>{} } = $props();
+    let { total, product, card, method, price, updateMethod=()=>{}, updatePage=()=>{}, closeDrawer=()=>{} } = $props();
 
     let installments = $derived.by(() => {
-        let installments = getCardInstallments(card?.brand, price?.promotional);
+        let installments = getCardInstallments(card?.brand, total);
         return installments?.map(item => {
             if(item.number == card?.installments){
                 item.is_selected = true;
@@ -20,7 +20,7 @@
     let installment = $derived(installments?.find(item => item.is_selected));
 
     const GoInstallments = () => {
-        updatePage("installments", {card});
+        updatePage("installments", { card });
         setTimeout(closeDrawer, 300);
     }
 </script>
@@ -78,7 +78,7 @@
                     <div class="flex flex-col w-full mt-[12px]">
                         <div class="flex flex-col items-start w-full rounded-[10px] border-[1px] p-[8px] gap-[2px] border-[#FE2C55] bg-[#F8F8F8]">
                             {#if installment?.number <= product?.free_installments}
-                                <span class="text-black text-[13px] font-semibold leading-none">{installment?.number} meses x R$ {formatPrice(price?.promotional / installment?.number)}</span>
+                                <span class="text-black text-[13px] font-semibold leading-none">{installment?.number} meses x R$ {formatPrice(total / installment?.number)}</span>
                                 <span class="text-[#565656] text-[11px] leading-[15px]">Taxa de parcelamento mensal: R$ 0,00 <b class="line-through font-normal text-[#ADADAD]">R$ {formatPrice(installment?.fee)}</b></span>
                                 <div class="flex justify-center items-center gap-[3px] px-[6px] py-[5px] mt-[3px] rounded-[3px] bg-[#FFE5EA]">
                                     <svg class="w-[8px] h-[8px] shrink-0 mb-[1px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 21">

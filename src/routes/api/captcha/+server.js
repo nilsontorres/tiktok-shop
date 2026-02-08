@@ -4,8 +4,6 @@ import { json } from '@sveltejs/kit';
 const validateCaptchaByDevice = async (id) => {
     if(!id) return;
 
-    console.log(id);
-
     const { data, error } = await supabase
         .from("devices")
         .update({ captcha_solved: true })

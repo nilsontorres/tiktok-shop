@@ -3,24 +3,50 @@
     import { addHoursToDate, getSecondsBetweenDates } from "$lib/datetime";
     import { copyText } from "$lib/clipboard";
     import { getRandomNumber } from "$lib/random";
+    import { getShippingRange } from "$lib/shipping";
     import { onMount } from "svelte";
 
     import PaymentSkeleton from "$component/shop/payment/PaymentSkeleton.svelte";
     import ToastNotification from "$component/shop/ToastNotification.svelte";
+    import SuccessDrawer from "$component/shop/order/SuccessDrawer.svelte";
 
-    let { total, method, customer, address, order, updateOrder=()=>{}, updatePage=()=>{} } = $props();
+    let { product, shipping, total, method, customer, address, order, updateOrder=()=>{}, updatePage=()=>{} } = $props();
 
     let ready = $state(false);
+    let container = $state(null);
     let toast = $state(null);
+    let drawer = $state(null);
     let timer = $state(0);
     let interval = $state(null);
+    let scroll = $state({ position: 0, locked: false });
 
+    const handleScroll = () => {
+        scroll.position = container.scrollTop;
+    }
+    const updateScroll = (params) => {
+        if(params?.locked){
+            scroll.locked = true;
+        }
+        else{
+            scroll.locked = false;
+        }
+
+        if(params?.position !== null){
+            container.scrollTo({ top: params?.position, behavior: params?.animated ? "smooth" : "instant" });
+        }
+    }
     const updateTimer = () => {
         timer = getSecondsBetweenDates(Date.now(), order?.expiration);
+    }
+    const paymentApproved = () => {
+        updateOrder({ ...order, status: "approved", paid: Date.now(), deadline: getShippingRange(shipping?.deadline) });
+        clearInterval(interval);
+        drawer.openDrawer();
     }
     const copyPaymentCode = async () => {
         if(await copyText(order?.pix)){
             toast.showMessage("O código foi copiado", "checked_circle");
+            setTimeout(paymentApproved, 5000);
         }
         else{
             toast.showMessage("Falha ao copiar o código");
@@ -54,6 +80,7 @@
 
 {#if ready}
     <ToastNotification bind:this={toast} top={30}/>
+    <SuccessDrawer bind:this={drawer} {product} {order} {updatePage}/>
     <div class="flex relative w-full">
         <div class="flex w-full h-[300px] absolute top-0 left-0 z-10 bg-[linear-gradient(120deg,#DBFEFD_0%,#FFFFFF_28.3%,#FFFFFF_45.7%,#FEDBEC_100%)]"></div>
         <div class="flex flex-col w-full relative z-10">
@@ -68,12 +95,16 @@
                 </div>
                 <div class="flex w-[56px] items-center"></div>
             </header>
-            <main class="flex flex-col w-full scrollable pt-[48px] px-[16px]">
+            <main bind:this={container} onscroll={handlerScroll} class="flex flex-col w-full scrollable pt-[48px] px-[16px]">
                 <div class="flex justify-between items-center mt-[13px]">
-                    <span class="text-black text-[22px] font-bold leading-[30px]">Aguardando o pagamento<br/>R$ {formatPrice(order.total)}</span>
+                    {#if order?.status == "approved"}
+                        <span class="text-black text-[22px] font-bold leading-[30px]">Pagamento aprovado <br/>R$ {formatPrice(order.total)}</span>
+                    {:else}
+                        <span class="text-black text-[22px] font-bold leading-[30px]">Aguardando o pagamento <br/>R$ {formatPrice(order.total)}</span>
+                    {/if}
                     <svg class="w-[48px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 132 132">
                         <path fill="#FF9500" d="M66 0c36.451 0 66 29.55 66 66 0 36.451-29.549 66-66 66-36.45 0-66-29.549-66-66C0 29.55 29.55 0 66 0Zm-3 30a3 3 0 0 0-3 3v34c0 .664.218 1.276.584 1.773.22.408.532.776.936 1.067l28.452 20.44c1.386.996 3.295.713 4.261-.633l3.501-4.873c.967-1.345.626-3.243-.76-4.239L72 62.592V33a3 3 0 0 0-3-3h-6Z"/>
-                    </svg>                  
+                    </svg>
                 </div>
                 <div class="flex items-center gap-[6px] mt-[16px]">
                     <span class="text-[#7b7e7e] text-[14px]">Vence em</span>

@@ -1,11 +1,11 @@
 <script>
-    import PixMethod from "$component/shop/finalization/payment/PixMethod.svelte";
-    import AddNewCreditCard from "$component/shop/finalization/payment/AddNewCreditCard.svelte";
-    import CreditCardMethod from "$component/shop/finalization/payment/CreditCardMethod.svelte";
-    import ApplePayMethod from "$component/shop/finalization/payment/ApplePayMethod.svelte";
-    import BoletoMethod from "$component/shop/finalization/payment/BoletoMethod.svelte";
+    import PixMethod from "$component/shop/payment/PixMethod.svelte";
+    import AddNewCreditCard from "$component/shop/payment/AddNewCreditCard.svelte";
+    import CreditCardMethod from "$component/shop/payment/CreditCardMethod.svelte";
+    import ApplePayMethod from "$component/shop/payment/ApplePayMethod.svelte";
+    import BoletoMethod from "$component/shop/payment/BoletoMethod.svelte";
 
-    let { product, installments, method, cards, price, updateMethod=()=>{}, updatePage=()=>{}, openMethodDrawer=()=>{} } = $props();
+    let { total, product, installments, method, cards, price, page, updateMethod=()=>{}, updatePage=()=>{}, openMethodDrawer=()=>{} } = $props();
 </script>
 
 <div class="flex flex-col w-full px-[16px] py-[19px] bg-white">
@@ -15,7 +15,7 @@
             <AddNewCreditCard {product} {installments} {price} {method} {updateMethod} {updatePage}/>
             {#if cards && product?.card_method}
                 {#each cards as card}
-                    <CreditCardMethod {product} {card} {method} {price} {updateMethod} {updatePage}/>
+                    <CreditCardMethod {total} {product} {card} {method} {price} {updateMethod} {updatePage} {page}/>
                 {/each}
             {/if}
         {/if}

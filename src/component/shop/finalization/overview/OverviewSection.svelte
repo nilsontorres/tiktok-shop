@@ -23,7 +23,7 @@
                 <path fill="#000" d="M0 13 13 0l13 13-3.5 3.5L13 7l-9.5 9.5L0 13Z"/>
             </svg>
         </div>
-        <span class="text-black text-[15px]">R$ {formatPrice(costs.product - discounts.product)}</span>
+        <span class="text-black text-[15px]">R$ {formatPrice(costs.product - discounts.product.total)}</span>
     </button>
     {#if product_expand}
         <div class="w-full mt-[16px] ps-[16px] gap-[18px]">
@@ -31,10 +31,16 @@
                 <span class="text-black">Preço original</span>
                 <span class="text-black">R$ {formatPrice(costs.product)}</span>
             </div>
-            {#if discounts.product > 0}
+            {#if discounts.product.offer > 0}
                 <div class="flex justify-between items-center text-[12px] leading-none mt-[18px]">
                     <span class="text-black">Desconto no produto</span>
-                    <span class="text-[#E10543]">- R$ {formatPrice(discounts.product)}</span>
+                    <span class="text-[#E10543]">- R$ {formatPrice(discounts.product.offer)}</span>
+                </div>
+            {/if}
+            {#if discounts.product.coupons > 0}
+                <div class="flex justify-between items-center text-[12px] leading-none mt-[18px]">
+                    <span class="text-black">Cupons do TikTok Shop</span>
+                    <span class="text-[#E10543]">- R$ {formatPrice(discounts.product.coupons)}</span>
                 </div>
             {/if}
             {#if discounts.payment > 0}
@@ -43,12 +49,6 @@
                     <span class="text-[#E10543]">- R$ {formatPrice(discounts.payment)}</span>
                 </div>
             {/if}
-            <!--
-            <div class="flex justify-between items-center text-[12px] leading-none mt-[18px]">
-                <span class="text-black">Cupons do TikTok Shop</span>
-                <span class="text-[#E10543]">- R$ 11,45</span>
-            </div>
-            -->
         </div>
     {/if}
     <button class="flex w-full justify-between items-center mt-[19px]" type="button" onclick={toggleShipping}>
@@ -58,18 +58,24 @@
                 <path fill="#000" d="M0 13 13 0l13 13-3.5 3.5L13 7l-9.5 9.5L0 13Z"/>
             </svg>
         </div>
-        <span class="text-black text-[15px]">R$ {formatPrice(costs.shipping - discounts.shipping)}</span>
+        <span class="text-black text-[15px]">{(costs.shipping - discounts.shipping.total) > 0 ? `R$ ${formatPrice(costs.shipping - discounts.shipping.total)}` : "Grátis"}</span>
     </button>
     {#if shipping_expand}
         <div class="w-full mt-[16px] ps-[16px] gap-[18px]">
             <div class="flex justify-between items-center text-[12px] leading-none">
                 <span class="text-black">Taxa de envio</span>
-                <span class="text-black">R$ {formatPrice(costs.shipping)}</span>
+                <span class="text-black">{costs.shipping > 0 ? `R$ ${formatPrice(costs.shipping)}` : "Grátis"}</span>
             </div>
-            {#if discounts.shipping > 0}
+            {#if discounts.shipping.offer > 0}
                 <div class="flex justify-between items-center text-[12px] leading-none mt-[18px]">
                     <span class="text-black">Desconto de envio</span>
-                    <span class="text-[#E10543]">- R$ {formatPrice(discounts.shipping)}</span>
+                    <span class="text-[#E10543]">- R$ {formatPrice(discounts.shipping.offer)}</span>
+                </div>
+            {/if}
+            {#if discounts.shipping.coupons > 0}
+                <div class="flex justify-between items-center text-[12px] leading-none mt-[18px]">
+                    <span class="text-black">Cupons do TikTok Shop</span>
+                    <span class="text-[#E10543]">- R$ {formatPrice(discounts.shipping.coupons)}</span>
                 </div>
             {/if}
         </div>

@@ -9,7 +9,7 @@
     import ImagesViewer from "$component/shop/image/ImagesViewer.svelte";
     import VariationsDrawer from "$component/shop/variations/VariationsDrawer.svelte";
 
-    let { review, variations, variants, quantity, store, filter="all", product, shipping, price, prices, image, updateVariation=()=>{}, updateQuantity=()=>{}, updatePage=()=>{} } = $props();
+    let { costs, discounts, review, variations, variants, quantity, store, filter="all", product, shipping, price, prices, image, updateVariation=()=>{}, updateQuantity=()=>{}, updatePage=()=>{} } = $props();
 
     let ready = $state(false);
     let loading = $state(false);
@@ -25,6 +25,8 @@
     let scroll = $state({ position: 0, locked: false });
 
     const loadReviews = async () => {
+        console.log("Loading reviews");
+
         const request = await fetch("/api/product/reviews", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -38,6 +40,8 @@
 
         if(request.status === 200){
             const response = await request.json();
+
+            console.log(reviews);
 
             reviews.push(...response.filter(item => review ? item.id != review.id : true));
             images.push(...reviews.flatMap(item => item.images));
@@ -86,7 +90,7 @@
     $effect(() => {
         review = review;
         untrack(() => {
-            if(!store){
+            if(!store && review){
                 ready = false;
                 filter = "all";
                 reviews = [review];
@@ -99,19 +103,19 @@
     $effect(() => {
         store = store;
         untrack(() => {
-            if(!review){
+            if(!review && store){
                 ready = false;
                 reviews = [];
                 images = [];
                 loadReviews();
             }
         });
-    })
+    });
 </script>
 
 {#if ready}
     <ImagesViewer bind:this={viewer}/>
-    <VariationsDrawer bind:this={drawer} {product} {shipping} {variants} {variations} {quantity} {price} {prices} {image} {updateVariation} {updateQuantity} {gotoFinalization} {updatePage}/>
+    <VariationsDrawer bind:this={drawer} {costs} {discounts} {product} {coupons} {shipping} {variants} {variations} {quantity} {price} {prices} {image} {updateVariation} {updateQuantity} {gotoFinalization} {updatePage}/>
     <div class="w-full h-dvh bg-[#FFF] relative">
         <ReviewsHeader {product} {store} {updatePage}/>
         <main bind:this={container} onscroll={handleScroll} class={`flex flex-col pt-[50px] pb-[100px] no-selectable ${scroll.locked ? "overflow-y-hidden" : "overflow-y-scroll"} max-h-dvh transparent-scroll scrollable`}>
@@ -199,8 +203,8 @@
                 {/if}
             </div>
         </main>
-        <ProductFooter {product} {shipping} {price} {gotoFinalization} {updatePage}/>
+        <ProductFooter {costs} {discounts} {product} {coupons} {shipping} {price} {gotoFinalization} {updatePage}/>
     </div>
 {:else}
-    <ReviewsSkeleton {product} {shipping} {store} {price} {updatePage}/>
+    <ReviewsSkeleton {costs} {discounts} {product} {coupons} {shipping} {store} {price} {updatePage}/>
 {/if}

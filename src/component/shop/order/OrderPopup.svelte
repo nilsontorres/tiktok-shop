@@ -1,7 +1,7 @@
 <script>
     import { onMount } from "svelte";
 
-    let { updatePage=()=>{}, updateScroll=()=>{} } = $props();
+    let { confirmed, updateConfirmation=()=>{}, updatePage=()=>{}, updateScroll=()=>{} } = $props();
 
     let is_open = $state(false);
 
@@ -23,10 +23,10 @@
                 <p class="w-full text-[#595959] text-[15px] text-center leading-[19px]">Você realizou o pagamento?</p>
             </div>
             <div class="flex items-center">
-                <button class="flex items-center justify-center w-full h-[50px]" type="button" onclick={closePopup}>
+                <button class="flex items-center justify-center w-full h-[50px]" type="button" onclick={() => { updateConfirmation(false); closePopup(); }}>
                     <span class="text-[#595959] text-[16px] leading-none">Não</span>
                 </button>
-                <button class="flex items-center justify-center w-full h-[50px]" type="button" onclick={() => { closePopup(); }}>
+                <button class="flex items-center justify-center w-full h-[50px]" type="button" onclick={() => { updateConfirmation(true), closePopup(); }}>
                     <span class="text-black text-[16px] font-semibold leading-none">Sim</span>
                 </button>
             </div>

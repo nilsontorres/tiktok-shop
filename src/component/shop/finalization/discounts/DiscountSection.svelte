@@ -1,7 +1,7 @@
 <script>
     import { formatPrice } from "$lib/formating";
 
-    let { discounts } = $props();
+    let { costs, discounts } = $props();
 </script>
 <div class="flex shrink-0 justify-between items-center w-full h-[51px] px-[16px] bg-white">
     <div class="flex items-center gap-[5px]">
@@ -12,26 +12,36 @@
     </div>
     <div class="flex items-center gap-[8px]">
         <div class="flex items-center gap-[4px]">
-            {#if discounts.shipping > 0}
-                <div class="flex justify-center items-center px-[8px] h-[27px] relative bg-[#E2F9FC] rounded-[4px]">
+            {#if discounts.product.coupons > 0}
+                <div class="flex justify-center items-center ps-[8px] pe-[7px] h-[27px] relative bg-[#FFF0F3] rounded-[4px]">
                     <svg class="absolute top-[10px] -left-[1px] h-[8px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 9 18">
                         <path fill="#fff" d="M0 18A9 9 0 1 0 0 0v18Z"/>
                     </svg>
                     <svg class="absolute top-[10px] -right-[1px] h-[8px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 9 18">
                         <path fill="#fff" d="M9 0a9 9 0 1 0 0 18V0Z"/>
                     </svg>
-                    <span class="text-[#20D5EC] text-[11px] font-bold whitespace-nowrap">- R$ {formatPrice(discounts.shipping)}</span>
+                    <span class="text-[#FE2C55] text-[11px] font-semibold whitespace-nowrap">R$ {formatPrice(discounts.product.coupons)}</span>          
                 </div>
             {/if}
-            {#if discounts.coupons > 0}
-                <div class="flex justify-center items-center px-[8px] h-[27px] relative bg-[#FFF0F3] rounded-[4px]">
+            {#if (costs.shipping - discounts.shipping.total) == 0}
+                <div class="flex justify-center items-center ps-[8px] pe-[7px] h-[27px] relative bg-[#E2F9FC] rounded-[4px]">
                     <svg class="absolute top-[10px] -left-[1px] h-[8px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 9 18">
                         <path fill="#fff" d="M0 18A9 9 0 1 0 0 0v18Z"/>
                     </svg>
                     <svg class="absolute top-[10px] -right-[1px] h-[8px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 9 18">
                         <path fill="#fff" d="M9 0a9 9 0 1 0 0 18V0Z"/>
                     </svg>
-                    <span class="text-[#FE2C55] text-[11px] font-bold whitespace-nowrap">- R$ {formatPrice(discounts.coupons)}</span>          
+                    <span class="text-[#20D5EC] text-[11px] font-semibold whitespace-nowrap">Frete grátis</span>
+                </div>
+            {:else if discounts.shipping.coupons > 0}
+                <div class="flex justify-center items-center ps-[8px] pe-[7px] h-[27px] relative bg-[#E2F9FC] rounded-[4px]">
+                    <svg class="absolute top-[10px] -left-[1px] h-[8px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 9 18">
+                        <path fill="#fff" d="M0 18A9 9 0 1 0 0 0v18Z"/>
+                    </svg>
+                    <svg class="absolute top-[10px] -right-[1px] h-[8px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 9 18">
+                        <path fill="#fff" d="M9 0a9 9 0 1 0 0 18V0Z"/>
+                    </svg>
+                    <span class="text-[#20D5EC] text-[11px] font-semibold whitespace-nowrap">R$ {formatPrice(discounts.shipping.coupons)}</span>
                 </div>
             {/if}
         </div>

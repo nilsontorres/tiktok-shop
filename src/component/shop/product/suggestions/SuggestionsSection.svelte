@@ -27,7 +27,7 @@
 
     $effect(() => {
         const { top } = component?.getBoundingClientRect();
-        updateSection("suggestions", top+scroll.position-86);
+        updateSection("suggestions", top+scroll?.position-86);
     });
 </script>
 

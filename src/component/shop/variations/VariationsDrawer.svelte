@@ -9,16 +9,29 @@
     import CouponItem from "$component/shop/product/coupons/CouponItem.svelte";
     import ToastNotification from "$component/shop/ToastNotification.svelte";
 
-    let { product, shipping, variations, price, prices, image, quantity, updateVariation=()=>{}, updateQuantity=()=>{}, gotoFinalization=()=>{}, updatePage=()=>{} } = $props();
+    let { costs, discounts, coupons, product, shipping, variations, price, prices, image, quantity, updateVariation=()=>{}, updateQuantity=()=>{}, gotoFinalization=()=>{}, updatePage=()=>{} } = $props();
 
     let container = $state(null);
     let toast = $state(null);
     let open = $state(false);
-    let timer = $state(null);
     let interval = $state(null);
 
+    let timer_flash = $state(null);
+    let timer_shipping = $state(1200);
+
+    let coupon = $derived.by(() => {
+        const coupon = coupons?.find(item => item.category == "product" && item.is_applied);
+        const amount = coupon ? coupon.type == "variable" ? price?.regular * coupon.discount : coupon.discount : 0;
+        return { ...coupon, amount };
+    });
+
     const updateTimer = () => {
-        timer = getSecondsBetweenDates(Date.now(), product?.flash_sale);
+        if(timer_flash){
+            timer_flash = getSecondsBetweenDates(Date.now(), product?.flash_sale);
+        }
+        if(timer_shipping){
+            timer_shipping = Math.max(0, timer_shipping-1);
+        }
     }
     const localUpdateQuantity = (value) => {
         if(value < 1){
@@ -36,12 +49,12 @@
 
     onMount(async () => {
         if(product?.flash_sale){
-            timer = getSecondsBetweenDates(Date.now(), product?.flash_sale);
-            interval = setInterval(updateTimer, 1000);
+            timer_flash = getSecondsBetweenDates(Date.now(), product?.flash_sale);
+        }
 
-            return () => {
-                clearInterval(interval);
-            }
+        interval = setInterval(updateTimer, 1000);
+        return () => {
+            clearInterval(interval);
         }
     });
 
@@ -71,30 +84,26 @@
                 <div class="flex flex-col">
                     <div class="flex items-center gap-[8px]">
                         <div class="flex w-[44px] h-[22px] justify-center items-center bg-[#FE2C55] rounded-[4px]">
-                            <span class="text-white font-semibold text-[14px] leading-none">{calculateDiscount(price?.regular, price?.promotional)}</span>
+                            <span class="text-white font-semibold text-[14px] leading-none">{calculateDiscount(price?.regular, price?.promotional - coupon?.amount)}</span>
                         </div>
-                        <div class="flex items-baseline gap-[0.25rem] text-[#E10543] text-[16px] font-semibold leading-none">
+                        <div class="flex items-baseline text-[#E10543] text-[16px] font-semibold leading-none">
                             {#if !prices?.find(item => item.is_selected)}
-                                <span class="text-[12px] font-semibold">A partir de</span>
+                                <span class="text-[12px] font-semibold me-[4px]">A partir de</span>
                             {/if}
-                            <span>R$ <b class="text-[22px] font-semibold">{formatPrice(price?.promotional)}</b></span>
+                            <span>R$ <b class="text-[22px] font-semibold">{formatPrice(price?.promotional - coupon?.amount)}</b></span>
+                            {#if discounts.product.coupons > 0}
+                                <svg class="h-[12px] w-[14px] shrink-0 ms-[5px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 44 34">
+                                    <path fill="#E10543" d="M38 0a6 6 0 0 1 6 6v6a5 5 0 0 0 0 10v6a6 6 0 0 1-6 6H6a6 6 0 0 1-6-6v-6a5 5 0 0 0 0-10V6a6 6 0 0 1 6-6h32ZM7 4a3 3 0 0 0-3 3v2s5.5 1.5 5.5 8S4 25 4 25v2a3 3 0 0 0 3 3h30a3 3 0 0 0 3-3v-2s-5.5-1.5-5.5-8S40 9.5 40 9.5V7a3 3 0 0 0-3-3H7Zm25.5 7.5L21 27l-8-8.5 3-3 4.5 5L29 9l3.5 2.5Z"/>
+                                </svg>
+                            {/if}
                         </div>
                     </div>
                     <div>
                         <span class="text-black text-[12px] font-medium opacity-50 line-through">R$ {formatPrice(price?.regular)}</span>
                     </div>
-                    {#if shipping?.price?.promotional == 0}
-                        <div class="flex w-full">
-                            <div class="flex items-center bg-[#E7F9F9] border-[1px] border-[#C5F0F0] h-[20px] px-[3px] gap-[3px] rounded-sm mt-[3px]">
-                                <svg class="size-[12px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 36 31">
-                                    <path fill="#13C2C2" d="M20.583 0c2.375 0 3.959 1.583 3.959 3.563v1.979h4.75c1.98 0 6.333 5.937 6.333 11.083v6.333c0 1.98-.396 3.167-2.375 3.167h-3.398a5.542 5.542 0 0 1-10.622 0h-6.003a5.542 5.542 0 0 1-10.623-.007C1.104 26.012 0 24.485 0 22.958V19c.088-.97.175-2.037.259-3.167h7.658v-3.167H.47c.062-1.04.119-2.102.166-3.166h11.239V6.333H.745c.028-1.085.047-2.149.047-3.166C.792 1.187 1.583 0 3.562 0h17.021ZM7.917 22.167a2.375 2.375 0 1 0 0 4.75 2.375 2.375 0 0 0 0-4.75Zm16.625 0a2.375 2.375 0 1 0 0 4.75 2.375 2.375 0 0 0 0-4.75Zm0-12.667v5.542h6.728c0-2.77-2.374-5.542-4.353-5.542h-2.375Z"/>
-                                </svg>                                  
-                                <span class="text-[#13C2C2] text-[10px] font-semibold leading-none">Frete grátis</span>
-                            </div>
-                        </div>
-                    {:else if product?.coupons?.length > 0}
+                    {#if coupon}
                         <ul class="flex items-center mt-[0.2rem]">
-                            <CouponItem coupon={product?.coupons[0]}/>
+                            <CouponItem {coupon}/>
                         </ul>
                     {/if}
                 </div>
@@ -112,7 +121,23 @@
                         </svg>
                         <span class="text-[#E40442] text-[12.4px] font-semibold leading-none">Oferta Relâmpago</span>                         
                     </div>
-                    <span class="text-[#E40442] text-[12px] leading-none">Termina em <b class="font-medium tabular-nums">{formatTimer(timer)}</b></span>
+                    <span class="text-[#E40442] text-[12px] leading-none">Termina em <b class="font-medium tabular-nums">{formatTimer(timer_flash)}</b></span>
+                </div>
+            </div>
+        {:else if (costs.shipping - discounts.shipping.total) == 0}
+            <div class="flex w-full px-[16px]">
+                <div class="flex items-center justify-between w-full h-[28px] px-[8px] bg-[#EFFBFB] rounded-[6px]">
+                    <div class="flex items-center gap-[5px]">
+                        <svg class="size-[15px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 36 31">
+                            <path fill="#13C2C2" d="M20.583 0c2.375 0 3.959 1.583 3.959 3.563v1.979h4.75c1.98 0 6.333 5.937 6.333 11.083v6.333c0 1.98-.396 3.167-2.375 3.167h-3.398a5.542 5.542 0 0 1-10.622 0h-6.003a5.542 5.542 0 0 1-10.623-.007C1.104 26.012 0 24.485 0 22.958V19c.088-.97.175-2.037.259-3.167h7.658v-3.167H.47c.062-1.04.119-2.102.166-3.166h11.239V6.333H.745c.028-1.085.047-2.149.047-3.166C.792 1.187 1.583 0 3.562 0h17.021ZM7.917 22.167a2.375 2.375 0 1 0 0 4.75 2.375 2.375 0 0 0 0-4.75Zm16.625 0a2.375 2.375 0 1 0 0 4.75 2.375 2.375 0 0 0 0-4.75Zm0-12.667v5.542h6.728c0-2.77-2.374-5.542-4.353-5.542h-2.375Z"/>
+                        </svg>
+                        {#if (costs.shipping - discounts.shipping.total) == 0}
+                            <div class="text-black text-[12.4px] leading-none">A oferta de <span class="text-[#027B7B]">frete grátis</span> está expirando</div>
+                        {:else}
+                            <div class="text-black text-[12.4px] leading-none">O desconto de <span class="text-[#027B7B]">R$ 20</span> no frete está expirando</div>
+                        {/if}
+                    </div>
+                    <span class="text-[#027B7B] text-[12px] font-semibold tabular-nums leading-none">{formatTimer(timer_shipping)}</span>
                 </div>
             </div>
         {:else}
@@ -134,8 +159,8 @@
                 <span class="text-black text-[16px] font-semibold whitespace-nowrap">Adicionar ao carrinho</span>
             </button>
             <button type="button" title="Adicionar ao carrinho" class="flex flex-col justify-center w-full h-[44px] gap-[4px] px-[8px] items-center bg-[#FE2C55] rounded-[8px] hover:bg-[#E81D44] active:bg-[#E81D44] overflow-hidden" onclick={() => gotoFinalization(toast)}>
-                <span class="text-white text-[16px] font-semibold leading-none">R$ {formatPrice(price?.promotional)}</span>
-                <span class=" inline-block max-w-full text-ellipsis whitespace-nowrap overflow-hidden text-white text-[10px] font-medium leading-none">{product?.flash_sale ? "Compre pelo preço de Oferta relâmpago" : shipping?.price?.promotional === 0 ? "Comprar agora | Frete grátis" : "Comprar agora"}</span>
+                <span class="text-white text-[16px] font-semibold leading-none">R$ {formatPrice(price?.promotional - coupon?.amount)}</span>
+                <span class=" inline-block max-w-full text-ellipsis whitespace-nowrap overflow-hidden text-white text-[10px] font-medium leading-none">{product?.flash_sale ? "Compre pelo preço de Oferta relâmpago" : (costs.shipping - discounts.shipping.total) === 0 ? "Comprar agora | Frete grátis" : "Comprar agora"}</span>
             </button>
         </div>
     </div>

@@ -2,7 +2,7 @@
     let { product, saved, saveProduct=()=>{} } = $props();
 </script>
 
-<div class="flex justify-between itens-start px-[16px] bg-white">
+<div class="flex justify-between itens-start px-[16px] mt-[2px]">
     <div class="inline leading-[20px]">
         {#if product?.badge == "eleven-eleven"}
             <div class="inline-flex items-center align-middle pb-[2px]">

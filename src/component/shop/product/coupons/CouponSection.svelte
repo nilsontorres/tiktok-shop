@@ -35,7 +35,7 @@
     });
 </script>
 
-<div class="flex w-full justify-between items-center gap-[5px] py-[5px] px-[16px] bg-white">
+<div class="flex w-full justify-between items-center gap-[5px] mt-[6px] px-[16px]">
     <div class="flex w-full items-center relative">
         {#if show_start_arrow}
             <div class="flex justify-center items-center absolute left-0 top-0 h-[32px] z-20">
@@ -46,7 +46,7 @@
             <button type="button" class="mt-0">
                 <ul class="flex items-center gap-[4px]" bind:this={carrosel}>
                     {#each coupons as coupon, index}
-                        {#if coupon.target == "product"}
+                        {#if coupon.category == "product" && coupon.is_applied == false}
                             <CouponItem {coupon}/>
                         {/if}
                     {/each}

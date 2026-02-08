@@ -7,6 +7,9 @@
 
     let open = $state(false);
 
+    let product_coupons = $derived(coupons?.filter(item => item.category == "product" && !item.is_applied));
+    let shipping_coupons = $derived(coupons?.filter(item => item.category == "shipping" && !item.is_applied));
+
     export const openDrawer = () => {
         updateScroll({ locked: true });
         open = true;
@@ -35,20 +38,16 @@
                 <span class="text-black text-[14px] font-bold leading-none">Cupons de envio</span>
             </div>
             <ul class="flex flex-col gap-[11px] px-[16px] mt-[18px]">
-                {#each coupons as coupon}
-                    {#if coupon.target == "shipping"}
-                        <PromotionItem version="full" {coupon} {applyCoupon} {redeemCoupon}/>
-                    {/if}
+                {#each shipping_coupons as coupon}
+                    <PromotionItem version="full" {coupon} {applyCoupon} {redeemCoupon}/>
                 {/each}
             </ul>
             <div class="flex flex-col px-[16px] mt-[18px]">
                 <span class="text-black text-[14px] font-bold leading-none">Cupons de desconto</span>
             </div>
             <ul class="flex flex-col gap-[11px] px-[16px] mt-[11px]">
-                {#each coupons as coupon}
-                    {#if coupon.target == "product"}
-                        <PromotionItem version="full" {coupon} {applyCoupon} {redeemCoupon}/>
-                    {/if}
+                {#each product_coupons as coupon}
+                    <PromotionItem version="full" {coupon} {applyCoupon} {redeemCoupon}/>
                 {/each}
             </ul>
             <span class="w-full shrink-0 h-[32px]"></span>

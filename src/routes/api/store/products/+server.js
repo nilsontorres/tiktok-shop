@@ -16,7 +16,7 @@ export const POST = async ({ request }) => {
             flash_sale,
             images:images(id, source, index),
             prices:prices(id, regular, promotional),
-            coupons:coupons(id, type, target, minimum, limit, origin, discount)
+            coupons:coupons(id, type, category, minimum, limit, origin, discount, is_applied, is_redeemed)
         `)
         .eq("store_id", id)
         .eq("is_active", true);

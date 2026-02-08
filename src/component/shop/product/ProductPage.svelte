@@ -8,7 +8,7 @@
     import ShippingSection from "$component/shop/product/shipping/ShippingSection.svelte";
     import ReviewsSection from "$component/shop/product/reviews/ReviewsSection.svelte";
     import StoreSection from "$component/shop/product/store/StoreSection.svelte";
-    import VariationsSection from "$component/shop/variations/VariationsSection.svelte";
+    import VariationsSection from "$component/shop/product/variations/VariationsSection.svelte";
     import PriceSection from "$component/shop/product/prices/PriceSection.svelte";
     import ImageSection from "$component/shop/product/ImageSection.svelte";
     import TitleSection from "$component/shop/product/TitleSection.svelte";
@@ -36,8 +36,11 @@
         prices,
         price,
         image,
+        costs,
         saved,
+        total,
         locked,
+        discounts,
         installments,
         updateAddress=()=>{},
         updateQuantity=()=>{},
@@ -122,21 +125,23 @@
 </script>
 
 <ImagesViewer bind:this={viewer}/>
-<VariationsDrawer bind:this={drawer} {product} {shipping} {variants} {variations} {quantity} {price} {prices} {image} {updateVariation} {updateQuantity} {gotoFinalization} {updatePage}/>
+<VariationsDrawer bind:this={drawer} {costs} {discounts} {coupons} {product} {shipping} {variants} {variations} {quantity} {price} {prices} {image} {updateVariation} {updateQuantity} {gotoFinalization} {updatePage}/>
 
 <div class="w-full h-dvh bg-[#F5F5F5] relative pt-[48px] pb-[100px]">
     <ProductHeader {tab} {scroll} {updateTab}/>
     <main bind:this={container} onscroll={handleScroll} class={`flex flex-col no-selectable ${scroll.locked ? "overflow-y-hidden" : "overflow-y-scroll"} overscroll-none h-full transparent-scroll scrollable z-20`}>
         <ImageSection {product} {openViewer}/>
-        <PriceSection {product} {price} {prices} {updateScroll}/>
-        <InstallmentsSection {product} {installments} {price} {updateScroll}/>
-        <CouponSection {coupons}/>
-        <TitleSection {product} {saved} {saveProduct}/>
-        <RatingSection {product}/>
-        <TagsSection {product}/>
-        <ShippingSection {product} {shipping} {address} {updateAddress} {updateScroll}/>
-        <VariationsSection {product} {prices} {variants} {variations} {openVariationsDrawer}/>
-        <ProtetionsSection {product} {updateScroll}/>
+        <div class="flex flex-col bg-white w-full">
+            <PriceSection {costs} {discounts} {coupons} {product} {price} {prices} {updateScroll}/>
+            <InstallmentsSection {total} {product} {installments} {price} {updateScroll}/>
+            <CouponSection {coupons}/>
+            <TitleSection {product} {saved} {saveProduct}/>
+            <RatingSection {product}/>
+            <TagsSection {product}/>
+            <ShippingSection {costs} {discounts} {coupons} {product} {shipping} {address} {updateAddress} {updateScroll}/>
+            <VariationsSection {product} {prices} {variants} {variations} {openVariationsDrawer}/>
+            <ProtetionsSection {product} {updateScroll}/>
+        </div>
         <SectionSpacer/>
         <PromotionsSection {product} {coupons} {updateScroll} {applyCoupon} {redeemCoupon}/>
         <SectionSpacer/>
@@ -149,5 +154,5 @@
         <DescriptionSection {product} {scroll} {updateSection}/>
         <SuggestionsSection {product} {scroll} {updateSection}/>
     </main>
-    <ProductFooter {product} {shipping} {price} {gotoFinalization}/>
+    <ProductFooter {costs} {discounts} {product} {coupons} {shipping} {price} {gotoFinalization}/>
 </div>

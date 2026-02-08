@@ -58,7 +58,10 @@
     /* ---------- touch handlers ---------- */
 
     const onTouchStart = (e) => {
-        e.preventDefault();
+        if(e.cancelable){
+            e.preventDefault();
+        }
+        
         if(dragging) return;
 
         if (e.touches.length === 1) {
@@ -77,7 +80,9 @@
     };
 
     const onTouchMove = (e) => {
-        e.preventDefault();
+        if(e.cancelable){
+            e.preventDefault();
+        }
 
         dragging = true;
         if (e.touches.length === 1) {
@@ -119,7 +124,9 @@
     };
 
     const onTouchEnd = (e) => {
-        e.preventDefault();
+        if(e.cancelable){
+            e.preventDefault();
+        }
 
         if (e.touches.length === 0) {
             onMove("end");
@@ -138,9 +145,9 @@
 
     /* ---------- lifecycle ---------- */
     onMount(() => {
-        container.addEventListener("touchstart", onTouchStart, { passive: false });
-        container.addEventListener("touchmove", onTouchMove, { passive: false });
-        container.addEventListener("touchend", onTouchEnd, { passive: false });
+        container.addEventListener("touchstart", onTouchStart, { passive: false, cancelable: false });
+        container.addEventListener("touchmove", onTouchMove, { passive: false, cancelable: false });
+        container.addEventListener("touchend", onTouchEnd, { passive: false, cancelable: false });
 
         return () => {
             container.removeEventListener("touchstart", onTouchStart);

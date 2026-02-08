@@ -1,5 +1,5 @@
 <script>
-    import { onMount } from 'svelte';
+    import { onMount, untrack } from 'svelte';
     import { addHoursToDate } from '$lib/datetime';
     import { getCardInstallments } from '$lib/card.js';
 
@@ -15,15 +15,17 @@
     import CardPage from '$component/shop/card/CardPage.svelte';
     import InstallmentsPage from '$component/shop/installments/InstallmentsPage.svelte';
     import OrderPage from '$component/shop/order/OrderPage.svelte';
+    import ToastNotification from '$component/shop/ToastNotification.svelte';
 
     let { data } = $props();
+
+    let toast = $state(null);
 
     let product = $state(data.product);
     let customer = $state(data.customer);
     let address = $state(data.address);
 
     let variations = $derived(product?.variations);
-    let coupons = $derived(product?.coupons);
     let prices = $derived(product?.prices);
     let shipping = $derived(product?.shipping);
 
@@ -35,31 +37,112 @@
     let price = $derived(prices?.find(item => item.is_selected) || prices?.reduce((a, b) => a.promotional < b.promotional ? a : b));
     let image = $derived(variations?.find(item => item.type == "image")?.variants?.find(item => item.is_selected)?.image || product?.images?.find(item => item.index == 0));
 
+    let coupons = $derived(product?.coupons);
+    $effect(() => {
+        let product_coupon;
+        let shipping_coupon;
+
+        coupons?.map((item, index) => {
+            if(item.category == "product"){
+                const is_applied = item.is_redeemed && (item.minimum ? price?.promotional >= item.minimum : true);
+                const amount = item.type == "variable" ? price?.promotional * item.discount : item.discount;
+                if(is_applied && product_coupon){
+                    const prevent = product_coupon.type == "variable" ? price?.promotional * product_coupon.discount : product_coupon.discount;
+                    if(amount > prevent){
+                        product_coupon = item;
+                    }
+                }
+                else if(is_applied){
+                    product_coupon = item;
+                }
+            }
+            if(item.category == "shipping"){
+                const is_applied = item.is_redeemed && (item.minimum ? shipping?.price?.regular >= item.minimum : true);
+                const amount = item.type == "variable" ? shipping?.price?.regular * item.discount : item.discount;
+                if(is_applied && shipping_coupon){
+                    const prevent = shipping_coupon.type == "variable" ? shipping?.price?.regular * shipping_coupon.discount : shipping_coupon.discount;
+                    if(amount > prevent){
+                        shipping_coupon = item;
+                    }
+                }
+                else if(is_applied){
+                    shipping_coupon = item;
+                }
+            }
+        });
+
+        coupons?.map((item, index) => {
+            if(product_coupon && item.id == product_coupon.id){
+                coupons.at(index).is_applied = true;
+            }
+            else if(shipping_coupon && item.id == shipping_coupon.id){
+                coupons.at(index).is_applied = true;
+            }
+            else{
+                coupons.at(index).is_applied = false;
+            }
+        });
+    });
+
     let installments = $derived(price?.promotional ? getCardInstallments("mastercard", price?.promotional) : null);
     let variants = $derived(variations?.flatMap(variation => variation.variants)?.filter(variant => variant.is_selected));
 
     let costs = $derived({product: price?.regular * quantity, shipping: shipping?.price?.regular});
     let discounts = $derived.by(() => {
-        let discounts = {product: 0, payment: 0, shipping: 0, coupons: 0};
+        let discounts = {
+            product: { total: 0, offer: 0, coupons: 0 },
+            shipping: { total: 0, offer: 0, coupons: 0 },
+            payment: 0
+        };
 
         if(price?.regular != price?.promotional && price?.promotional > 0){
-            discounts.product = (price?.regular - price?.promotional) * quantity;
+            const amount = (price?.regular - price?.promotional) * quantity;
+            discounts.product.offer = amount;
+            discounts.product.total += amount;
         }
         if(shipping?.price?.regular != shipping?.price?.promotional && shipping?.price?.promotional > 0){
-            discounts.shipping = shipping?.price?.regular - shipping?.price?.promotional;
+            const amount = shipping?.price?.regular - shipping?.price?.promotional;
+            discounts.shipping.offer = amount;
+            discounts.shipping.total += amount;
         }
+
+        coupons?.map(item => {
+            if(item.is_applied){
+                if(item.category == "product"){
+                    const amount = item.type == "variable" ? item.discount * price.promotional : item.discount;
+                    discounts.product.coupons += amount;
+                    discounts.product.total += amount;
+                }
+                else if(item.category == "shipping"){
+                    const amount = item.type == "variable" ? item.discount * shipping?.price?.regular : item.discount;
+                    discounts.shipping.coupons += amount;
+                    discounts.shipping.total += amount;
+                }
+            }
+        });
+
         if(method == "pix" && product?.pix_discount > 0){
             if(product?.pix_discount < 1){
-                discounts.payment = product?.pix_discount * (costs.product + costs.shipping - discounts.product - discounts.coupons - discounts.shipping);
+                discounts.payment = product?.pix_discount * (costs.product + costs.shipping - discounts.product.total - discounts.shipping.total);
             }
             else{
                 discounts.payment = product?.pix_discount;
             }
         }
 
+        if((costs.shipping - discounts.shipping.total) < 0){
+            discounts.shipping.coupons -= (costs.shipping - discounts.shipping.total) * -1;
+            discounts.shipping.total = discounts.shipping.offer + discounts.shipping.coupons;
+        }
+        if((costs.product - discounts.product.total) < 0){
+            discounts.product.coupons -= (costs.product - discounts.product.total) * -1;
+            discounts.product.total = discounts.product.offer + discounts.product.coupons;
+        }
+
         return discounts;
     });
-    let total = $derived(costs.product + costs.shipping - discounts.product - discounts.payment - discounts.coupons - discounts.shipping);
+
+    let total = $derived(costs.product + costs.shipping - discounts.product.total - discounts.shipping.total - discounts.payment);
 
     let order = $state(null);
     let cards = $state([]);
@@ -94,12 +177,12 @@
         cards = value;
     }
     const applyCoupon = (id) => {
-        const index = coupons.findIndex(item => item.id == id);
-        coupons[index].applied = true;
+        toast.showMessage("Melhor oferta aplicada");
     }
     const redeemCoupon = (id) => {
         const index = coupons.findIndex(item => item.id == id);
-        coupons[index].redeemed = true;
+        coupons[index].is_redeemed = true;
+        toast.showMessage("Cupom reivindicado");
     }
     const updateVariation = (id) => {
         variations.map((variation, i) => {
@@ -160,11 +243,14 @@
 </svelte:head>
 
 {#if ready}
+    <ToastNotification bind:this={toast} top={300}/>
     <PageTransition pages={[
         {name: "product", color: "#FFFFFF", component: ProductPage, props: {
             price,
             image,
             saved,
+            total,
+            costs,
             prices,
             product,
             address,
@@ -172,6 +258,7 @@
             shipping,
             variants,
             quantity,
+            discounts,
             variations,
             installments,
             saveProduct,
@@ -184,8 +271,10 @@
         {name: "reviews", color: "#FFFFFF", component: ReviewsPage, props: {
             price,
             image,
+            costs,
             prices,
             product,
+            discounts,
             shipping,
             quantity,
             variants,
@@ -217,13 +306,13 @@
             updateMethod,
             updateOrder
         }},
-        {name: "add_address", color: "#F5F5F5", component: AddressPage, props: {
+        {name: "add_address", color: "#F5F5F5", component: AddressPage, history: false, props: {
             address,
             customer,
             updateAddress,
             updateCustomer
         }},
-        {name: "add_card", color: "#F5F5F5", component: CardPage, props: {
+        {name: "add_card", color: "#F5F5F5", component: CardPage, history: false, props: {
             price,
             cards,
             method,
@@ -232,6 +321,7 @@
             updateMethod,
         }},
         {name: "installments", color: "#F5F5F5", component: InstallmentsPage, props: {
+            total,
             price,
             cards,
             method,
@@ -244,7 +334,9 @@
             total,
             method,
             address,
+            product,
             customer,
+            shipping,
             updateOrder
         }},
         {name: "order", color: "#FFFFFF", component: OrderPage, props: {
@@ -253,13 +345,17 @@
             order,
             costs,
             total,
+            cards,
+            method,
             address,
             product,
             quantity,
             variants,
             customer,
             discounts,
-            updateOrder
+            installments,
+            updateOrder,
+            updateMethod
         }}
     ]}/>
 {:else}

@@ -1,7 +1,7 @@
 <script>
     import { formatPrice } from "$lib/formating";
 
-    let { product, price, installments, updateScroll=()=>{} } = $props();
+    let { total, product, price, installments, updateScroll=()=>{} } = $props();
 
     let container = $state(null);
     let is_open = $state(false);
@@ -40,7 +40,7 @@
                         {/if}
                         {#if installment.number <= product?.free_installments}
                             <li class="flex flex-col gap-[4px] py-[15px]">
-                                <span class="text-black text-[14px] leading-none">{installment?.number}x R$ {formatPrice(price?.promotional / installment?.number)}</span>
+                                <span class="text-black text-[14px] leading-none">{installment?.number}x R$ {formatPrice(total / installment?.number)}</span>
                                 <div class="flex items-center gap-[4px] text-[#595959] text-[11px] leading-none">Taxa de parcelamento mensal: <span class="bg-[#FFE5EA] px-[4px] py-[2px] rounded-[4px] text-[#E10544] text-[10px] font-medium leading-none">Sem juros</span> <span class="line-through text-[#858585] text-[12px]">R$ {formatPrice(installment?.fee)}</span></div>
                             </li>
                         {:else}

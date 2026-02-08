@@ -7,26 +7,30 @@
     let locked = $state(false);
     let current = $state(0);
     let prevent = $state(0);
-    let params = $state({});
+    let page = $state({name: pages[0]?.name, params: {}});
     let loaded = $state({ 0: true });
-    let history = [[pages[0]?.name]];
+    let history = $state([page]);
 
-    const updatePage = (name, values={}) => {
-        history.push([name, values]);
-        params = values;
-        
-        const index = pages.findIndex(page => page.name == name);
-        if(pages[index]?.color) document.body.style.backgroundColor = pages[index].color;
+    const updatePage = (name, params={}) => {
+        page = { name, params };
 
+        const index = pages.findIndex(item => item.name == name);
         if(index !== -1){
             prevent = current;
             current = index;
             loaded[index] = true;
         }
+
+        if(pages[index]?.color) document.body.style.backgroundColor = pages[index].color;
+        if(pages[index]?.history !== false) history.push(page);
     }
-    const backPage = () => {
-        if(history.length < 2) return;
-        updatePage(...history.at(-2));
+    const backPage = (length=1) => {
+        if(history.length < length) return;
+        const item = history.at(-length);
+        updatePage(item.name, item.params);
+    }
+    const getHistory = () => {
+        return history;
     }
     const lockScroll = () => {
         document.documentElement.style.overflow = "hidden";
@@ -83,7 +87,7 @@
 <div class="w-full h-[120vh] absolute top-0 left-0 -z-10 bg-transparent pointer-events-none"></div>
 <div class="fixed top-0 left-0 w-full h-[100dvh] text-black overflow-hidden">
     <div class="grid grid-cols-1 grid-rows-1 w-full h-full">
-        {#each pages as page, index}
+        {#each pages as item, index}
             <div class={`
                     col-start-1 row-start-1 
                     flex flex-col w-full h-[100dvh]
@@ -92,10 +96,10 @@
                     ${index === current ? "translate-x-0" : index == prevent ? (current > prevent ? "-translate-x-full" : "translate-x-full") : (index < current ? "-translate-x-full" : "translate-x-full")} 
                     ${index === current || index === prevent ? 'opacity-100 z-10' : 'opacity-0 pointer-events-none z-0'}
                     ${!locked ? "is-unlocking" : ""}
-					`} style={`background-color: ${page.color};`}>
+					`} style={`background-color: ${item.color};`}>
                 
                 {#if loaded[index]}
-                    <page.component {...page.props} {...params} {updatePage} {backPage} {locked} {keyboard}/>
+                    <item.component {...item.props} {...page.params} {updatePage} {backPage} {getHistory} {locked} {keyboard}/>
                 {/if}
             </div>
         {/each}

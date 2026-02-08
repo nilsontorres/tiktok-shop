@@ -1,7 +1,7 @@
 <script>
     import { formatPrice } from "$lib/formating";
 
-    let { coupon={} } = $props();
+    let { coupon } = $props();
 
     const getCouponTitle = (coupon) => {
         if(coupon.type == "variable" && !coupon.minimum && !coupon.limit){

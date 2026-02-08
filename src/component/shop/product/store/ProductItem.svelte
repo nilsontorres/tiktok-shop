@@ -1,6 +1,7 @@
 <script>
     import { formatPrice } from "$lib/formating";
     import { PUBLIC_UPLOAD_BASE } from "$env/static/public";
+    import { calculateDiscount } from "$lib/price";
 
     let { product } = $props();
 
@@ -16,7 +17,7 @@
     </div>
     <div class="flex mt-[3px]">
         <div class="flex items-center justify-center rounded-sm px-[4px] h-[16px] bg-[#FEE5EA]">
-            <span class="text-[#E10543] text-[10px] font-semibold leading-none">-{Math.floor(((price?.regular - price?.promotional) / price?.regular) * 100)}%</span>
+            <span class="text-[#E10543] text-[10px] font-semibold leading-none">{calculateDiscount(price?.regular, price?.promotional)}</span>
         </div>
     </div>
 </li>

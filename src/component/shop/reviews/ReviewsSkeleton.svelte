@@ -2,7 +2,7 @@
     import ProductFooter from "$component/shop/product/ProductFooter.svelte";
     import ReviewsHeader from "$component/shop/reviews/ReviewsHeader.svelte";
 
-    let { review, store, product, shipping, price, updatePage=()=>{} } = $props();
+    let { costs, discounts, review, store, product, shipping, price, updatePage=()=>{} } = $props();
 </script>
 
 <div class="w-full h-dvh bg-[#F5F5F5] relative">
@@ -13,5 +13,5 @@
             <span class="absolute w-3 h-3 rounded-full bg-red-500 mix-blend-darken animate-revolve [animation-delay:-0.4s]"></span>
         </div>
     </main>
-    <ProductFooter {product} {price} {shipping} {updatePage}/>
+    <ProductFooter {costs} {discounts} {product} {price} {shipping} {updatePage}/>
 </div>

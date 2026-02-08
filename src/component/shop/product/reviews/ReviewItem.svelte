@@ -4,7 +4,7 @@
 
     import ReviewRating from "$component/shop/product/reviews/ReviewRating.svelte";
 
-    let { review={}, updatePage=()=>{} } = $props();
+    let { review, updatePage=()=>{} } = $props();
 </script>
 
 <button type="button" class="flex flex-col w-full" onclick={() => updatePage("reviews", {review})}>

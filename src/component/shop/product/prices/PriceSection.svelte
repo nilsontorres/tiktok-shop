@@ -6,17 +6,17 @@
     import FlashPrice from "$component/shop/product/prices/FlashPrice.svelte";
     import NormalPrice from "$component/shop/product/prices/NormalPrice.svelte";
 
-    let { product, price, prices, updateScroll=()=>{} } = $props();
+    let { costs, discounts, coupons, product, price, prices, updateScroll=()=>{} } = $props();
 
     let drawer = $state(null);
 </script>
 
-<PriceDrawer bind:this={drawer} {product} {price} {updateScroll}/>
+<PriceDrawer bind:this={drawer} {costs} {discounts} {product} {price} {updateScroll}/>
 
 <button type="button" onclick={() => drawer.openDrawer()}>
     {#if product?.flash_sale && getSecondsBetweenDates(Date.now(), product?.flash_sale) > 0}
-        <FlashPrice {product} {price} {prices}/>
+        <FlashPrice {costs} {discounts} {coupons} {product} {price} {prices}/>
     {:else}
-        <NormalPrice {product} {price} {prices}/>
+        <NormalPrice {costs} {discounts} {coupons} {product} {price} {prices}/>
     {/if}
 </button>

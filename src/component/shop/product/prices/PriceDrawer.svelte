@@ -1,7 +1,7 @@
 <script>
     import { formatPrice } from "$lib/formating";
 
-    let { product, price, coupon, updateScroll=()=>{} } = $props();
+    let { costs, discounts, product, price, coupon, updateScroll=()=>{} } = $props();
 
     let is_open = $state(false);
 
@@ -30,22 +30,24 @@
         <div class="flex flex-col w-full transparent-scroll px-[16px] py-[20px]">
             <div class="flex justify-between items-center text-black text-[15px] font-bold mt-[2px]">
                 <span>Preço original</span>
-                <span>R$ {formatPrice(price?.regular)}</span>
+                <span>R$ {formatPrice(costs.product)}</span>
             </div>
-            <div class="flex justify-between items-center text-[15px] mt-[18px]">
-                <span class="text-black">Promoção</span>
-                <span class="text-[#FE2C55]">-R$ {formatPrice(price?.regular - price?.promotional)}</span>
-            </div>
-            {#if coupon}
+            {#if discounts.product.offer > 0}
+                <div class="flex justify-between items-center text-[15px] mt-[18px]">
+                    <span class="text-black">Promoção</span>
+                    <span class="text-[#FE2C55]">-R$ {formatPrice(discounts.product.offer)}</span>
+                </div>
+            {/if}
+            {#if discounts.product.coupons > 0}
                 <div class="flex justify-between items-center text-[15px] mt-[18px]">
                     <span class="text-black">Cupom</span>
-                    <span class="text-[#FE2C55]">-R$ {formatPrice(coupon?.type == "fixed" ? coupon.value : coupon.value * price.amount)}</span>
+                    <span class="text-[#FE2C55]">-R$ {formatPrice(discounts.product.coupons)}</span>
                 </div>
             {/if}
             <span class="w-full h-[1px] bg-[#eeeeee] mt-[20px]"></span>
             <div class="flex items-center justify-end leading-none font-bold gap-[6px] mt-[22px]">
                 <span class="text-black text-[15px] mt-[2px]">Preço atual</span>
-                <span class="text-[#FE2C55] text-[19px]">R$ {formatPrice(price?.promotional)}</span>
+                <span class="text-[#FE2C55] text-[19px]">R$ {formatPrice(costs.product - discounts.product.total)}</span>
             </div>
             <span class="text-[#888] text-[12px] text-end leading-[18px] mt-[18px]">Impostos inclusos<br/>O preço final irá variar com base na disponibilidade de desconto</span>
         </div>

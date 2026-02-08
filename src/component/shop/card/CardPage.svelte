@@ -11,7 +11,7 @@
     import SaveDefault from "$component/shop/card/fields/SaveDefault.svelte";
     import DiscountsDrawer from "./DiscountsDrawer.svelte";
 
-    let { product, cards, method, price, updateCards=()=>{}, updateMethod=()=>{}, updatePage=()=>{} } = $props();
+    let { product, cards, method, price, updateCards=()=>{}, updateMethod=()=>{}, backPage=()=>{}, updatePage=()=>{} } = $props();
 
     let ready = $state(false);
     let loading = $state(false);
@@ -76,7 +76,7 @@
                 }});
             }
             else{
-                updatePage("finalization");
+                backPage();
             }
 
             number?.clear();
@@ -113,7 +113,7 @@
     </div>
 </div>
 <div class="w-full h-dvh bg-[#FFF] pt-[51px] relative">
-    <CardHeader {updatePage}/>
+    <CardHeader {backPage}/>
     {#if product?.free_installments > 0}
         <div class="flex w-full h-[42px] px-[16px] items-center justify-between bg-[#FFF0F3]">
             <div class="flex flex-col overflow-hidden w-full h-[42px] relative">

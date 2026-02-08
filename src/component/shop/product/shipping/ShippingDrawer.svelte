@@ -2,10 +2,11 @@
     import { formatPrice } from "$lib/formating";
     import { getShippingRange } from "$lib/shipping";
 
-    let { shipping, address, openLocationDrawer=()=>{}, updateScroll=()=>{} } = $props();
+    let { costs, discounts, coupons, shipping, address, openLocationDrawer=()=>{}, updateScroll=()=>{} } = $props();
 
     let open = $state(false);
-    let deadline = $derived(getShippingRange(shipping.delivery));
+    let deadline = $derived(getShippingRange(shipping.deadline));
+    let coupon = $derived(coupons?.find(item => item.category == "shipping" && item.is_applied));
 
     export const openDrawer = () => {
         updateScroll({ locked: true });
@@ -60,23 +61,29 @@
                     <path fill="#858585" d="M2.213 0 0 2.25 10.574 13 0 23.75 2.213 26 15 13 2.213 0Z"/>
                 </svg>
             </button>
-            <span class="w-full h-[1px] bg-[#eeeeee] mt-5"></span>
-            <div class="flex items-start gap-[8px] w-full pb-[17px] rounded-lg bg-[#F4FDFE] mt-5 bg-cover bg-top-right px-[15px]" style="background-image: url('/images/bg-shipping-1.jpg')">
-                <svg class="w-[15px] mt-[17px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 44 34">
-                    <path fill="#000" d="M38 0a6 6 0 0 1 6 6v6a5 5 0 0 0 0 10v6a6 6 0 0 1-6 6H6a6 6 0 0 1-6-6v-6a5 5 0 0 0 0-10V6a6 6 0 0 1 6-6h32ZM7 4a3 3 0 0 0-3 3v2s5.5 1.5 5.5 8S4 25 4 25v2a3 3 0 0 0 3 3h18v-2h4v2h8a3 3 0 0 0 3-3v-2s-5.5-1.5-5.5-8S40 9.5 40 9.5V7a3 3 0 0 0-3-3h-8v2h-4V4H7Zm22 20h-4v-5h4v5Zm0-9h-4v-5h4v5Z"/>
-                </svg>
-                <div class="flex flex-col gap-[5px] mt-[17px]">
-                    <span class="text-black text-[14px] font-semibold leading-none">Cupom de envio do Tiktok Shop</span>
-                    <span class="text-[#555858] text-[13px]">Desconto de R$ 20 no frete em pedidos acima de R$ 29</span>
+            {#if coupon}
+                <span class="w-full h-[1px] bg-[#eeeeee] mt-5"></span>
+                <div class="flex items-start gap-[8px] w-full pb-[17px] rounded-lg bg-[#F4FDFE] mt-5 bg-cover bg-top-right px-[15px]" style="background-image: url('/images/bg-shipping-1.jpg')">
+                    <svg class="w-[15px] mt-[17px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 44 34">
+                        <path fill="#000" d="M38 0a6 6 0 0 1 6 6v6a5 5 0 0 0 0 10v6a6 6 0 0 1-6 6H6a6 6 0 0 1-6-6v-6a5 5 0 0 0 0-10V6a6 6 0 0 1 6-6h32ZM7 4a3 3 0 0 0-3 3v2s5.5 1.5 5.5 8S4 25 4 25v2a3 3 0 0 0 3 3h18v-2h4v2h8a3 3 0 0 0 3-3v-2s-5.5-1.5-5.5-8S40 9.5 40 9.5V7a3 3 0 0 0-3-3h-8v2h-4V4H7Zm22 20h-4v-5h4v5Zm0-9h-4v-5h4v5Z"/>
+                    </svg>
+                    <div class="flex flex-col gap-[5px] mt-[17px]">
+                        <span class="text-black text-[14px] font-semibold leading-none">Cupom de envio do Tiktok Shop</span>
+                        {#if coupon?.minimum}
+                            <span class="text-[#555858] text-[13px]">Desconto de R$ {formatPrice(coupon.type == "variable" ? shipping?.price?.regular * coupon.discount : coupon.discount, false)} no frete em pedidos acima de R$ {formatPrice(coupon.minimum, false)}</span>
+                        {:else}
+                            <span class="text-[#555858] text-[13px]">Desconto de R$ {formatPrice(coupon.type == "variable" ? shipping?.price?.regular * coupon.discount : coupon.discount, false)} no frete</span>
+                        {/if}
+                    </div>
                 </div>
-            </div>
+            {/if}
             <span class="w-full h-[1px] bg-[#eeeeee] mt-5"></span>
             <div class="flex justify-between items-center mt-5">
                 <span class="text-black text-[14px] font-semibold">{shipping?.name}</span>
                 <div class="flex items-center gap-[4px]">
                     <span class="text-[#00000072] text-[13px] line-through">R$ {formatPrice(shipping?.price?.regular)}</span>
-                    {#if shipping?.price?.promotional > 0}
-                        <span class="text-black text-[13px]">R$ {formatPrice(shipping?.price?.promotional)}</span>
+                    {#if (costs.shipping - discounts.shipping.total) > 0}
+                        <span class="text-black text-[13px]">R$ {formatPrice(costs.shipping - discounts.shipping.total)}</span>
                     {:else}
                         <span class="text-[#077F7F] text-[13px]">Grátis</span>
                     {/if}

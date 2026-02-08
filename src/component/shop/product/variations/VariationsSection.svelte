@@ -4,7 +4,7 @@
     let { product, prices, variants, variations, openVariationsDrawer=()=>{} } = $props();
 </script>
 
-<button onclick={openVariationsDrawer} type="button" aria-label="Variações" class="flex w-full justify-between items-center gap-[5px] px-[16px] py-[14px] bg-white">
+<button onclick={openVariationsDrawer} type="button" aria-label="Variações" class="flex w-full justify-between items-center gap-[5px] px-[16px] py-[14px]">
     <div class="flex items-center gap-[10px]">
         <svg class="w-[14px] mt-[2px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 39 39">
             <path fill="#202020" d="M15 21a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H3a3 3 0 0 1-3-3V24a3 3 0 0 1 3-3h12Zm21 0a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H24a3 3 0 0 1-3-3V24a3 3 0 0 1 3-3h12ZM4 35h10V25H4v10Zm21 0h10V25H25v10ZM15 0a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H3a3 3 0 0 1-3-3V3a3 3 0 0 1 3-3h12Zm21 0a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H24a3 3 0 0 1-3-3V3a3 3 0 0 1 3-3h12ZM4 14h10V4H4v10Zm21 0h10V4H25v10Z"/>

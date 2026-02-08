@@ -3,7 +3,7 @@
 
     import ItemDetails from "$component/shop/finalization/item/ItemDetails.svelte";
 
-    let { product, variations, variants, price, quantity, updateQuantity=()=>{} } = $props();
+    let { costs, discounts, product, variations, variants, price, quantity, updateQuantity=()=>{} } = $props();
 </script>
 
 <div class="w-full p-[16px] bg-white">
@@ -23,6 +23,6 @@
         <span class="text-[#B67A06] text-[12px] font-semibold leading-none mt-[2px]">Melhor escolha! {formatNumber(product?.total_sales).en} vendido(s) e com nota {product?.rating}/5.0</span>
     </div>
     <div class="flex w-full mt-[12px]">
-        <ItemDetails {product} {variations} {variants} {price} {quantity} {updateQuantity}/>
+        <ItemDetails {costs} {discounts} {product} {variations} {variants} {price} {quantity} {updateQuantity}/>
     </div>
 </div>

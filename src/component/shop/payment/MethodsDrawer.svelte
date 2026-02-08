@@ -1,11 +1,11 @@
 <script>
-    import PixMethod from "$component/shop/finalization/payment/PixMethod.svelte";
-    import CreditCardMethod from "$component/shop/finalization/payment/CreditCardMethod.svelte";
-    import ApplePayMethod from "$component/shop/finalization/payment/ApplePayMethod.svelte";
-    import BoletoMethod from "$component/shop/finalization/payment/BoletoMethod.svelte";
-    import AddNewCreditCard from "$component/shop/finalization/payment/AddNewCreditCard.svelte";
+    import PixMethod from "$component/shop/payment/PixMethod.svelte";
+    import CreditCardMethod from "$component/shop/payment/CreditCardMethod.svelte";
+    import ApplePayMethod from "$component/shop/payment/ApplePayMethod.svelte";
+    import BoletoMethod from "$component/shop/payment/BoletoMethod.svelte";
+    import AddNewCreditCard from "$component/shop/payment/AddNewCreditCard.svelte";
 
-    let { product, method, cards, installments, price, updateMethod=()=>{}, updatePage=()=>{}, updateScroll=()=>{} } = $props();
+    let { total, product, method, cards, installments, price, updateMethod=()=>{}, updatePage=()=>{}, updateScroll=()=>{} } = $props();
     let open = $state(false);
 
     export const openDrawer = () => {
@@ -35,7 +35,7 @@
                 <AddNewCreditCard {product} {installments} {price} {method} {updateMethod} {updatePage} {closeDrawer}/>
                 {#if cards && product?.card_method}
                     {#each cards as card}
-                        <CreditCardMethod {product} {card} {method} {price} {updateMethod} {updatePage} {closeDrawer}/>
+                        <CreditCardMethod {total} {product} {card} {method} {price} {updateMethod} {updatePage} {closeDrawer}/>
                     {/each}
                 {/if}
             {/if}

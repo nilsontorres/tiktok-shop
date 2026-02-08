@@ -11,7 +11,7 @@
     import AddressSection from "$component/shop/finalization/address/AddressSection.svelte";
     import FinalizationSkeleton from "$component/shop/finalization/FinalizationSkeleton.svelte";
     import BackPopup from "$component/shop/finalization/BackPopup.svelte";
-    import MethodsDrawer from "$component/shop/finalization/payment/MethodsDrawer.svelte";
+    import MethodsDrawer from "$component/shop/payment/MethodsDrawer.svelte";
     import AddressPopup from "$component/shop/finalization/address/AddressPopup.svelte";
     import CustomerDrawer from "$component/shop/finalization/customer/CustomerDrawer.svelte";
     import FinalizationHeader from "$component/shop/finalization/FinalizationHeader.svelte";
@@ -146,7 +146,7 @@
     <BackPopup bind:this={back_popup} {discounts} {updatePage} {updateScroll}/>
     <AddressPopup bind:this={address_popup} {updatePage} {updateScroll}/>
     <CustomerDrawer bind:this={customer_drawer} {keyboard} {customer} {updateCustomer} {updateScroll}/>
-    <MethodsDrawer bind:this={method_drawer} {installments} {product} {method} {cards} {price} {updateMethod} {updatePage} {updateScroll}/>
+    <MethodsDrawer bind:this={method_drawer} {total} {installments} {product} {method} {cards} {price} {updateMethod} {updatePage} {updateScroll}/>
     <div class="flex flex-col relative">
         <FinalizationHeader openBackPopup={back_popup?.openPopup}/>
         <main bind:this={container} onscroll={handleScroll} class={`flex flex-col w-full bg-[#F5F5F5] pt-[48px] pb-[176px] overscroll-y-contain no-selectable ${scroll.locked ? "overflow-y-hidden" : "overflow-y-scroll"} max-h-dvh transparent-scroll scrollable`}>
@@ -154,14 +154,14 @@
             <span class="flex shrink-0 w-full h-[1px] bg-[#eeeeee]"></span>
             <AddCustomerSection {customer} {keyboard} {updateCustomer} openCustomerDrawer={customer_drawer?.openDrawer}/>
             <SectionSpacer/>
-            <ItemSection {product} {price} {variations} {variants} quantity={local_quantity} updateQuantity={localUpdateQuantity}/>
-            <DeliverySection {shipping}/>
+            <ItemSection {costs} {discounts} {product} {price} {variations} {variants} quantity={local_quantity} updateQuantity={localUpdateQuantity}/>
+            <DeliverySection {shipping} {costs} {discounts}/>
             <SectionSpacer/>
-            <DiscountSection {discounts}/>
+            <DiscountSection {costs} {discounts}/>
             <SectionSpacer/>
             <OverviewSection {costs} {discounts} {total}/>
             <SectionSpacer/>
-            <PaymentSection {installments} {product} {method} {updateMethod} {cards} {price} {updatePage} openMethodDrawer={method_drawer?.openDrawer}/>
+            <PaymentSection {total} {installments} {product} {method} {updateMethod} {cards} {price} {updatePage} openMethodDrawer={method_drawer?.openDrawer}/>
             <div class="flex w-full p-[16px]">
                 <span class="text-[#444444] text-[12.6px] leading-[15px]">Ao fazer um pedido, você concorda com <b class="text-black font-semibold">Termos de uso e venda do TikTok Shop</b> e reconhece que leu e concordou com a <b class="text-black font-semibold">Política de privacidade do Tiktok</b>.</span>
             </div>

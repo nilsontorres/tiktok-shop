@@ -5,7 +5,7 @@
     import InstallmentsHeader from "$component/shop/installments/InstallmentsHeader.svelte";
     import { getCardInstallments } from "$lib/card";
 
-    let { product, cards, card, method, price, updateCards=()=>{}, updateMethod=()=>{}, updatePage=()=>{}, backPage=()=>{} } = $props();
+    let { total, product, cards, card, method, price, parent, updateCards=()=>{}, updateMethod=()=>{}, updatePage=()=>{}, getHistory=()=>{} } = $props();
 
     let container = $state(null);
     let scroll = $state({ position: 0, locked: false });
@@ -34,7 +34,14 @@
         
         updateCards([ ...new_cards, new_card ]);
         updateMethod("card", new_card);
-        updatePage("finalization");
+
+        const history = getHistory();
+        if(history.at(-1).name == "add_cards"){
+            update("finalization");
+        }
+        else{
+            updatePage("order");
+        }
     }
     const updateInstallments = (number) => {
         installments.map((item, index) => {
@@ -48,7 +55,7 @@
     }
 
     onMount(() => {
-        installments = getCardInstallments(card?.brand, price?.promotional);
+        installments = getCardInstallments(card?.brand, total);
         updateInstallments(card?.installments);
     });
 </script>
@@ -94,7 +101,7 @@
                             <span class="text-black text-[13px] font-semibold leading-none">1 mês x R$ {formatPrice(installment.amount)}</span>
                             <span class="text-[#565656] text-[11px] leading-[15px]">Pagamento à vista</span>
                         {:else if installment.number <= product?.free_installments}
-                            <span class="text-black text-[13px] font-semibold leading-none">{installment.number} meses x R$ {formatPrice(price?.promotional / installment.number)}</span>
+                            <span class="text-black text-[13px] font-semibold leading-none">{installment.number} meses x R$ {formatPrice(total / installment.number)}</span>
                             <span class="text-[#565656] text-[11px] leading-[15px]">Taxa de parcelamento mensal: R$ 0,00 <b class="line-through font-normal text-[#ADADAD]">R$ {formatPrice(installment?.fee)}</b></span>
                             <div class="flex justify-center items-center gap-[3px] px-[6px] py-[4px] mt-[3px] rounded-[3px] bg-[#FFE5EA]">
                                 {#if installment.is_selected}
