@@ -91,6 +91,7 @@ html, body {
     scrollbar-width: none;
     overscroll-behavior: contain;
     background-color: #FFF;
+    overflow-x: hidden;
 }
 html::-webkit-scrollbar, body::-webkit-scrollbar {
     display: none;
