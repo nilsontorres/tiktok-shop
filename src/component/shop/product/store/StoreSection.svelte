@@ -11,7 +11,7 @@
     let products = $state([]);
 
     const loadStoreProducts = async () => {
-        const request = await fetch("/api/store/products", {
+        const request = await fetch("/api/shop/store/products", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -33,7 +33,7 @@
             <div class="size-[56px] bg-center bg-cover rounded-full" style={product?.store?.image?.source && `background-image: url('${PUBLIC_UPLOAD_BASE}/${product?.store?.image?.source}');`}></div>
             <div class="flex flex-col">
                 <span class="text-black text-[14px] font-semibold">{product?.store?.title}</span>
-                <span class="text-[#666] text-[13px] leading-none mt-[3px]">{formatNumber(product?.store?.total_sales).en} vendido(s)</span>
+                <span class="text-[#666] text-[13px] leading-none mt-[3px]">{formatNumber(product?.store?.public_orders).en} vendido(s)</span>
             </div>
         </div>
         <button type="button" class="flex items-center gap-[4px] px-[19px] h-[29px] bg-[#F2F2F2] active:bg-[#e3e3e3] rounded-sm">

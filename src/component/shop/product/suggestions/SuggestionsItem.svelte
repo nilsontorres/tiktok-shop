@@ -92,7 +92,7 @@
             <svg class="w-[2px] h-[9px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 4 27">
                 <path fill="#D9D9D9" d="M0 2a2 2 0 0 1 4 0v23a2 2 0 1 1-4 0V2Z"/>
             </svg>
-            <span class="text-[#444] text-[12px] leading-none">{formatNumber(suggestion?.total_sales).en} vendidos</span>                    
+            <span class="text-[#444] text-[12px] leading-none">{formatNumber(suggestion?.public_orders).en} vendidos</span>                    
         </div>
     </div>
 </div>

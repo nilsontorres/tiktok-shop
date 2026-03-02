@@ -13,7 +13,7 @@
     import SuccessDrawer from "$component/shop/order/SuccessDrawer.svelte";
     import ShippingTrack from "./ShippingTrack.svelte";
 
-    let { product, costs, discounts, address, installments, cards, customer, total, method, variants, image, price, order, quantity, updateOrder=()=>{}, updateMethod=()=>{}, updatePage=()=>{} } = $props();
+    let { product, costs, discounts, address, installments, cards, customer, total, method, variants, price, order, payment, quantity, updateOrder=()=>{}, updatePayment=()=>{}, updateMethod=()=>{}, updatePage=()=>{} } = $props();
 
     let container = $state(null);
     let ready = $state(false);
@@ -24,6 +24,7 @@
 
     let cancel_drawer = $state(null);
     let method_drawer = $state(null);
+    let success_drawer = $state(null);
 
     const handleScroll = () => {
         scroll.position = container.scrollTop;
@@ -58,7 +59,7 @@
 
 <OrderPopup bind:this={popup} {confirmed} {updateConfirmation}/>
 <ToastNotification bind:this={toast} top={30}/>
-<CancelDrawer bind:this={cancel_drawer} {order} {updateOrder} {updateScroll}/>
+<CancelDrawer bind:this={cancel_drawer} {order} {updateOrder} {updatePayment} {updateScroll}/>
 <SuccessDrawer bind:this={success_drawer} {product} {order} {updateScroll} {updatePage}/>
 <MethodsDrawer bind:this={method_drawer} {total} {product} {method} {cards} {installments} {price} {updateMethod} {updateScroll} {updatePage}/>
 <div class="flex relative w-full">
@@ -72,16 +73,16 @@
         <header class={`flex w-full h-[48px] ps-[40px] justify-between items-center z-20 fixed top-0 bg-white border-b-[1px] border-[#eeeeee] ${scroll.position > 10 ? "opacity-100" : "opacity-0"} duration-300 transition-opacity`}>
             <div class="flex flex-col w-full items-center justify-center gap-[6px]">
                 <span class="text-black text-[17px] font-bold leading-none">
-                    {#if confirmed == false}
-                        {#if order?.status == "pending"}
+                    {#if order?.status == "pending"}
+                        {#if confirmed == false}
                             Aguardando pagamento
-                        {:else if order?.status == "canceled"}
-                            Cancelamento bem-sucedido
-                        {:else if order?.status == "approved"}
-                            Aguardando transportadora
+                        {:else}
+                            Processando pagamento
                         {/if}
-                    {:else}
-                        Processando pagamento
+                    {:else if order?.status == "canceled"}
+                        Cancelamento bem-sucedido
+                    {:else if order?.status == "approved"}
+                        Aguardando transportadora
                     {/if}
                 </span>
             </div>
@@ -91,16 +92,16 @@
             <div class="flex flex-col w-full h-[48px] gap-[3px] justify-between items-center z-20">
                 <div class="flex flex-col w-full ps-[40px] pt-[15px] pb-[12px] gap-[7px]">
                     <span class="flex text-black text-[20px] font-bold leading-none">
-                        {#if confirmed == false}
-                            {#if order?.status == "pending"}
+                        {#if order?.status == "pending"}
+                            {#if confirmed == false}
                                 Aguardando pagamento
-                            {:else if order?.status == "canceled"}
-                                Cancelamento bem-sucedido
-                            {:else if order?.status == "approved"}
-                                Aguardando transportadora
+                            {:else}
+                                Processando pagamento
                             {/if}
-                        {:else}
-                            Processando pagamento
+                        {:else if order?.status == "canceled"}
+                            Cancelamento bem-sucedido
+                        {:else if order?.status == "approved"}
+                            Aguardando transportadora
                         {/if}
                     </span>
                     <span class="flex text-[#504F57] text-[13px] leading-[16px]">
@@ -178,7 +179,7 @@
                             </div>
                         </div>
                         <div class="flex justify-between items-start mt-[16px] gap-[12px]">
-                            <div class="flex size-[80px] shrink-0 rounded-[3px] bg-[#F8F8F8] bg-contain bg-center" style={`background-image: url('${PUBLIC_UPLOAD_BASE}/${image?.source}')`}></div>
+                            <div class="flex size-[80px] shrink-0 rounded-[3px] bg-[#F8F8F8] bg-contain bg-center" style={`background-image: url('${PUBLIC_UPLOAD_BASE}/${price?.image?.source}')`}></div>
                             <div class="flex flex-col w-full relative" style="max-width: calc(100% - 92px);">
                                 <div class="flex gap-[4px] relative overflow-hidden">
                                     <span class="text-ellipsis overflow-hidden whitespace-nowrap text-black text-[14px] leading-none">{product?.title}</span>
@@ -268,12 +269,12 @@
                         </div>
                         <div class="flex justify-between items-center mt-[15px]">
                             <span class="text-[#50525A] text-[14.2px] leading-[16px]">Data do pedido</span>
-                            <span class="text-[#50525A] text-[14.2px] leading-[16px]">{formatDate(order?.datetime, "DD de MMM de YYYY, HH:mm")}</span>
+                            <span class="text-[#50525A] text-[14.2px] leading-[16px]">{formatDate(order?.created_at, "DD de MMM de YYYY, HH:mm")}</span>
                         </div>
                         <div class="flex justify-between items-center mt-[15px]">
                             <span class="text-[#50525A] text-[14.2px] leading-[16px]">Método de pagamento</span>
                             <div class="flex items-center gap-[5px]">
-                                {#if order?.method == "pix"}
+                                {#if payment?.method == "pix"}
                                     <div class="flex justify-center items-center w-[32px] h-[20px] shrink-0 rounded-[2px] bg-[#F1F1F1]">
                                         <svg class="h-[15px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 297 297">
                                             <path fill="#32BCAD" d="M144.4 169.745c3.124-3.124 8.571-3.133 11.697 0l44.511 44.513c8.234 8.229 19.185 12.763 30.827 12.763h5.36l-56.534 56.535c-17.607 17.606-46.154 17.606-63.759 0l-56.374-56.373H68.9c11.642 0 22.595-4.534 30.829-12.763l44.671-44.675ZM47.504 82.201c.718.271 1.48.463 2.295.463h19.1c8.03 0 15.891 3.256 21.566 8.936l44.679 44.677c4.164 4.161 9.632 6.244 15.105 6.244a21.313 21.313 0 0 0 15.108-6.249l44.508-44.51c5.675-5.677 13.538-8.936 21.569-8.936h15.531c.86 0 1.677-.188 2.428-.49l34.165 34.165c17.604 17.606 17.603 46.15 0 63.757l-34.165 34.164a6.464 6.464 0 0 0-2.428-.489h-15.531c-8.031 0-15.894-3.258-21.569-8.936l-44.508-44.507c-8.066-8.074-22.143-8.071-30.217-.004L90.465 205.16c-5.675 5.678-13.535 8.935-21.566 8.935H49.8c-.814 0-1.575.192-2.295.462l-34.3-34.297c-17.607-17.607-17.607-46.153 0-63.759l34.299-34.3Zm68.995-68.996c17.605-17.607 46.151-17.607 63.759 0l56.533 56.534h-5.36c-11.643 0-22.594 4.533-30.827 12.763l-44.512 44.515c-3.226 3.234-8.476 3.222-11.694.004L99.725 82.34C91.49 74.11 80.54 69.577 68.898 69.577h-8.771l56.372-56.372Z"/>
@@ -286,7 +287,7 @@
                         {#if order?.status == "canceled"}
                             <div class="flex justify-between items-center mt-[15px]">
                                 <span class="text-[#50525A] text-[14.2px] leading-[16px]">Data de cancelamento</span>
-                                <span class="text-[#50525A] text-[14.2px] leading-[16px]">{formatDate(order?.canceled, "DD de MMM de YYYY, HH:mm")}</span>
+                                <span class="text-[#50525A] text-[14.2px] leading-[16px]">{formatDate(order?.canceled_at, "DD de MMM de YYYY, HH:mm")}</span>
                             </div>
                         {/if}
                     </div>

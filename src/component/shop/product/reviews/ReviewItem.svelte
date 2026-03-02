@@ -9,8 +9,8 @@
 
 <button type="button" class="flex flex-col w-full" onclick={() => updatePage("reviews", {review})}>
     <div class="flex items-center gap-[8px]">
-        <div class="block size-[23px] bg-cover bg-center rounded-full" style={review.user?.image?.source && `background-image: url('${PUBLIC_UPLOAD_BASE}/${review.user?.image?.source}')`}></div>
-        <span class="text-black text-[13px] font-semibold">{maskWords(review.user?.fullname)}</span>
+        <div class="block size-[23px] bg-cover bg-center rounded-full" style={review.customer?.image?.source && `background-image: url('${PUBLIC_UPLOAD_BASE}/${review.customer?.image?.source}')`}></div>
+        <span class="text-black text-[13px] font-semibold">{maskWords(review.customer?.fullname)}</span>
     </div>
     <div class="mt-[7px]">
         <ReviewRating rating={review.rating}/>

@@ -3,27 +3,27 @@ import supabase from "$lib/supabase";
 import { redirect } from "@sveltejs/kit";
 import { UAParser } from "ua-parser-js";
 
-const getDeviceByID = async (id) => {
+const getSessionByID = async (id) => {
     if(!id) return;
 
     const { data, error } = await supabase
-        .from('devices')
+        .from('sessions')
         .update({ updated_at: new Date() })
         .eq('id', id)
         .select()
         .maybeSingle();
 
-    if(error) throw console.error("Error on getDeviceID: ", error);
+    if(error) throw console.error("Error on getSessionID: ", error);
 
     return data;
 }
 
-const createNewDevice = async (ip_address, useragent) => {
+const createNewSession = async (ip_address, useragent) => {
     const { os, browser, cpu, device } = UAParser(useragent);
     const { is_crawler, is_datacenter, is_mobile, is_tor, is_proxy, is_vpn, datacenter, company, asn, location } = await queryIPAddress(ip_address);
 
     const { data, error} = await supabase
-        .from("devices")
+        .from("sessions")
         .insert({
             ip_address: ip_address,
             useragent: useragent,
@@ -58,7 +58,7 @@ const createNewDevice = async (ip_address, useragent) => {
         .select()
         .maybeSingle();
 
-        if(error) throw console.error("Error on createNewDevice: ", error);
+        if(error) throw console.error("Error on createNewSession: ", error);
 
     return data;
 }
@@ -69,10 +69,10 @@ export const handle = async ({ event, resolve }) => {
     const ip_address = "177.13.89.68"; //event.getClientAddress?.() || event.request.headers.get("x-forwarded-for")?.split(",")[0] || null;
     const useragent = event.request.headers.get("user-agent");
 
-    let device = await getDeviceByID(event.cookies.get("device"));
-    if(!device){
-        device = await createNewDevice(ip_address, useragent);
-        event.cookies.set("device", device.id, {
+    let session = await getSessionByID(event.cookies.get("session"));
+    if(!session){
+        session = await createNewSession(ip_address, useragent);
+        event.cookies.set("session", session.id, {
             path: "/",
             httpOnly: true,
             secure: false,
@@ -81,12 +81,12 @@ export const handle = async ({ event, resolve }) => {
         });
     }
 
-    if(!device.captcha_solved){
-        if(!pathname.startsWith("/api/") && !pathname.startsWith("/captcha")){
+    if(!session.captcha_solved){
+        if(!pathname.startsWith("/manager") && !pathname.startsWith("/api/") && !pathname.startsWith("/captcha")){
             throw redirect(302, `/captcha?href=${event.url.href}`);
         }
     }
 
-    event.locals.device = device;
+    event.locals.session = session;
     return resolve(event);
 }

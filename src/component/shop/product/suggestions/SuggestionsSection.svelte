@@ -12,7 +12,7 @@
     const loadSuggestions = async () => {
         if(suggestions.length > 0) return;
 
-        const request = await fetch("/api/product/suggestions", {
+        const request = await fetch("/api/shop/product/suggestions", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

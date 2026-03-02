@@ -12,7 +12,7 @@
         </svg>
     </div>
     <div class="flex w-full items-center gap-[3px] absolute bottom-[8px] left-[8px] overflow-hidden pe-[12px]">
-        <div class="block size-[16px] rounded-full overflow-hidden bg-[#eae8e8] bg-cover bg-center" style={video.user?.image?.source && `background-image: url('${PUBLIC_UPLOAD_BASE}/${video.user?.image?.source}')`}></div>
-        <span class="inline-block max-w-full text-ellipsis overflow-hidden whitespace-nowrap text-white text-[11px] font-medium leading-none text-shadow-md">{video.user?.fullname}</span>
+        <div class="block size-[16px] rounded-full overflow-hidden bg-[#eae8e8] bg-cover bg-center" style={video.customer?.image?.source && `background-image: url('${PUBLIC_UPLOAD_BASE}/${video.customer?.image?.source}')`}></div>
+        <span class="inline-block max-w-full text-ellipsis overflow-hidden whitespace-nowrap text-white text-[11px] font-medium leading-none text-shadow-md">{video.customer?.fullname}</span>
     </div>
 </li>

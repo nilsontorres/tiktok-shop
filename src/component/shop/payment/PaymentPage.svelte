@@ -3,16 +3,14 @@
     import { addHoursToDate, getSecondsBetweenDates } from "$lib/datetime";
     import { copyText } from "$lib/clipboard";
     import { getRandomNumber } from "$lib/random";
-    import { getShippingRange } from "$lib/shipping";
-    import { onMount } from "svelte";
+    import { onMount, untrack } from "svelte";
 
     import PaymentSkeleton from "$component/shop/payment/PaymentSkeleton.svelte";
     import ToastNotification from "$component/shop/ToastNotification.svelte";
     import SuccessDrawer from "$component/shop/order/SuccessDrawer.svelte";
 
-    let { product, shipping, total, method, customer, address, order, updateOrder=()=>{}, updatePage=()=>{} } = $props();
+    let { product, payment, order, updatePage=()=>{} } = $props();
 
-    let ready = $state(false);
     let container = $state(null);
     let toast = $state(null);
     let drawer = $state(null);
@@ -36,40 +34,32 @@
         }
     }
     const updateTimer = () => {
-        timer = getSecondsBetweenDates(Date.now(), order?.expiration);
-    }
-    const paymentApproved = () => {
-        updateOrder({ ...order, status: "approved", paid: Date.now(), deadline: getShippingRange(shipping?.deadline) });
-        clearInterval(interval);
-        drawer.openDrawer();
+        if(order?.status == "approved"){
+            clearInterval(interval);
+            drawer.openDrawer();
+        }
+        else if(payment){
+            let now = new Date();
+            let expiration = new Date(payment?.expiration);
+            if(now <= expiration){
+                timer = getSecondsBetweenDates(now, expiration);
+            }
+            else{
+                clearInterval(interval);
+            }
+        }
     }
     const copyPaymentCode = async () => {
-        if(await copyText(order?.pix)){
+        if(await copyText(payment?.pix)){
             toast.showMessage("O código foi copiado", "checked_circle");
-            setTimeout(paymentApproved, 5000);
         }
         else{
             toast.showMessage("Falha ao copiar o código");
         }
     }
 
-    onMount(() => {
-        if(method && customer?.filled && address?.filled){
-            if(!order){
-                let new_order = { id: "", number: getRandomNumber(17), status: "pending", reason: "waiting_payment", method, total, datetime: Date.now(), expiration: addHoursToDate(Date.now(), 24), pix: "00020126360014br.gov.bcb.pix0114exemplo@teste.com520400005303986540510.005802BR5920LOJA TESTE PIX6009SAO PAULO62070503***6304ABCD" };
-                updateOrder(new_order);
-            }
-
-            setTimeout(() => {
-                ready = true;
-            }, 2000);
-        }
-
-        if(order?.expiration > Date.now()){
-            timer = getSecondsBetweenDates(Date.now(), order?.expiration);
-        }
-
-        clearInterval(interval);
+    onMount(async () => {
+        updateTimer();
         interval = setInterval(updateTimer, 1000);
 
         return () => {
@@ -78,7 +68,7 @@
     });
 </script>
 
-{#if ready}
+{#if order && payment}
     <ToastNotification bind:this={toast} top={30}/>
     <SuccessDrawer bind:this={drawer} {product} {order} {updatePage}/>
     <div class="flex relative w-full">
@@ -97,10 +87,10 @@
             </header>
             <main bind:this={container} onscroll={handlerScroll} class="flex flex-col w-full scrollable pt-[48px] px-[16px]">
                 <div class="flex justify-between items-center mt-[13px]">
-                    {#if order?.status == "approved"}
-                        <span class="text-black text-[22px] font-bold leading-[30px]">Pagamento aprovado <br/>R$ {formatPrice(order.total)}</span>
+                    {#if payment?.status == "approved"}
+                        <span class="text-black text-[22px] font-bold leading-[30px]">Pagamento aprovado <br/>R$ {formatPrice(payment?.amount)}</span>
                     {:else}
-                        <span class="text-black text-[22px] font-bold leading-[30px]">Aguardando o pagamento <br/>R$ {formatPrice(order.total)}</span>
+                        <span class="text-black text-[22px] font-bold leading-[30px]">Aguardando o pagamento <br/>R$ {formatPrice(payment?.amount)}</span>
                     {/if}
                     <svg class="w-[48px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 132 132">
                         <path fill="#FF9500" d="M66 0c36.451 0 66 29.55 66 66 0 36.451-29.549 66-66 66-36.45 0-66-29.549-66-66C0 29.55 29.55 0 66 0Zm-3 30a3 3 0 0 0-3 3v34c0 .664.218 1.276.584 1.773.22.408.532.776.936 1.067l28.452 20.44c1.386.996 3.295.713 4.261-.633l3.501-4.873c.967-1.345.626-3.243-.76-4.239L72 62.592V33a3 3 0 0 0-3-3h-6Z"/>
@@ -117,7 +107,7 @@
                 </div>
                 <div class="flex items-center gap-[6px] mt-[6px]">
                     <span class="text-[#7b7e7e] text-[14px]">Prazo</span>
-                    <span class="text-black text-[14px] font-medium">{formatDate(order.expiration, "HH:mm, DD de MMM YYYY")}</span>
+                    <span class="text-black text-[14px] font-medium">{formatDate(payment?.expiration, "HH:mm, DD de MMM YYYY")}</span>
                 </div>
                 <div class="w-full bg-white rounded-lg mt-[21px] px-[16px] py-[24px]" style="box-shadow: 0 0 16px 0 rgba(0,0,0,0.1);">
                     <div class="flex items-center gap-[12px]">
@@ -128,7 +118,7 @@
                         </div>
                         <span class="text-black text-[16px] font-medium">PIX</span>
                     </div>
-                    <span class="inline-block max-w-full text-ellipsis overflow-hidden whitespace-nowrap text-black text-[22px] font-semibold mt-[26px]">{order?.pix}</span>
+                    <span class="inline-block max-w-full text-ellipsis overflow-hidden whitespace-nowrap text-black text-[22px] font-semibold mt-[26px]">{payment?.pix}</span>
                     <button class="flex justify-center gap-[6px] items-center w-full h-[40px] bg-[#FE2C55] rounded-md hover:bg-[#E81D44] active:bg-[#E81D44] mt-[21px]" type="button" onclick={copyPaymentCode}>
                         <svg class="w-[16px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 50 50">
                             <path fill="#fff" d="M43 0a7 7 0 0 1 7 7v21a7 7 0 0 1-7 7h-8v8a7 7 0 0 1-7 7H7a7 7 0 0 1-7-7V22a7 7 0 0 1 7-7h8V7a7 7 0 0 1 7-7h21ZM6 20a1 1 0 0 0-1 1v23a1 1 0 0 0 1 1h23a1 1 0 0 0 1-1V21a1 1 0 0 0-1-1H6Zm22-5a7 7 0 0 1 7 7v8h9a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H21a1 1 0 0 0-1 1v9h8Z"/>

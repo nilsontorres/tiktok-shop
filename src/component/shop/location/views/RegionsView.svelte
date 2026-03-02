@@ -32,7 +32,7 @@
         const MIN_DELAY = 800;
         const start = Date.now();
 
-        const request = await fetch("/api/regions", {
+        const request = await fetch("/api/shop/regions", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

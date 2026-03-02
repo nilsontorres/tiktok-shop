@@ -1,12 +1,8 @@
 import { error, json } from '@sveltejs/kit';
 import supabase from "$lib/supabase";
-import { getLowestPrice } from '$lib/clipboard';
 
-export const POST = async ({ request }) => {
-    const { id } = await request.json();
-    if(!id) return error(400);
-
-    const { data, error } = await supabase
+export const GET = async ({ request }) => {
+  const { data, error } = await supabase
     .from("products")
     .select(`
       id,
@@ -15,8 +11,11 @@ export const POST = async ({ request }) => {
       description,
       badge,
       rating,
-      total_sales,
+      public_orders,
+      public_reviews,
+      total_orders,
       total_reviews,
+      total_revenue,
       flash_sale,
       pix_method,
       card_method,
@@ -26,18 +25,19 @@ export const POST = async ({ request }) => {
       pix_discount,
       in_cart,
       recently_viewed,
-      store:stores( id, title, total_sales, total_reviews, repurchases, image:images(id, source)),
+      is_selected,
+      is_active,
+      store:stores( id, title, public_orders, public_reviews, repurchases, image:images(id, source)),
       shipping:shippings(id, name, deadline, price:prices(id, regular, promotional)),
       prices:prices(id, variants, regular, promotional, is_selected, is_lowest, is_highest),
       images:images(id, source, index),
       coupons:coupons(id, type, discount, category, limit, minimum, origin, is_applied, is_redeemed),
       variations:variations(id, type, index, name, variants:variants(id, name, image:images(id, source), is_selected)),
-      videos:videos(id, user:users(id,fullname,image:images(id, source)), image:images(id, source)),
+      videos:videos(id, customer:customer(id, fullname, phone, email, document, image:images(id, source)), image:images(id, source)),
       tags:tags(id, label)
     `)
-    .match({ id, is_active: true })
-    .order("index", { foreignTable: "images", ascending: true })
-    .maybeSingle();
+    .match({ is_active: true })
+    .order("index", { foreignTable: "images", ascending: true });
 
     if(error) throw console.log(`Get product by id error: `, error);
     return json(data);

@@ -29,7 +29,7 @@ export const POST = async ({ request }) => {
             item,
             likes,
             is_liked,
-            user:users(id, fullname, image:images(id, source)),
+            customer:customers(id, fullname, phone, email, document, image:images(id, source)),
             ${filter == "images" ? "images:images!inner" : "images:images"}(id, source, index, review_id))`)
         .gte("rating", filter ? filters[filter].gte : 0)
         .lte("rating", filter ? filters[filter].lte : 5)

@@ -9,7 +9,7 @@
     import CouponItem from "$component/shop/product/coupons/CouponItem.svelte";
     import ToastNotification from "$component/shop/ToastNotification.svelte";
 
-    let { costs, discounts, coupons, product, shipping, variations, price, prices, image, quantity, updateVariation=()=>{}, updateQuantity=()=>{}, gotoFinalization=()=>{}, updatePage=()=>{} } = $props();
+    let { costs, discounts, coupons, product, shipping, variations, price, prices, quantity, updateVariation=()=>{}, updateQuantity=()=>{}, gotoFinalization=()=>{}, updatePage=()=>{} } = $props();
 
     let container = $state(null);
     let toast = $state(null);
@@ -79,7 +79,7 @@
             </svg>
         </button>
         <div class="flex w-full gap-[12px] p-[16px]">
-            <div class="flex size-[96px] shrink-0 rounded-[8px] bg-[#F6F6F6] bg-contain bg-center" style={`background-image: url('${PUBLIC_UPLOAD_BASE}/${image?.source}')`}></div>
+            <div class="flex size-[96px] shrink-0 rounded-[8px] bg-[#F6F6F6] bg-contain bg-center" style={`background-image: url('${PUBLIC_UPLOAD_BASE}/${price?.image?.source}')`}></div>
             <div class="flex flex-col w-full justify-between relative overflow-hidden">
                 <div class="flex flex-col">
                     <div class="flex items-center gap-[8px]">

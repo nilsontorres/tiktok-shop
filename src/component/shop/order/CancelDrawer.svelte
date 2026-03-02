@@ -1,7 +1,7 @@
 <script>
     import { formatPrice } from "$lib/formating";
 
-    let { order, updateScroll=()=>{}, updateOrder=()=>{} } = $props();
+    let { order, updateScroll=()=>{}, updateOrder=()=>{}, updatePayment=()=>{} } = $props();
 
     let container = $state(null);
     let is_open = $state(false);
@@ -19,18 +19,30 @@
         {name: "expensive_shipping", label: "Alta taxa de envio"}
     ];
 
-    const cancelSubmit = () => {
+    const cancelSubmit = async () => {
         if(!cancellation) return;
 
         closeDrawer();
         updateScroll({ locked: true });
         loading = true;
 
-        setTimeout(() => {
-            updateOrder({ ...order, status: "canceled", reason: cancellation.name, canceled: Date.now() });
-            updateScroll({ locked: false });
-            loading = false;
-        }, 2000);
+        const request = await fetch("/api/shop/order/cancel", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                order_id: order.id,
+                reason: cancellation.name
+            })
+        });
+
+        if(request.status == 200){
+            let response = await request.json();
+            updateOrder(response.order);
+            updatePayment(response.payment);
+        }
+
+        updateScroll({ locked: false });
+        loading = false;
     }
 
     export const openDrawer = () => {

@@ -12,7 +12,7 @@
     }
     const getPostalCodes = async () => {
         try {
-            const request = await fetch("/api/postals", {
+            const request = await fetch("/api/shop/postals", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

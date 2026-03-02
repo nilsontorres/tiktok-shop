@@ -35,7 +35,6 @@
     let method = $state(null);
 
     let price = $derived(prices?.find(item => item.is_selected) || prices?.reduce((a, b) => a.promotional < b.promotional ? a : b));
-    let image = $derived(variations?.find(item => item.type == "image")?.variants?.find(item => item.is_selected)?.image || product?.images?.find(item => item.index == 0));
 
     let coupons = $derived(product?.coupons);
     $effect(() => {
@@ -144,6 +143,7 @@
 
     let total = $derived(costs.product + costs.shipping - discounts.product.total - discounts.shipping.total - discounts.payment);
 
+    let payment = $state(null);
     let order = $state(null);
     let cards = $state([]);
 
@@ -158,6 +158,9 @@
     }
     const updateOrder = (value) => {
         order = value;
+    }
+    const updatePayment = (value) => {
+        payment = value;
     }
     const updateMethod = (value, card) => {
         method = value;
@@ -209,11 +212,9 @@
         saved = !saved;
     }
     const loadProduct = async () => {
-        const request = await fetch("/api/product", {
+        const request = await fetch("/api/shop/product", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ id: product?.id })
         });
 
@@ -222,13 +223,36 @@
             ready = true;
         }
     }
+    const createOrder = async () => {
+        const request = await fetch("/api/shop/order", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                product_id: product.id,
+                price_id: price.id,
+                customer_id: customer.id,
+                address_id: address.id,
+                discounts,
+                quantity,
+                method,
+                costs,
+                total
+            })
+        });
+
+        if(request.status == 200){
+            let response = await request.json();
+            order = response.order;
+            payment = response.payment;
+        }
+    }
 
     onMount(() => {
         loadProduct();
 
         //method = "pix";
-        customer = { fullname: "Nilson Douglas Olimpio Torres", phone: "66992304836", email: "nilsontorres21@outlook.com", document: "06223439121", filled: true };
-        address = { postal: "78575000", district: "Aeroporto", street: "Rua Goias", number: "502N", city: {name: "Juara"}, region: {name: "Mato Grosso", code: "MT"}, unit: null, filled: true };
+        customer = { id: "91540d0f-3bde-40f3-827d-cdbcd5d454d6", fullname: "Nilson Douglas Olimpio Torres", phone: "66992304836", email: "nilsontorres21@outlook.com", document: "06223439121", filled: true };
+        address = { id: "2ec42861-d1e8-4620-9004-d6d8b1bf4db6", postal: "78575000", district: "Aeroporto", street: "Rua Goias", number: "502N", city: {name: "Juara"}, region: {name: "Mato Grosso", code: "MT"}, unit: null, filled: true };
         //total = 90.12;
         //variations = [{ name: "Cor", type: "image", variants: [{ name: "Preto", is_selected: false }, { name: "Branco", is_selected: true }] }];
     });
@@ -247,7 +271,6 @@
     <PageTransition pages={[
         {name: "product", color: "#FFFFFF", component: ProductPage, props: {
             price,
-            image,
             saved,
             total,
             costs,
@@ -270,10 +293,10 @@
         }},
         {name: "reviews", color: "#FFFFFF", component: ReviewsPage, props: {
             price,
-            image,
             costs,
             prices,
             product,
+            coupons,
             discounts,
             shipping,
             quantity,
@@ -284,8 +307,7 @@
         }},
         {name: "finalization", color: "#FFFFFF", component: FinalizationPage, props: {
             price,
-            image,
-            order,
+            payment,
             costs,
             cards,
             total,
@@ -304,7 +326,7 @@
             updateCustomer,
             updateQuantity,
             updateMethod,
-            updateOrder
+            createOrder
         }},
         {name: "add_address", color: "#F5F5F5", component: AddressPage, history: false, props: {
             address,
@@ -330,17 +352,12 @@
             updateMethod,
         }},
         {name: "payment", color: "#FFFFFF", component: PaymentPage, props: {
+            payment,
             order,
-            total,
-            method,
-            address,
             product,
-            customer,
-            shipping,
             updateOrder
         }},
         {name: "order", color: "#FFFFFF", component: OrderPage, props: {
-            image,
             price, 
             order,
             costs,
@@ -351,10 +368,12 @@
             product,
             quantity,
             variants,
+            payment,
             customer,
             discounts,
             installments,
             updateOrder,
+            updatePayment,
             updateMethod
         }}
     ]}/>

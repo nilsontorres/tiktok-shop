@@ -39,10 +39,10 @@
         installments,
         backPage=()=>{},
         updatePage=()=>{},
-        updateOrder=()=>{},
         updateCustomer=()=>{},
         updateQuantity=()=>{},
-        updateMethod=()=>{}
+        updateMethod=()=>{},
+        createOrder=()=>{}
     } = $props();
 
     let ready = $state(false);
@@ -89,6 +89,7 @@
             return;
         }
 
+        createOrder();
         updatePage("payment");
     }
     const localUpdateQuantity = (value) => {

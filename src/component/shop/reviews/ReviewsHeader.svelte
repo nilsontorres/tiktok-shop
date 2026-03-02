@@ -14,7 +14,7 @@
             </button>
         </div>
         <div class="flex justify-center items-center w-full h-full">
-            <h1 class="text-black text-[15px] font-bold leading-none">{store ? `Outras avaliações (${formatNumber(store?.total_reviews).pt})` : `Avaliações (${formatNumber(product?.total_reviews).pt})`}</h1>
+            <h1 class="text-black text-[15px] font-bold leading-none">{store ? `Outras avaliações (${formatNumber(store?.piblic_reviews).pt})` : `Avaliações (${formatNumber(product?.public_reviews).pt})`}</h1>
         </div>
         <div class="flex justify-end w-[176px]">
             <button type="button" class="flex justify-center items-center p-[20px] pe-[8px] h-[48px]" title="Compartilhar">

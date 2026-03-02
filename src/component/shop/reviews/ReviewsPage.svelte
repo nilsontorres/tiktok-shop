@@ -9,7 +9,7 @@
     import ImagesViewer from "$component/shop/image/ImagesViewer.svelte";
     import VariationsDrawer from "$component/shop/variations/VariationsDrawer.svelte";
 
-    let { costs, discounts, review, variations, variants, quantity, store, filter="all", product, shipping, price, prices, image, updateVariation=()=>{}, updateQuantity=()=>{}, updatePage=()=>{} } = $props();
+    let { costs, discounts, review, variations, variants, quantity, store, filter="all", product, shipping, coupons, price, prices, updateVariation=()=>{}, updateQuantity=()=>{}, updatePage=()=>{} } = $props();
 
     let ready = $state(false);
     let loading = $state(false);
@@ -25,9 +25,7 @@
     let scroll = $state({ position: 0, locked: false });
 
     const loadReviews = async () => {
-        console.log("Loading reviews");
-
-        const request = await fetch("/api/product/reviews", {
+        const request = await fetch("/api/shop/product/reviews", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -40,8 +38,6 @@
 
         if(request.status === 200){
             const response = await request.json();
-
-            console.log(reviews);
 
             reviews.push(...response.filter(item => review ? item.id != review.id : true));
             images.push(...reviews.flatMap(item => item.images));
@@ -115,7 +111,7 @@
 
 {#if ready}
     <ImagesViewer bind:this={viewer}/>
-    <VariationsDrawer bind:this={drawer} {costs} {discounts} {product} {coupons} {shipping} {variants} {variations} {quantity} {price} {prices} {image} {updateVariation} {updateQuantity} {gotoFinalization} {updatePage}/>
+    <VariationsDrawer bind:this={drawer} {costs} {discounts} {product} {coupons} {shipping} {variants} {variations} {quantity} {price} {prices} {updateVariation} {updateQuantity} {gotoFinalization} {updatePage}/>
     <div class="w-full h-dvh bg-[#FFF] relative">
         <ReviewsHeader {product} {store} {updatePage}/>
         <main bind:this={container} onscroll={handleScroll} class={`flex flex-col pt-[50px] pb-[100px] no-selectable ${scroll.locked ? "overflow-y-hidden" : "overflow-y-scroll"} max-h-dvh transparent-scroll scrollable`}>
@@ -128,42 +124,42 @@
                                 <svg class="h-[10px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 34 29">
                                     <path fill="#000" d="M17 0c6 0 8 4 8 4a9 9 0 0 1 9 9v7a9 9 0 0 1-9 9H9a9 9 0 0 1-9-9v-7a9 9 0 0 1 9-9s2-4 8-4Zm0 8a8 8 0 1 0 0 16 8 8 0 0 0 0-16Zm0 3a5 5 0 1 1 0 10 5 5 0 0 1 0-10Z"/>
                                 </svg>
-                                <span class={`text-[12px] leading-none whitespace-nowrap ${filter == "images" ? "text-[#FD2C55]" : "text-black"}`}>Inclui imagens ou vídeos ({store ? formatNumber(store?.total_reviews * 0.2857).pt : formatNumber(product?.total_reviews * 0.2857).pt})</span>                  
+                                <span class={`text-[12px] leading-none whitespace-nowrap ${filter == "images" ? "text-[#FD2C55]" : "text-black"}`}>Inclui imagens ou vídeos ({store ? formatNumber(store?.public_reviews * 0.2857).pt : formatNumber(product?.public_reviews * 0.2857).pt})</span>                  
                             </button>
                             <button type="button" class="flex items-center gap-[4px] px-[8px] h-[28px] bg-[#F2F2F2] active:bg-[#e3e3e3] rounded-sm" onclick={() => updateFilter("five")}>
                                 <span class={`text-[12px] leading-none whitespace-nowrap ${filter == "five" ? "text-[#FD2C55]" : "text-black"}`}>5</span>
                                 <svg class="w-[10px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 44 44">
                                     <path fill="#FFC628" d="M18.8 3c.75-2 2.075-3 3.2-3s2.05 1 2.8 3l4.5 10.5 10.659 1c4.5.5 4.34 3 1.84 5.5l-8 7 2.5 12c.66 3.5-1.34 5-4.5 3L22 35.5s-6.694 4.567-9.701 6.5c-3.34 2.148-6 1-5-3l2.5-12-8-7c-2.84-2.5-2.34-5 1.66-5.5l11.34-1L18.8 3Z"/>
                                 </svg>
-                                <span class={`text-[12px] leading-none whitespace-nowrap ${filter == "five" ? "text-[#FD2C55]" : "text-black"}`}>({store ? formatNumber(store?.total_reviews * 0.2381).pt : formatNumber(product?.total_reviews * 0.2381).pt})</span>
+                                <span class={`text-[12px] leading-none whitespace-nowrap ${filter == "five" ? "text-[#FD2C55]" : "text-black"}`}>({store ? formatNumber(store?.public_reviews * 0.2381).pt : formatNumber(product?.public_reviews * 0.2381).pt})</span>
                             </button>
                             <button type="button" class="flex items-center gap-[4px] px-[8px] h-[28px] bg-[#F2F2F2] active:bg-[#e3e3e3] rounded-sm" onclick={() => updateFilter("four")}>
                                 <span class={`text-[12px] leading-none whitespace-nowrap ${filter == "four" ? "text-[#FD2C55]" : "text-black"}`}>4</span>
                                 <svg class="w-[10px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 44 44">
                                     <path fill="#FFC628" d="M18.8 3c.75-2 2.075-3 3.2-3s2.05 1 2.8 3l4.5 10.5 10.659 1c4.5.5 4.34 3 1.84 5.5l-8 7 2.5 12c.66 3.5-1.34 5-4.5 3L22 35.5s-6.694 4.567-9.701 6.5c-3.34 2.148-6 1-5-3l2.5-12-8-7c-2.84-2.5-2.34-5 1.66-5.5l11.34-1L18.8 3Z"/>
                                 </svg>
-                                <span class={`text-[12px] leading-none whitespace-nowrap ${filter == "four" ? "text-[#FD2C55]" : "text-black"}`}>({store ? formatNumber(store?.total_reviews * 0.1905).pt : formatNumber(product?.total_reviews * 0.1905).pt})</span>
+                                <span class={`text-[12px] leading-none whitespace-nowrap ${filter == "four" ? "text-[#FD2C55]" : "text-black"}`}>({store ? formatNumber(store?.public_reviews * 0.1905).pt : formatNumber(product?.public_reviews * 0.1905).pt})</span>
                             </button>
                             <button type="button" class="flex items-center gap-[4px] px-[8px] h-[28px] bg-[#F2F2F2] active:bg-[#e3e3e3] rounded-sm" onclick={() => updateFilter("three")}>
                                 <span class={`text-[12px] leading-none whitespace-nowrap ${filter == "three" ? "text-[#FD2C55]" : "text-black"}`}>3</span>
                                 <svg class="w-[10px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 44 44">
                                     <path fill="#FFC628" d="M18.8 3c.75-2 2.075-3 3.2-3s2.05 1 2.8 3l4.5 10.5 10.659 1c4.5.5 4.34 3 1.84 5.5l-8 7 2.5 12c.66 3.5-1.34 5-4.5 3L22 35.5s-6.694 4.567-9.701 6.5c-3.34 2.148-6 1-5-3l2.5-12-8-7c-2.84-2.5-2.34-5 1.66-5.5l11.34-1L18.8 3Z"/>
                                 </svg>
-                                <span class={`text-[12px] leading-none whitespace-nowrap ${filter == "three" ? "text-[#FD2C55]" : "text-black"}`}>({store ? formatNumber(store?.total_reviews * 0.1429).pt : formatNumber(product?.total_reviews * 0.1429).pt})</span>
+                                <span class={`text-[12px] leading-none whitespace-nowrap ${filter == "three" ? "text-[#FD2C55]" : "text-black"}`}>({store ? formatNumber(store?.public_reviews * 0.1429).pt : formatNumber(product?.public_reviews * 0.1429).pt})</span>
                             </button>
                             <button type="button" class="flex items-center gap-[4px] px-[8px] h-[28px] bg-[#F2F2F2] active:bg-[#e3e3e3] rounded-sm" onclick={() => updateFilter("two")}>
                                 <span class={`text-[12px] leading-none whitespace-nowrap ${filter == "two" ? "text-[#FD2C55]" : "text-black"}`}>2</span>
                                 <svg class="w-[10px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 44 44">
                                     <path fill="#FFC628" d="M18.8 3c.75-2 2.075-3 3.2-3s2.05 1 2.8 3l4.5 10.5 10.659 1c4.5.5 4.34 3 1.84 5.5l-8 7 2.5 12c.66 3.5-1.34 5-4.5 3L22 35.5s-6.694 4.567-9.701 6.5c-3.34 2.148-6 1-5-3l2.5-12-8-7c-2.84-2.5-2.34-5 1.66-5.5l11.34-1L18.8 3Z"/>
                                 </svg>
-                                <span class={`text-[12px] leading-none whitespace-nowrap ${filter == "two" ? "text-[#FD2C55]" : "text-black"}`}>({store ? formatNumber(store?.total_reviews * 0.0952).pt : formatNumber(product?.total_reviews * 0.0952).pt})</span>
+                                <span class={`text-[12px] leading-none whitespace-nowrap ${filter == "two" ? "text-[#FD2C55]" : "text-black"}`}>({store ? formatNumber(store?.public_reviews * 0.0952).pt : formatNumber(product?.public_reviews * 0.0952).pt})</span>
                             </button>
                             <button type="button" class="flex items-center gap-[4px] px-[8px] h-[28px] bg-[#F2F2F2] active:bg-[#e3e3e3] rounded-sm" onclick={() => updateFilter("one")}>
                                 <span class={`text-[12px] leading-none whitespace-nowrap ${filter == "one" ? "text-[#FD2C55]" : "text-black"}`}>1</span>
                                 <svg class="w-[10px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 44 44">
                                     <path fill="#FFC628" d="M18.8 3c.75-2 2.075-3 3.2-3s2.05 1 2.8 3l4.5 10.5 10.659 1c4.5.5 4.34 3 1.84 5.5l-8 7 2.5 12c.66 3.5-1.34 5-4.5 3L22 35.5s-6.694 4.567-9.701 6.5c-3.34 2.148-6 1-5-3l2.5-12-8-7c-2.84-2.5-2.34-5 1.66-5.5l11.34-1L18.8 3Z"/>
                                 </svg>
-                                <span class={`text-[12px] leading-none whitespace-nowrap ${filter == "one" ? "text-[#FD2C55]" : "text-black"}`}>({store ? formatNumber(store?.total_reviews * 0.0476).pt : formatNumber(product?.total_reviews * 0.0476).pt})</span>
+                                <span class={`text-[12px] leading-none whitespace-nowrap ${filter == "one" ? "text-[#FD2C55]" : "text-black"}`}>({store ? formatNumber(store?.public_reviews * 0.0476).pt : formatNumber(product?.public_reviews * 0.0476).pt})</span>
                             </button>
                         </div>
                     </div>

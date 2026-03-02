@@ -37,7 +37,7 @@
         const start = Date.now();
 
         // inicia o fetch
-        const request = await fetch("/api/cities", {
+        const request = await fetch("/api/shop/cities", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
