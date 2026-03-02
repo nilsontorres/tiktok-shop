@@ -22,7 +22,7 @@
         open = false;
         updateScroll({ locked: false, position: 0 });
     }
-    const submitForm = (e) => {
+    const submitForm = async (e) => {
         e.preventDefault();
 
         error = null;
@@ -36,11 +36,22 @@
         updateScroll({ locked: true });
         loading = true;
 
-        setTimeout(() => {
-            loading = false;
-            updateScroll({ locked: false });
-            updateCustomer({ ...customer, document: value, filled: true });
-        }, 3000);
+        const request = await fetch("/api/shop/customer", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                id: customer?.id,
+                fullname: customer?.fullname,
+                phone: customer?.phone,
+                email: customer?.email,
+                document: value.replace(/\D/g, "")
+            })
+        });
+
+        const response = await request.json();
+        updateCustomer(response);
+        updateScroll({ locked: false });
+        loading = false;
     }
 
     onMount(() => {

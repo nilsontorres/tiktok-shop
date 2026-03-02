@@ -10,7 +10,11 @@ const getSessionByID = async (id) => {
         .from('sessions')
         .update({ updated_at: new Date() })
         .eq('id', id)
-        .select()
+        .select(`
+            *,
+            customer:customers(id, fullname, phone, email, document, image:images(id, source), is_filled),
+            address:addresses(id, postal, district, street, number, unit, complement, city:cities(id, name), region:regions(id, name, code), is_filled)
+        `)
         .maybeSingle();
 
     if(error) throw console.error("Error on getSessionID: ", error);

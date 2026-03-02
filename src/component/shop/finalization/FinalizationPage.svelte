@@ -76,11 +76,11 @@
         }
     }
     const submitOrder = () => {
-        if(!address?.filled){
+        if(!address?.is_filled){
             address_popup.openPopup();
             return;
         }
-        else if(!customer?.filled){
+        else if(!customer?.is_filled){
             customer_drawer.openDrawer();
             return;
         }
@@ -116,7 +116,7 @@
     const handleReady = () => {
         ready = true;
 
-        if(!address?.filled){
+        if(!address?.is_filled){
             setTimeout(() => {
                 address_popup.openPopup();
             }, 300);

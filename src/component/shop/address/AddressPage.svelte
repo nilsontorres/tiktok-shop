@@ -64,19 +64,55 @@
             container.scrollTo({ top: params?.position, behavior: params?.animated ? "smooth" : "instant" });
         }
     }
-    const saveAddress = () => {
+    const saveAddress = async () => {
+        const request = await fetch("/api/shop/address", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                id: address?.id,
+                postal: postal.value,
+                district: district.value,
+                street: street.value,
+                number: number.value,
+                unit: unit.value,
+                city_id: address?.city?.id,
+                region_id: address?.region?.id,
+                is_filled: true
+            })
+        });
+
+        const response = await request.json();
+        updateAddress(response);
+    }
+    const saveCustomer = async () => {
+        const request = await fetch("/api/shop/customer", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                id: customer?.id,
+                fullname: fullname.value,
+                phone: phone.value,
+                email: email.value,
+                document: customer?.document,
+                is_filled: customer?.document ? true : false
+            })
+        });
+
+        const response = await request.json();
+        updateCustomer(response);
+    }
+    const submitForm = async () => {
         if(!valid) return;
 
         updateScroll({ locked: true });
         loading = true;
 
-        setTimeout(() => {
-            loading = false;
-            updateScroll({ locked: false });
-            updateCustomer({ ...customer, fullname: fullname.value, phone: phone.value, email: email.value });
-            updateAddress({ ...address, postal: postal.value, district: district.value, street: street.value, number: number.value, unit: unit.value, filled: true });
-            updatePage("finalization");
-        }, 2000);
+        await saveAddress();
+        await saveCustomer();
+
+        loading = false;
+        updateScroll({ locked: false });
+        updatePage("finalization");
     }
 
     onMount(() => {
@@ -141,7 +177,7 @@
     </main>
     <footer class={`flex flex-col gap-[14px] px-[16px] pt-[14px] ${keyboard ? "opacity-0" : "opacity-100"} pb-[50px] w-full border-t-[1px] bg-[#F5F5F5] border-[#C8C9CB] z-20 fixed bottom-0`}>
         <span class="text-[#444444] text-[12px] text-center leading-[15px]">Leia a <b class="text-black font-semibold">Política de privacidade do Tiktok</b> para saber mais sobre como usamos suas informações pessoais. {keyboard}</span>
-        <button type="button" title="Salvar endereço" class="flex justify-center w-full h-[44px] items-center rounded-lg disabled:opacity-50 bg-[#FE2C55] hover:bg-[#E81D44] active:bg-[#E81D44] overflow-hidden" disabled={!valid} onclick={saveAddress}>
+        <button type="button" title="Salvar endereço" class="flex justify-center w-full h-[44px] items-center rounded-lg disabled:opacity-50 bg-[#FE2C55] hover:bg-[#E81D44] active:bg-[#E81D44] overflow-hidden" disabled={!valid} onclick={submitForm}>
             <span class="text-white text-[16px] font-semibold leading-none">Salvar</span>
         </button>
     </footer>

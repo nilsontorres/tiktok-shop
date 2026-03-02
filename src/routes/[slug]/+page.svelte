@@ -251,11 +251,14 @@
         loadProduct();
 
         //method = "pix";
-        customer = { id: "91540d0f-3bde-40f3-827d-cdbcd5d454d6", fullname: "Nilson Douglas Olimpio Torres", phone: "66992304836", email: "nilsontorres21@outlook.com", document: "06223439121", filled: true };
-        address = { id: "2ec42861-d1e8-4620-9004-d6d8b1bf4db6", postal: "78575000", district: "Aeroporto", street: "Rua Goias", number: "502N", city: {name: "Juara"}, region: {name: "Mato Grosso", code: "MT"}, unit: null, filled: true };
+        //customer = { id: "91540d0f-3bde-40f3-827d-cdbcd5d454d6", fullname: "Nilson Douglas Olimpio Torres", phone: "66992304836", email: "nilsontorres21@outlook.com", document: "06223439121", filled: true };
+        //address = { id: "2ec42861-d1e8-4620-9004-d6d8b1bf4db6", postal: "78575000", district: "Aeroporto", street: "Rua Goias", number: "502N", city: {name: "Juara"}, region: {name: "Mato Grosso", code: "MT"}, unit: null, filled: true };
         //total = 90.12;
         //variations = [{ name: "Cor", type: "image", variants: [{ name: "Preto", is_selected: false }, { name: "Branco", is_selected: true }] }];
     });
+
+    $inspect(address);
+    $inspect(customer);
 </script>
 
 <svelte:head>

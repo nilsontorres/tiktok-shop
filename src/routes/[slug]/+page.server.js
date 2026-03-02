@@ -28,10 +28,10 @@ export const load = async ({ url, locals, params }) => {
     if(!product) throw error(404, "Page not found");
 
     // Pega os dados do cliente.
-    const customer = {};
+    const customer = locals?.session?.customer || {};
 
     // Pega os dados do endereço.
-    const address = {};
+    const address = locals?.session?.address || {};
     
     return { product, address, customer };
 }

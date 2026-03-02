@@ -16,7 +16,7 @@
 
     const onScroll = () => {
         const last_scroll = scroll;
-        const new_scroll = container.scrollTop;
+        const new_scroll = container?.scrollTop || 0;
 
         scroll = new_scroll;
         

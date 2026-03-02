@@ -1,4 +1,6 @@
 <script>
+    import { formatCPF } from "$lib/formating";
+
     let { customer, keyboard=false, openCustomerDrawer=()=>{} } = $props();
 </script>
 
@@ -8,7 +10,7 @@
             <svg class="w-[12px] shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 34 40">
                 <path fill="#000" d="M17 23a17.002 17.002 0 0 1 17 17h-3.984a13.015 13.015 0 1 0-26.032 0H0a17.001 17.001 0 0 1 17-17Zm0-23c5.523 0 10 4.477 10 10s-4.477 10-10 10S7 15.523 7 10 11.477 0 17 0Zm0 3.96a6.04 6.04 0 1 0 0 12.08 6.04 6.04 0 0 0 0-12.08Z"/>
             </svg>
-            <span class="text-black text-[14px] leading-[16px]"><b class="font-medium">CPF</b>{customer?.document && `: ${customer?.document}`}</span>
+            <span class="text-black text-[14px] leading-[16px]"><b class="font-medium">CPF</b>{customer?.document && `: ${formatCPF(customer?.document)}`}</span>
         </div>
         {#if customer?.document}
             <svg class="h-[12px] shrink-0 me-[4px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 15 26">
