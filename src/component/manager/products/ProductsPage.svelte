@@ -22,6 +22,7 @@
     }
 
     const selectResult = (product) => {
+        const index = results.findIndex(item => item.id == product.id);
         results.at(index).is_selected = !results.at(index).is_selected;
     }
 
