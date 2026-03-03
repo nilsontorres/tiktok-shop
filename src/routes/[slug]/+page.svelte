@@ -5,17 +5,17 @@
 
     import { PUBLIC_UPLOAD_BASE } from '$env/static/public';
 
-    import PageTransition from "$component/shop/PageTransition.svelte";
-    import FinalizationPage from "$component/shop/finalization/FinalizationPage.svelte";
-    import AddressPage from "$component/shop/address/AddressPage.svelte";
-    import ProductPage from '$component/shop/product/ProductPage.svelte';
-    import ProductSkeleton from '$component/shop/product/ProductSkeleton.svelte';
-    import PaymentPage from '$component/shop/payment/PaymentPage.svelte';
-    import ReviewsPage from '$component/shop/reviews/ReviewsPage.svelte';
-    import CardPage from '$component/shop/card/CardPage.svelte';
-    import InstallmentsPage from '$component/shop/installments/InstallmentsPage.svelte';
-    import OrderPage from '$component/shop/order/OrderPage.svelte';
-    import ToastNotification from '$component/shop/ToastNotification.svelte';
+    import PageTransition from "$component/PageTransition.svelte";
+    import FinalizationPage from "$component/finalization/FinalizationPage.svelte";
+    import AddressPage from "$component/address/AddressPage.svelte";
+    import ProductPage from '$component/product/ProductPage.svelte';
+    import ProductSkeleton from '$component/product/ProductSkeleton.svelte';
+    import PaymentPage from '$component/payment/PaymentPage.svelte';
+    import ReviewsPage from '$component/reviews/ReviewsPage.svelte';
+    import CardPage from '$component/card/CardPage.svelte';
+    import InstallmentsPage from '$component/installments/InstallmentsPage.svelte';
+    import OrderPage from '$component/order/OrderPage.svelte';
+    import ToastNotification from '$component/ToastNotification.svelte';
 
     let { data } = $props();
 
@@ -212,7 +212,7 @@
         saved = !saved;
     }
     const loadProduct = async () => {
-        const request = await fetch("/api/shop/product", {
+        const request = await fetch("/api/product", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ id: product?.id })
@@ -224,7 +224,7 @@
         }
     }
     const createOrder = async () => {
-        const request = await fetch("/api/shop/order", {
+        const request = await fetch("/api/order", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

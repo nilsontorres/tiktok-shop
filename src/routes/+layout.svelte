@@ -3,7 +3,7 @@
 	
 	import { navigating } from "$app/stores";
 
-    import ProductSkeleton from "$component/shop/product/ProductSkeleton.svelte";
+    import ProductSkeleton from "$component/product/ProductSkeleton.svelte";
 	
 	let { children } = $props();
 </script>
