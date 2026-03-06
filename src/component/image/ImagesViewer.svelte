@@ -95,8 +95,8 @@
         <div class="flex flex-col w-full fixed bottom-[32px] left-0 px-[12px] z-50">
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-[8px] pointer-events-none">
-                    <div class="block size-[23px] bg-cover bg-center rounded-full" style={review?.user?.image?.source && `background-image: url('${PUBLIC_UPLOAD_BASE}/${review?.user?.image?.source}')`}></div>
-                    <span class="text-white text-[13px] font-semibold text-shadow-md">{maskWords(review?.user?.fullname)}</span>
+                    <div class="block size-[23px] bg-cover bg-center rounded-full" style={review?.customer?.image?.source && `background-image: url('${PUBLIC_UPLOAD_BASE}/${review?.customer?.image?.source}')`}></div>
+                    <span class="text-white text-[13px] font-semibold text-shadow-md">{maskWords(review?.customer?.fullname)}</span>
                     <ReviewRating rating={review?.rating}/>
                 </div>
                 <div class="flex justify-center items-center">

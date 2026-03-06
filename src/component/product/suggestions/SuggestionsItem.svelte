@@ -28,9 +28,6 @@
         }
     }
 
-    let price = $derived(suggestion?.prices?.reduce((a, b) => b.promotional < a.promotional ? b : a));
-    let image = $derived(suggestion?.images?.find(item => item.index == 0));
-
     onMount(() => {
         if(suggestion.flash_sale){
             const difference = getSecondsBetweenDates(Date.now(), suggestion.flash_sale);
@@ -46,15 +43,15 @@
     });
 </script>
 
-<div class="rounded-lg overflow-hidden bg-white shadow-recommendations relative"  style="width: calc(50vw - 20px);">
+<div class="rounded-lg overflow-hidden bg-white shadow-recommendations relative"  style="width: calc(50vw - 21px);">
     <div class="w-full pb-[100%] relative">
-        <div class="absolute top-0 left-0 w-full h-full bg-[#eaeaea] bg-cover bg-center" style={image?.source && `background-image: url('${PUBLIC_UPLOAD_BASE}/${image?.source}')`}></div>
+        <div class="absolute top-0 left-0 w-full h-full bg-[#eaeaea] bg-cover bg-center" style={suggestion?.image?.source && `background-image: url('${PUBLIC_UPLOAD_BASE}/${suggestion?.image?.source}')`}></div>
     </div>
     <div class="flex flex-col w-full bg-white px-[8px] pt-[12px] pb-[11px] overflow-hidden">
         <span class="inline-block max-w-full text-ellipsis text-black text-[14px] overflow-hidden whitespace-nowrap leading-none">{suggestion?.title}</span>
         <div class="flex items-baseline gap-[4px] mt-[8px]">
-            <span class="text-[#FD2C55] text-[14px] font-semibold leading-none">R$<b class="text-[18px] font-semibold ps-[3px]">{formatPrice(price?.promotional)}</b></span>
-            <span class="text-[#858585] text-[12px] line-through">R$ {formatPrice(price?.regular)}</span>
+            <span class="text-[#FD2C55] text-[14px] font-semibold leading-none">R$<b class="text-[18px] font-semibold ps-[3px]">{formatPrice(suggestion?.price?.promotional)}</b></span>
+            <span class="text-[#858585] text-[12px] line-through">R$ {formatPrice(suggestion?.price?.regular)}</span>
         </div>
         {#if suggestion?.flash_sale}
             <div class="flex mt-[4px]">
@@ -70,15 +67,6 @@
                             <div class="flex text-[#FE5C21] text-[11px] font-bold leading-none whitespace-nowrap gap-[1px] tabular-nums">{formatTimer(timer)}</div>
                         </div>
                     {/if}
-                </div>
-            </div>
-        {:else if suggestion?.coupons?.length > 0}
-            <div class="flex mt-[4px]">
-                <div class="flex items-center ps-[2px] pe-[5px] h-[16px] gap-[2px] rounded-sm bg-[#FFE5EA]">
-                    <svg class="w-[16px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 37 28">
-                        <path fill="#E10543" d="M21 5h4V0h7c2 0 5 2.5 5 4.5V11h-2a3 3 0 1 0 0 6h2v6.5c0 2-2.5 4.5-5 4.5h-7v-5h-4v5H5c-2.5 0-5-2.5-5-4.5V17h2a3 3 0 1 0 0-6H0V4.5C0 2.5 3 0 5 0h16v5Zm0 14h4v-3h-4v3Zm0-7h4V9h-4v3Z"/>
-                    </svg>                          
-                    <span class="text-[#E10543] text-[11px] font-semibold leading-none">{getCouponTitle(suggestion?.coupons[0])}</span>
                 </div>
             </div>
         {/if}

@@ -6,11 +6,12 @@ export const POST = async ({ request }) => {
     if(!id) return error(400);
 
     const { data, error } = await supabase
-        .from("products")
-        .select("id, title, rating, public_orders, public_reviews, flash_sale, images:images(id, source, index), prices:prices(id, regular, promotional), coupons:coupons(id, type, category, minimum, limit, origin, discount, is_applied, is_redeemed)")
-        .eq("is_active", true) //.neq("id", id)
+        .from("suggestions")
+        .select("id, title, rating, public_orders, flash_sale, image:images(id, source, index), price:prices(id, regular, promotional)")
+        .eq("is_active", true)
+        .eq("product_id", id)
         .limit(6);
 
-    if(error) throw console.log(`Get products for suggestions error: `, error);
+    if(error) throw console.log(`Get suggestions error: `, error);
     return json(data);
 }

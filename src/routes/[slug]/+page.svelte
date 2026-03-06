@@ -256,9 +256,6 @@
         //total = 90.12;
         //variations = [{ name: "Cor", type: "image", variants: [{ name: "Preto", is_selected: false }, { name: "Branco", is_selected: true }] }];
     });
-
-    $inspect(address);
-    $inspect(customer);
 </script>
 
 <svelte:head>
