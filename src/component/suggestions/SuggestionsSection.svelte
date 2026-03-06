@@ -9,6 +9,14 @@
     let component = $state(null);
     let suggestions = $state([]);
 
+    const shuffle = (array) => {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
     const loadSuggestions = async () => {
         if(suggestions.length > 0) return;
 
@@ -21,7 +29,8 @@
         });
 
         if(request.status === 200){
-            suggestions = await request.json();
+            const response = await request.json();
+            suggestions = shuffle(response);
         }
     }
 

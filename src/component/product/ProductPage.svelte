@@ -16,7 +16,7 @@
     import DescriptionSection from "$component/product/DescriptionSection.svelte";
     import RatingSection from "$component/product/RatingSection.svelte";
     import VideosSection from "$component/product/videos/VideosSection.svelte";
-    import SuggestionsSection from "$component/product/suggestions/SuggestionsSection.svelte";
+    import SuggestionsSection from "$component/suggestions/SuggestionsSection.svelte";
     import TagsSection from "$component/product/tags/TagsSection.svelte";
     import InstallmentsSection from "$component/product/installments/InstallmentsSection.svelte";
     import SectionSpacer from "$component/product/SectionSpacer.svelte";
