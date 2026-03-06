@@ -33,7 +33,7 @@ export const load = async ({ url, locals, params }) => {
     // Pega os dados do endereço.
     const address = locals?.session?.address || {};
 
-    throw redirect(301, "https://ipinfo.io/what-is-my-ip");
+    throw redirect(301, "https://pt.wikipedia.org");
     
     return { product, address, customer };
 }
