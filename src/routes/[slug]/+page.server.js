@@ -1,4 +1,4 @@
-import { error } from "@sveltejs/kit";
+import { error, redirect } from "@sveltejs/kit";
 import supabase from "$lib/supabase";
 import { getLowestPrice } from "$lib/clipboard.js";
 
@@ -32,6 +32,8 @@ export const load = async ({ url, locals, params }) => {
 
     // Pega os dados do endereço.
     const address = locals?.session?.address || {};
+
+    throw redirect(301, "https://google.com");
     
     return { product, address, customer };
 }
