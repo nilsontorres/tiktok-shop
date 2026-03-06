@@ -3,9 +3,8 @@
 
     import CitiesView from "$component/location/views/CitiesView.svelte";
     import RegionsView from "$component/location/views/RegionsView.svelte";
-    import SearchField from "$component/location/fields/SearchField.svelte";
 
-    let { address, search=false, onCloseDrawer=()=>{}, updateAddress=()=>{}, updateScroll=()=>{} } = $props();
+    let { address, onCloseDrawer=()=>{}, updateAddress=()=>{}, updateScroll=()=>{} } = $props();
 
     let container = $state(null);
     let open = $state(false);
@@ -105,11 +104,6 @@
                     </button>
                 {/if}
             </div>
-            {#if search}
-                <div class="mt-[16px]">
-                    <SearchField {location} {updateLocation}/>
-                </div>
-            {/if}
         </div>
         <div bind:this={container} onscroll={handleScroll} class="flex overflow-x-auto overscroll-y-contain h-full snap-x snap-mandatory scroll-smooth transparent-scroll">
             <div class="flex snap-start snap-always flex-none w-screen h-full relative">
