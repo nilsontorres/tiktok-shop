@@ -259,7 +259,7 @@
 </script>
 
 <svelte:head>
-    <title>TikTok Shop</title>
+    <title> </title>
     {#each product?.images as image}
         {#if image.index == 0}
             <link rel="preload" as="image" href={`${PUBLIC_UPLOAD_BASE}/${image.source}`}/>
