@@ -1,5 +1,5 @@
 <script>
-    let { tab="overview", scroll={}, updateTab=()=>{} } = $props();
+    let { tab="overview", product, scroll={}, updateTab=()=>{} } = $props();
 </script>
 
 <header class="flex flex-col fixed top-0 left-0 w-full z-40">
@@ -16,7 +16,7 @@
                 <svg class="w-[17px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 52 54">
                     <path fill="#000" fill-rule="evenodd" d="M23 0c12.703 0 23 10.297 23 23a22.91 22.91 0 0 1-5.553 14.985L52 50l-3.5 3.5-11.93-11.93A22.893 22.893 0 0 1 23 46C10.297 46 0 35.703 0 23S10.297 0 23 0Zm0 5.34C13.247 5.34 5.34 13.248 5.34 23S13.248 40.66 23 40.66 40.66 32.752 40.66 23 32.752 5.34 23 5.34Z" clip-rule="evenodd"/>
                 </svg>
-                <span class="text-[#7E7E7E] text-[14px] text-medium leading-none">cadeira escritório</span>
+                <span class="text-[#7E7E7E] text-[14px] text-medium leading-none">{product.search}</span>
             </button>
         </div>
         <div class="flex justify-end">

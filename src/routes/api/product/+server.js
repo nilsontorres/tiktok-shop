@@ -14,6 +14,7 @@ export const POST = async ({ request }) => {
     description,
     badge,
     rating,
+    search,
     public_orders,
     public_reviews,
     total_orders,

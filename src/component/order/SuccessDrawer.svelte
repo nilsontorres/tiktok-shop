@@ -1,7 +1,7 @@
 <script>
     import { formatPrice } from "$lib/formating";
-    
-    import SuggestionsSection from "$component/product/suggestions/SuggestionsSection.svelte";
+
+    import SuggestionsSection from "$component/suggestions/SuggestionsSection.svelte";
 
     let { product, order, updateScroll=()=>{}, updatePage=()=>{} } = $props();
 

@@ -23,5 +23,4 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
 # Banco de dados
-db.data.backup
-db.schema.backup
+*.backup

@@ -1,7 +1,7 @@
 <script>
     import { onMount } from "svelte";
 
-    import SuggestionsItem from "$component/product/suggestions/SuggestionsItem.svelte";
+    import SuggestionsItem from "$component/suggestions/SuggestionsItem.svelte";
     import { visible } from "$action/visible";
 
     let { product, scroll, updateSection=()=>{} } = $props();

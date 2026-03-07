@@ -127,7 +127,7 @@
 <VariationsDrawer bind:this={drawer} {costs} {discounts} {coupons} {product} {shipping} {variants} {variations} {quantity} {price} {prices} {updateVariation} {updateQuantity} {gotoFinalization} {updatePage}/>
 
 <div class="w-full h-dvh bg-[#F5F5F5] relative pt-[48px] pb-[100px]">
-    <ProductHeader {tab} {scroll} {updateTab}/>
+    <ProductHeader {product} {tab} {scroll} {updateTab}/>
     <main bind:this={container} onscroll={handleScroll} class={`flex flex-col no-selectable ${scroll.locked ? "overflow-y-hidden" : "overflow-y-scroll"} overscroll-none h-full transparent-scroll scrollable z-20`}>
         <ImageSection {product} {openViewer}/>
         <div class="flex flex-col bg-white w-full">
