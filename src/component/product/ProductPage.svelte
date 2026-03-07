@@ -60,7 +60,7 @@
     let drawer = $state(null);
     let scroll = $state({ position: 0, locked: false });
 
-    const handleScroll = () => {
+    const handleScroll = (e) => {
         scroll.position = container.scrollTop;
 
         if(!dragging){
