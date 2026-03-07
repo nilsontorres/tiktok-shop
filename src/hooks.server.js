@@ -1,4 +1,3 @@
-import { queryIPAddress } from "$lib/ipapi";
 import supabase from "$lib/supabase";
 import { redirect } from "@sveltejs/kit";
 import { UAParser } from "ua-parser-js";
@@ -24,7 +23,6 @@ const getSessionByID = async (id) => {
 
 const createNewSession = async (ip_address, useragent) => {
     const { os, browser, cpu, device } = UAParser(useragent);
-    const { is_crawler, is_datacenter, is_mobile, is_tor, is_proxy, is_vpn, datacenter, company, asn, location } = await queryIPAddress(ip_address);
 
     const { data, error} = await supabase
         .from("sessions")
@@ -37,27 +35,7 @@ const createNewSession = async (ip_address, useragent) => {
             os_version: os?.version,
             device_model: device?.model,
             device_vendor: device?.vendor,
-            captcha_solved: false,
-            is_crawler: is_crawler,
-            is_datacenter: is_datacenter,
-            is_mobile: is_mobile,
-            is_tor: is_tor,
-            is_proxy: is_proxy,
-            is_vpn: is_vpn,
-            datacenter_name: datacenter?.name,
-            datacenter_domain: datacenter?.domain,
-            company_name: company?.name,
-            company_type: company?.type,
-            company_domain: company?.domain,
-            asn_number: asn?.asn,
-            asn_org: asn?.org,
-            asn_domain: asn?.domain,
-            asn_type: asn?.type,
-            location_country: location?.country_code,
-            location_region: location?.state,
-            location_city: location?.city,
-            location_timezone: location?.timezone,
-            location_zip: location?.zip
+            captcha_solved: false
         })
         .select()
         .maybeSingle();
