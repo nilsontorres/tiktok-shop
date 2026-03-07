@@ -84,16 +84,7 @@
 
 <!--${index === current && locked ? "overflow-y-auto overscroll-y-contain" : "overflow-hidden"}-->
 
-<div class={`w-full min-h-[120vh] text-black z-10 bg-transparent relative ${locked ? "pointer-events-none" : "pointer-events-auto"}`}>
-    O vento atravessava as ruas silenciosas enquanto as luzes distantes piscavam como pequenas estrelas presas entre prédios antigos. Em algum lugar, um relógio esquecia de marcar as horas corretamente, e mesmo assim ninguém parecia se importar muito com isso. As pessoas passavam apressadas, carregando pensamentos que talvez nunca fossem ditos em voz alta.
-    Uma bicicleta vermelha estava encostada perto de um muro cheio de grafites coloridos. Ninguém sabia exatamente de quem era, mas ela permanecia ali todos os dias, como se fizesse parte da paisagem. Perto dali, um gato observava o movimento com uma calma quase filosófica, piscando lentamente enquanto o mundo continuava girando ao seu redor.
-    Algumas folhas secas atravessaram a calçada como pequenas embarcações empurradas pelo vento. Do outro lado da rua, um café recém-aberto deixava escapar o cheiro forte de café torrado e pão quente. Dentro do lugar, duas pessoas conversavam sobre viagens que talvez nunca fariam, imaginando cidades distantes cheias de ruas estreitas e mercados barulhentos.
-    Mais adiante, uma biblioteca antiga guardava prateleiras intermináveis de livros que quase ninguém pegava emprestado. Cada volume parecia conter universos inteiros esperando para serem descobertos, mas a maioria deles apenas acumulava poeira silenciosamente. Às vezes, um estudante curioso aparecia e folheava algumas páginas, como quem abre uma janela para outro mundo.
-    Enquanto isso, o céu mudava lentamente de cor, passando de azul claro para tons de laranja e violeta. As nuvens se moviam com a tranquilidade de quem não tem pressa alguma. Um avião distante deixava um traço branco que desaparecia aos poucos, como uma lembrança que se dissolve com o tempo.
-    Num parque próximo, uma criança tentava equilibrar pedras umas sobre as outras, criando pequenas torres que caíam depois de alguns segundos. Cada tentativa parecia mais cuidadosa que a anterior. Talvez fosse apenas um jogo, ou talvez fosse uma lição silenciosa sobre paciência.
-    Ao cair da noite, as luzes das casas começaram a aparecer uma a uma, formando um mosaico brilhante espalhado pela cidade. Histórias diferentes se desenrolavam atrás de cada janela: jantares simples, conversas longas, músicas tocando baixo, sonhos sendo planejados ou esquecidos.
-    E em meio a tudo isso — bicicletas abandonadas, gatos observadores, livros adormecidos e torres de pedra — o mundo continuava seguindo adiante, cheio de pequenas coisas aparentemente insignificantes que, de alguma forma misteriosa, davam forma ao cotidiano.
-</div>
+<div class={`w-full min-h-[120vh] text-black z-10 bg-transparent relative ${locked ? "pointer-events-none" : "pointer-events-auto"}`}></div>
 <div class={`fixed top-0 left-0 w-full h-[100dvh] z-20 text-black overflow-hidden ${locked ? "pointer-events-auto" : "pointer-events-none"}`}>
     <div class="grid grid-cols-1 grid-rows-1 w-full h-full">
         {#each pages as item, index}
