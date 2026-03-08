@@ -3,7 +3,7 @@
     import { validateCPF } from "$lib/validation";
     import { onMount } from "svelte";
 
-    let { customer, keyboard=false, updateCustomer=()=>{}, updateScroll=()=>{}} = $props();
+    let { session, customer, keyboard=false, updateCustomer=()=>{}, updateScroll=()=>{}} = $props();
 
     let loading = $state(false);
     let container = $state(null);
@@ -73,7 +73,7 @@
 </div>
 <div bind:this={container} class={`w-full h-full fixed top-0 left-0 z-60 touch-none no-selectable ${!open && "pointer-events-none"}`}>
     <button onclick={closeDrawer} type="button" aria-label="background" class={`absolute top-0 left-0 w-full h-full bg-black ${open ? "opacity-50" : "opacity-0"} z-10 transition-opacity will-change-transform duration-300`}></button>
-    <div class={`absolute bottom-0 left-0 flex flex-col w-full ${open ? "translate-y-0" : "translate-y-[100%]"} z-20 rounded-t-xl transition-transform ${keyboard ? "pb-[3px] duration-0" : "pb-[35px] duration-200"} overflow-hidden bg-white no-selectable`}>
+    <div class={`absolute bottom-0 left-0 flex flex-col w-full ${open ? "translate-y-0" : "translate-y-[100%]"} z-20 rounded-t-xl transition-transform ${keyboard || session?.os?.name != "iOS" ? "pb-[3px] duration-0" : "pb-[35px] duration-200"} overflow-hidden bg-white no-selectable`}>
         <button type="button" aria-label="Fechar" class="absolute top-[9px] right-[8px] p-2 z-50" onclick={closeDrawer}>
             <svg class="w-[13px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 38 38">
                 <path fill="#000" d="m0 4 4-4 15 15L34 0l4 4-15 15 15 15-4 4-15-15L4 38 .5 34 15 19 0 4Z"/>

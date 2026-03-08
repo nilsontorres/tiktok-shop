@@ -10,11 +10,12 @@ const getProductBySlug = async (slug) => {
         .select(`
             id,
             store_id,
+            title,
+            is_active,
             images:images(id, source, index),
             prices:prices(id, variants, regular, promotional, is_selected)
         `)
         .eq("slug", slug)
-        .eq("is_active", true)
         .order("index", { foreignTable: "images", ascending: true })
         .maybeSingle();
 
@@ -32,6 +33,23 @@ export const load = async ({ url, locals, params }) => {
 
     // Pega os dados do endereço.
     const address = locals?.session?.address || {};
+
+    // Pega os dados da sessao.
+    const session = {
+        id: locals?.session?.id,
+        os: {
+            name: locals?.session?.os_name,
+            version: locals?.session?.os_version
+        },
+        browser: {
+            name: locals?.session?.browser_name,
+            version: locals?.session?.browser_version,
+        },
+        device: {
+            model: locals?.session?.device_model,
+            vendor: locals?.session?.device_vendor
+        }
+    };
     
-    return { product, address, customer };
+    return { product, customer, address, session };
 }

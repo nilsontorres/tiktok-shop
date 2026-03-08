@@ -13,7 +13,7 @@
     import SuccessDrawer from "$component/order/SuccessDrawer.svelte";
     import ShippingTrack from "./ShippingTrack.svelte";
 
-    let { product, costs, discounts, address, installments, cards, customer, total, method, variants, price, order, payment, quantity, updateOrder=()=>{}, updatePayment=()=>{}, updateMethod=()=>{}, updatePage=()=>{} } = $props();
+    let { session, product, costs, discounts, address, installments, cards, customer, total, method, variants, price, order, payment, quantity, updateOrder=()=>{}, updatePayment=()=>{}, updateMethod=()=>{}, updatePage=()=>{} } = $props();
 
     let container = $state(null);
     let ready = $state(false);
@@ -59,9 +59,9 @@
 
 <OrderPopup bind:this={popup} {confirmed} {updateConfirmation}/>
 <ToastNotification bind:this={toast} top={30}/>
-<CancelDrawer bind:this={cancel_drawer} {order} {updateOrder} {updatePayment} {updateScroll}/>
+<CancelDrawer bind:this={cancel_drawer} {session} {order} {updateOrder} {updatePayment} {updateScroll}/>
 <SuccessDrawer bind:this={success_drawer} {product} {order} {updateScroll} {updatePage}/>
-<MethodsDrawer bind:this={method_drawer} {total} {product} {method} {cards} {installments} {price} {updateMethod} {updateScroll} {updatePage}/>
+<MethodsDrawer bind:this={method_drawer} {session} {total} {product} {method} {cards} {installments} {price} {updateMethod} {updateScroll} {updatePage}/>
 <div class="flex relative w-full">
     <div class="flex w-full h-[50dvh] absolute top-0 left-0 z-10 bg-[linear-gradient(120deg,#FFF2F2_0%,#F0F9FB_100%)]"></div>
     <div class="flex flex-col w-full relative z-20">

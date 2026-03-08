@@ -9,7 +9,7 @@
     import CouponItem from "$component/product/coupons/CouponItem.svelte";
     import ToastNotification from "$component/ToastNotification.svelte";
 
-    let { costs, discounts, coupons, product, shipping, variations, price, prices, quantity, updateVariation=()=>{}, updateQuantity=()=>{}, gotoFinalization=()=>{}, updatePage=()=>{} } = $props();
+    let { session, costs, discounts, coupons, product, shipping, variations, price, prices, quantity, updateVariation=()=>{}, updateQuantity=()=>{}, gotoFinalization=()=>{}, updatePage=()=>{} } = $props();
 
     let container = $state(null);
     let toast = $state(null);
@@ -154,7 +154,7 @@
                 <QuantityField {quantity} updateQuantity={localUpdateQuantity}/>
             </div>
         </div>
-        <div class="flex absolute bottom-0 left-0 w-full p-[12px] pb-[44px] gap-[12px] bg-white border-t-[1px] border-[#eeeeee]">
+        <div class={`flex absolute bottom-0 left-0 w-full px-[12px] pt-[11px] ${session?.os?.name == "iOS" ? "pb-[44px]" : "pb-[12px]"} gap-[12px] bg-white border-t-[1px] border-[#eeeeee]`}>
             <button class="flex justify-center items-center px-[12px] bg-[#F2F2F2] active:bg-[#e4e4e4] h-11 rounded-lg" type="button" onclick={closeDrawer}>
                 <span class="text-black text-[16px] font-semibold whitespace-nowrap">Adicionar ao carrinho</span>
             </button>

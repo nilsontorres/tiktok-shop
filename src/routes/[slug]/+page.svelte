@@ -16,6 +16,7 @@
     import InstallmentsPage from '$component/installments/InstallmentsPage.svelte';
     import OrderPage from '$component/order/OrderPage.svelte';
     import ToastNotification from '$component/ToastNotification.svelte';
+    import WhitePage from '$component/WhitePage.svelte';
 
     let { data } = $props();
 
@@ -25,6 +26,7 @@
     let customer = $state(data.customer);
     let address = $state(data.address);
 
+    let session = $derived(data.session);
     let variations = $derived(product?.variations);
     let prices = $derived(product?.prices);
     let shipping = $derived(product?.shipping);
@@ -248,13 +250,9 @@
     }
 
     onMount(() => {
-        loadProduct();
-
-        //method = "pix";
-        //customer = { id: "91540d0f-3bde-40f3-827d-cdbcd5d454d6", fullname: "Nilson Douglas Olimpio Torres", phone: "66992304836", email: "nilsontorres21@outlook.com", document: "06223439121", filled: true };
-        //address = { id: "2ec42861-d1e8-4620-9004-d6d8b1bf4db6", postal: "78575000", district: "Aeroporto", street: "Rua Goias", number: "502N", city: {name: "Juara"}, region: {name: "Mato Grosso", code: "MT"}, unit: null, filled: true };
-        //total = 90.12;
-        //variations = [{ name: "Cor", type: "image", variants: [{ name: "Preto", is_selected: false }, { name: "Branco", is_selected: true }] }];
+        if(product.is_active){
+            loadProduct();
+        }
     });
 </script>
 
@@ -271,6 +269,7 @@
     <ToastNotification bind:this={toast} top={300}/>
     <PageTransition pages={[
         {name: "product", color: "#FFFFFF", component: ProductPage, props: {
+            session,
             price,
             saved,
             total,
@@ -293,6 +292,7 @@
             updateVariation
         }},
         {name: "reviews", color: "#FFFFFF", component: ReviewsPage, props: {
+            session,
             price,
             costs,
             prices,
@@ -308,6 +308,7 @@
         }},
         {name: "finalization", color: "#FFFFFF", component: FinalizationPage, props: {
             price,
+            session,
             payment,
             costs,
             cards,
@@ -330,6 +331,7 @@
             createOrder
         }},
         {name: "add_address", color: "#F5F5F5", component: AddressPage, history: false, props: {
+            session,
             address,
             customer,
             updateAddress,
@@ -359,6 +361,7 @@
             updateOrder
         }},
         {name: "order", color: "#FFFFFF", component: OrderPage, props: {
+            session,
             price, 
             order,
             costs,
@@ -378,6 +381,8 @@
             updateMethod
         }}
     ]}/>
+{:else if product.is_active == false}
+    <WhitePage {product}/>
 {:else}
     <ProductSkeleton/>
 {/if}

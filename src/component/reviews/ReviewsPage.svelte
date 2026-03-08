@@ -9,7 +9,25 @@
     import ImagesViewer from "$component/image/ImagesViewer.svelte";
     import VariationsDrawer from "$component/variations/VariationsDrawer.svelte";
 
-    let { costs, discounts, review, variations, variants, quantity, store, filter="all", product, shipping, coupons, price, prices, updateVariation=()=>{}, updateQuantity=()=>{}, updatePage=()=>{} } = $props();
+    let {
+        session,
+        costs,
+        discounts,
+        review,
+        variations,
+        variants,
+        quantity,
+        store,
+        filter="all",
+        product,
+        shipping,
+        coupons,
+        price,
+        prices,
+        updateVariation=()=>{},
+        updateQuantity=()=>{},
+        updatePage=()=>{}
+    } = $props();
 
     let ready = $state(false);
     let loading = $state(false);
@@ -110,8 +128,8 @@
 </script>
 
 {#if ready}
-    <ImagesViewer bind:this={viewer}/>
-    <VariationsDrawer bind:this={drawer} {costs} {discounts} {product} {coupons} {shipping} {variants} {variations} {quantity} {price} {prices} {updateVariation} {updateQuantity} {gotoFinalization} {updatePage}/>
+    <ImagesViewer bind:this={viewer} {session}/>
+    <VariationsDrawer bind:this={drawer} {session} {costs} {discounts} {product} {coupons} {shipping} {variants} {variations} {quantity} {price} {prices} {updateVariation} {updateQuantity} {gotoFinalization} {updatePage}/>
     <div class="w-full h-dvh bg-[#FFF] relative">
         <ReviewsHeader {product} {store} {updatePage}/>
         <main bind:this={container} onscroll={handleScroll} class={`flex flex-col pt-[50px] pb-[100px] no-selectable ${scroll.locked ? "overflow-y-hidden" : "overflow-y-scroll"} max-h-dvh transparent-scroll scrollable`}>
@@ -199,8 +217,8 @@
                 {/if}
             </div>
         </main>
-        <ProductFooter {costs} {discounts} {product} {coupons} {shipping} {price} {gotoFinalization} {updatePage}/>
+        <ProductFooter {session} {costs} {discounts} {product} {coupons} {shipping} {price} {gotoFinalization} {updatePage}/>
     </div>
 {:else}
-    <ReviewsSkeleton {costs} {discounts} {product} {coupons} {shipping} {store} {price} {updatePage}/>
+    <ReviewsSkeleton {session} {costs} {discounts} {product} {coupons} {shipping} {store} {price} {updatePage}/>
 {/if}

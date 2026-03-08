@@ -5,7 +5,7 @@
     import BoletoMethod from "$component/payment/BoletoMethod.svelte";
     import AddNewCreditCard from "$component/payment/AddNewCreditCard.svelte";
 
-    let { total, product, method, cards, installments, price, updateMethod=()=>{}, updatePage=()=>{}, updateScroll=()=>{} } = $props();
+    let { session, total, product, method, cards, installments, price, updateMethod=()=>{}, updatePage=()=>{}, updateScroll=()=>{} } = $props();
     let open = $state(false);
 
     export const openDrawer = () => {
@@ -49,7 +49,7 @@
                 <ApplePayMethod {product} {method} {updateMethod}/>
             {/if}
         </div>
-        <div class="w-full fixed bottom-0 left-0 p-[16px] pb-[48px]">
+        <div class={`w-full fixed bottom-0 left-0 p-[16px] ${session?.os?.name == "iOS" ? "pb-[48px]" : "pb-[18px]"}`}>
             <button class="flex justify-center items-center w-full h-[43px] rounded-full bg-[#FE2C55] hover:bg-[#E81D44] active:bg-[#E81D44] disabled:bg-[#F2F2F2] group" type="button" disabled={method==null} onclick={closeDrawer}>
                 <span class="text-white group-disabled:text-[#9F9F9F] text-[15px] font-semibold leading-none">Continuar</span>
             </button>

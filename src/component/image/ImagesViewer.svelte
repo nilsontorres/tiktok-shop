@@ -7,6 +7,8 @@
     import ImageItem from "$component/image/ImageItem.svelte";
     import ReviewRating from "$component/product/reviews/ReviewRating.svelte";
 
+    let { session } = $props();
+
     let container = $state(null);
     let open = $state(false);
     let dragging = $state(false);
@@ -92,7 +94,7 @@
     </button>
     <span class="text-white z-50 text-[15px] font-bold fixed top-[18px] right-[18px] text-shadow-2xs">{index+1}/{images?.length}</span>
     {#if review}
-        <div class="flex flex-col w-full fixed bottom-[32px] left-0 px-[12px] z-50">
+        <div class={`flex flex-col w-full fixed ${session?.os?.name == "iOS" ? "bottom-[42px]" : "bottom-[10px]"} left-0 px-[12px] z-50`}>
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-[8px] pointer-events-none">
                     <div class="block size-[23px] bg-cover bg-center rounded-full" style={review?.customer?.image?.source && `background-image: url('${PUBLIC_UPLOAD_BASE}/${review?.customer?.image?.source}')`}></div>

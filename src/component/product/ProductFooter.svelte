@@ -1,7 +1,7 @@
 <script>
     import { formatPrice } from "$lib/formating";
     
-    let { costs, discounts, product, coupons, shipping, price, gotoFinalization=()=>{} } = $props();
+    let { session, costs, discounts, product, coupons, shipping, price, gotoFinalization=()=>{} } = $props();
 
     let coupon = $derived.by(() => {
         const coupon = coupons?.find(item => item.category == "product" && item.is_applied);
@@ -10,7 +10,7 @@
     });
 </script>
 
-<footer class="flex fixed bottom-0 left-0 w-full py-[10px] pb-[44px] px-[10px] gap-[8px] bg-white border-t-[1px] border-[#eeeeee] z-40">
+<footer class={`flex fixed bottom-0 left-0 w-full py-[10px] ${session?.os?.name == "iOS" ? "pb-[44px]" : "pb-[9px]"} px-[10px] gap-[8px] bg-white border-t-[1px] border-[#eeeeee] z-40`}>
     <div class="flex justify-center items-center gap-[12px]">
         <button type="button" title="Loja" class="flex flex-col items-center p-[4px]">
             <div class="flex justify-center items-center size-[22px]">

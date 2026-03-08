@@ -21,6 +21,7 @@
     import ToastNotification from "$component/ToastNotification.svelte";
 
     let {
+        session,
         product,
         shipping,
         customer,
@@ -146,11 +147,11 @@
     <ToastNotification bind:this={toast} top={56}/>
     <BackPopup bind:this={back_popup} {discounts} {updatePage} {updateScroll}/>
     <AddressPopup bind:this={address_popup} {updatePage} {updateScroll}/>
-    <CustomerDrawer bind:this={customer_drawer} {keyboard} {customer} {updateCustomer} {updateScroll}/>
-    <MethodsDrawer bind:this={method_drawer} {total} {installments} {product} {method} {cards} {price} {updateMethod} {updatePage} {updateScroll}/>
+    <CustomerDrawer bind:this={customer_drawer} {session} {keyboard} {customer} {updateCustomer} {updateScroll}/>
+    <MethodsDrawer bind:this={method_drawer} {session} {total} {installments} {product} {method} {cards} {price} {updateMethod} {updatePage} {updateScroll}/>
     <div class="flex flex-col relative">
         <FinalizationHeader openBackPopup={back_popup?.openPopup}/>
-        <main bind:this={container} onscroll={handleScroll} class={`flex flex-col w-full bg-[#F5F5F5] pt-[48px] pb-[176px] overscroll-y-contain no-selectable ${scroll.locked ? "overflow-y-hidden" : "overflow-y-scroll"} max-h-dvh transparent-scroll scrollable`}>
+        <main bind:this={container} onscroll={handleScroll} class={`flex flex-col w-full bg-[#F5F5F5] pt-[48px] ${session?.os?.name == "iOS" ? "pb-[176px]" : "pb-[144px]"} overscroll-y-contain no-selectable ${scroll.locked ? "overflow-y-hidden" : "overflow-y-scroll"} max-h-dvh transparent-scroll scrollable`}>
             <AddressSection {scroll} {customer} {address} {updatePage}/>
             <span class="flex shrink-0 w-full h-[1px] bg-[#eeeeee]"></span>
             <AddCustomerSection {customer} {keyboard} {updateCustomer} openCustomerDrawer={customer_drawer?.openDrawer}/>
@@ -167,7 +168,7 @@
                 <span class="text-[#444444] text-[12.6px] leading-[15px]">Ao fazer um pedido, você concorda com <b class="text-black font-semibold">Termos de uso e venda do TikTok Shop</b> e reconhece que leu e concordou com a <b class="text-black font-semibold">Política de privacidade do Tiktok</b>.</span>
             </div>
         </main>
-        <FinalizationFooter {total} {discounts} {submitOrder}/>
+        <FinalizationFooter {session} {total} {discounts} {submitOrder}/>
     </div>
 {:else}
     <FinalizationSkeleton openBackPopup={back_popup?.openPopup}/>

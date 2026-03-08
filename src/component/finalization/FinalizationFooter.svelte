@@ -2,7 +2,7 @@
     import { formatPrice, formatTimer } from "$lib/formating";
     import { onMount } from "svelte";
 
-    let { total, discounts, submitOrder=()=>{} } = $props();
+    let { session, total, discounts, submitOrder=()=>{} } = $props();
 
     let interval = $state();
     let timer = $state(7200);
@@ -28,7 +28,7 @@
         </svg>          
         <span class="text-[#FE2C55] text-[12px] font-medium">Você está economizando R$ {formatPrice(discounts.product.total + discounts.shipping.total + discounts.payment)} nesse pedido.</span>
     </div>
-    <div class="w-full pb-[34px] border-t-[1px] border-[#eeeeee] bg-white">
+    <div class={`w-full ${session?.os?.name == "iOS" ? "pb-[34px]" : "pb-0"} border-t-[1px] border-[#eeeeee] bg-white`}>
         <div class="flex flex-col gap-[6px] p-[16px] pt-[11px]">
             <div class="flex justify-between items-center">
                 <span class="text-black text-[16px] font-semibold leading-none">Total (1 item)</span>

@@ -26,6 +26,7 @@
     import VariationsDrawer from "$component/variations/VariationsDrawer.svelte";
 
     let {
+        session,
         product,
         address,
         shipping,
@@ -123,10 +124,10 @@
     });
 </script>
 
-<ImagesViewer bind:this={viewer}/>
-<VariationsDrawer bind:this={drawer} {costs} {discounts} {coupons} {product} {shipping} {variants} {variations} {quantity} {price} {prices} {updateVariation} {updateQuantity} {gotoFinalization} {updatePage}/>
+<ImagesViewer bind:this={viewer} {session}/>
+<VariationsDrawer bind:this={drawer} {session} {costs} {discounts} {coupons} {product} {shipping} {variants} {variations} {quantity} {price} {prices} {updateVariation} {updateQuantity} {gotoFinalization} {updatePage}/>
 
-<div class="w-full h-dvh bg-[#F5F5F5] relative pt-[48px] pb-[100px]">
+<div class={`w-full h-dvh bg-[#F5F5F5] relative pt-[48px] ${session?.os?.name == "iOS" ? "pb-[100px]" : "pb-[64px]"}`}>
     <ProductHeader {product} {tab} {scroll} {updateTab}/>
     <main bind:this={container} onscroll={handleScroll} class={`flex flex-col no-selectable ${scroll.locked ? "overflow-y-hidden" : "overflow-y-scroll"} overscroll-none h-full transparent-scroll scrollable z-20`}>
         <ImageSection {product} {openViewer}/>
@@ -153,5 +154,5 @@
         <DescriptionSection {product} {scroll} {updateSection}/>
         <SuggestionsSection {product} {scroll} {updateSection}/>
     </main>
-    <ProductFooter {costs} {discounts} {product} {coupons} {shipping} {price} {gotoFinalization}/>
+    <ProductFooter {session} {costs} {discounts} {product} {coupons} {shipping} {price} {gotoFinalization}/>
 </div>
